@@ -1,0 +1,5648 @@
+{
+  "pool": "zrtest",
+  "pool_guid": 16937172268484420114,
+  "vdev": {
+    "type": "raidz",
+    "nparity": 1,
+    "columns_total": 4,
+    "columns_available": [
+      2,
+      3
+    ],
+    "columns_missing": [
+      0,
+      1
+    ],
+    "ashift": 12
+  },
+  "uberblock": {
+    "txg": 41,
+    "timestamp_utc": "2026-09-18T21:43:17+00:00",
+    "rootbp": "0:1a19e000:2000 0:83ac000:2000 0:200ac000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=41L/41P fill=93"
+  },
+  "mos": {
+    "type": "meta (MOS)",
+    "objects_declared": 93
+  },
+  "warnings": [],
+  "destination": "testlab/extracted",
+  "dry_run": false,
+  "datasets": [
+    {
+      "name": "zrtest",
+      "readable": true,
+      "summary": {
+        "files_total": 0,
+        "by_state": {},
+        "bytes_recovered": 0,
+        "bytes_missing": 0,
+        "blocks_total": 0,
+        "blocks_ok": 0,
+        "blocks_reconstructed": 0,
+        "ratio_bytes": 1.0
+      },
+      "sa_layout_inferred": 4,
+      "files": []
+    },
+    {
+      "name": "zrtest/big",
+      "readable": true,
+      "summary": {
+        "files_total": 0,
+        "by_state": {},
+        "bytes_recovered": 0,
+        "bytes_missing": 0,
+        "blocks_total": 0,
+        "blocks_ok": 0,
+        "blocks_reconstructed": 0,
+        "ratio_bytes": 1.0
+      },
+      "sa_layout_inferred": 0,
+      "files": []
+    },
+    {
+      "name": "zrtest/blobs",
+      "readable": true,
+      "summary": {
+        "files_total": 0,
+        "by_state": {},
+        "bytes_recovered": 0,
+        "bytes_missing": 0,
+        "blocks_total": 0,
+        "blocks_ok": 0,
+        "blocks_reconstructed": 0,
+        "ratio_bytes": 1.0
+      },
+      "sa_layout_inferred": 0,
+      "files": []
+    },
+    {
+      "name": "zrtest/docs",
+      "readable": true,
+      "summary": {
+        "files_total": 47,
+        "by_state": {
+          "COMPLET": 21,
+          "PARTIEL": 2,
+          "PERDU": 24
+        },
+        "bytes_recovered": 1692635,
+        "bytes_missing": 1745290,
+        "blocks_total": 66,
+        "blocks_ok": 31,
+        "blocks_reconstructed": 0,
+        "ratio_bytes": 0.4923420377117011
+      },
+      "sa_layout_inferred": 60,
+      "files": [
+        {
+          "object_id": 4,
+          "path": "/2023/01/note_0.txt",
+          "size": 5750,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 5750,
+          "sha256": "353a9c70694e4ccbcdbf2c3047c4cc4f4ac811d3cbe11cb549bf4d06c3c521b4",
+          "written_to": "testlab/extracted/zrtest_docs/2023/01/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 5750,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 5,
+          "path": "/2023/01/note_1.txt",
+          "size": 11500,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 11500,
+          "bytes_missing": 0,
+          "sha256": "eca320f4b3f00dc5152cd74b61e56b335379c70291e88f5fddf506ad79699135",
+          "written_to": "testlab/extracted/zrtest_docs/2023/01/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 11500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 6,
+          "path": "/2023/01/note_2.txt",
+          "size": 17250,
+          "size_inferred": true,
+          "blocksize": 17408,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 17250,
+          "sha256": "280d383eeee4def07c8f4bd8ab585317939ccd10c9e55a662fbe4af63349f014",
+          "written_to": "testlab/extracted/zrtest_docs/2023/01/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 17250,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 7,
+          "path": "/2023/01/note_3.txt",
+          "size": 23000,
+          "size_inferred": true,
+          "blocksize": 23040,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 23000,
+          "bytes_missing": 0,
+          "sha256": "28cfa666f13f08937897d7b13ea7449c20d3afbbccd499960a5a17d30a8ad51c",
+          "written_to": "testlab/extracted/zrtest_docs/2023/01/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 23000,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 8,
+          "path": "/2023/01/note_4.txt",
+          "size": 28750,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 28750,
+          "sha256": "c941be99b5f8e8cc963884e7dcb902fc78e21427a7be377c5f27582809bd68ec",
+          "written_to": "testlab/extracted/zrtest_docs/2023/01/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 28750,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 10,
+          "path": "/2023/02/note_0.txt",
+          "size": 5750,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 5750,
+          "bytes_missing": 0,
+          "sha256": "b8e719519873874de824bc6796167b1edba022dd4390c7edc3fcfc17ebf66f14",
+          "written_to": "testlab/extracted/zrtest_docs/2023/02/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 5750,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 11,
+          "path": "/2023/02/note_1.txt",
+          "size": 11500,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 11500,
+          "sha256": "ab5e7bb49b077fd52a0f8bdd858e338a45bceeb00e4f3fa5aa733ffd8a6c26e4",
+          "written_to": "testlab/extracted/zrtest_docs/2023/02/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 11500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 12,
+          "path": "/2023/02/note_2.txt",
+          "size": 17250,
+          "size_inferred": true,
+          "blocksize": 17408,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 17250,
+          "bytes_missing": 0,
+          "sha256": "27bb769c736a491c70b5017f83a87da2ec300434087b559ee480cf0abb2fcd83",
+          "written_to": "testlab/extracted/zrtest_docs/2023/02/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 17250,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 13,
+          "path": "/2023/02/note_3.txt",
+          "size": 23000,
+          "size_inferred": true,
+          "blocksize": 23040,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 23000,
+          "sha256": "d8cc702c8d23269028ff559858135d87217fcd0cfaac09f23d98485246738d02",
+          "written_to": "testlab/extracted/zrtest_docs/2023/02/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 23000,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 14,
+          "path": "/2023/02/note_4.txt",
+          "size": 28750,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 28750,
+          "bytes_missing": 0,
+          "sha256": "04ec8272fe02779645c25d3ff7fbf9ca19f926f4f708e687299bec2145afd33c",
+          "written_to": "testlab/extracted/zrtest_docs/2023/02/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 28750,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 16,
+          "path": "/2023/03/note_0.txt",
+          "size": 5750,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 5750,
+          "sha256": "353a9c70694e4ccbcdbf2c3047c4cc4f4ac811d3cbe11cb549bf4d06c3c521b4",
+          "written_to": "testlab/extracted/zrtest_docs/2023/03/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 5750,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 17,
+          "path": "/2023/03/note_1.txt",
+          "size": 11500,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 11500,
+          "sha256": "ab5e7bb49b077fd52a0f8bdd858e338a45bceeb00e4f3fa5aa733ffd8a6c26e4",
+          "written_to": "testlab/extracted/zrtest_docs/2023/03/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 11500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 18,
+          "path": "/2023/03/note_2.txt",
+          "size": 17250,
+          "size_inferred": true,
+          "blocksize": 17408,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 17250,
+          "bytes_missing": 0,
+          "sha256": "27bb769c736a491c70b5017f83a87da2ec300434087b559ee480cf0abb2fcd83",
+          "written_to": "testlab/extracted/zrtest_docs/2023/03/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 17250,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 19,
+          "path": "/2023/03/note_3.txt",
+          "size": 23000,
+          "size_inferred": true,
+          "blocksize": 23040,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 23000,
+          "bytes_missing": 0,
+          "sha256": "28cfa666f13f08937897d7b13ea7449c20d3afbbccd499960a5a17d30a8ad51c",
+          "written_to": "testlab/extracted/zrtest_docs/2023/03/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 23000,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 20,
+          "path": "/2023/03/note_4.txt",
+          "size": 28750,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 28750,
+          "sha256": "c941be99b5f8e8cc963884e7dcb902fc78e21427a7be377c5f27582809bd68ec",
+          "written_to": "testlab/extracted/zrtest_docs/2023/03/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 28750,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 23,
+          "path": "/2024/01/note_0.txt",
+          "size": 5865,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 5865,
+          "bytes_missing": 0,
+          "sha256": "ce6e85bb59aaea15cf6ee7e429e7b31cc27b02b7c29ed8f3f9bb23a903355986",
+          "written_to": "testlab/extracted/zrtest_docs/2024/01/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 5865,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 24,
+          "path": "/2024/01/note_1.txt",
+          "size": 11615,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 11615,
+          "sha256": "a157fe9d5330d34e9f660b9aed0f6d51c3e868849074f756117ade74dee37c63",
+          "written_to": "testlab/extracted/zrtest_docs/2024/01/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 11615,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 25,
+          "path": "/2024/01/note_2.txt",
+          "size": 17365,
+          "size_inferred": true,
+          "blocksize": 17408,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 17365,
+          "bytes_missing": 0,
+          "sha256": "9ff2d6111cf82753b1c6b7dcf6f5fd04fdb67b5f54302cf1c9a01cc4c000bcbb",
+          "written_to": "testlab/extracted/zrtest_docs/2024/01/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 17365,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 26,
+          "path": "/2024/01/note_3.txt",
+          "size": 23115,
+          "size_inferred": true,
+          "blocksize": 23552,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 23115,
+          "sha256": "d326989c8c50bf88ec93665ff754ab83ed40327e927512fc7a6f6dee9c379850",
+          "written_to": "testlab/extracted/zrtest_docs/2024/01/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 23115,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 27,
+          "path": "/2024/01/note_4.txt",
+          "size": 28865,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 28865,
+          "bytes_missing": 0,
+          "sha256": "03fafe97cefd37c66f66d19f364c621f39dfc4e9a3863678ffc6bb27fb3b252c",
+          "written_to": "testlab/extracted/zrtest_docs/2024/01/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 28865,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 29,
+          "path": "/2024/02/note_0.txt",
+          "size": 5865,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 5865,
+          "sha256": "dfff38b5c6ca1cc36a5d82839cc50ae0f3436bee3e9901c2408a31d9ab0ce507",
+          "written_to": "testlab/extracted/zrtest_docs/2024/02/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 5865,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 30,
+          "path": "/2024/02/note_1.txt",
+          "size": 11615,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 11615,
+          "bytes_missing": 0,
+          "sha256": "14b94d45008e42d11d14ceb9527cab38fe128748aa5e3a106684f2ec934cf32d",
+          "written_to": "testlab/extracted/zrtest_docs/2024/02/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 11615,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 31,
+          "path": "/2024/02/note_2.txt",
+          "size": 17365,
+          "size_inferred": true,
+          "blocksize": 17408,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 17365,
+          "sha256": "d875a79bc635ad8dfd409849d533b6fd3cbae616b2583fe7b68360738dbcbb78",
+          "written_to": "testlab/extracted/zrtest_docs/2024/02/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 17365,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 37,
+          "path": "/2024/02/note_3.txt",
+          "size": 23115,
+          "size_inferred": true,
+          "blocksize": 23552,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 23115,
+          "sha256": "d326989c8c50bf88ec93665ff754ab83ed40327e927512fc7a6f6dee9c379850",
+          "written_to": "testlab/extracted/zrtest_docs/2024/02/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 23115,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 38,
+          "path": "/2024/02/note_4.txt",
+          "size": 28865,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 28865,
+          "bytes_missing": 0,
+          "sha256": "03fafe97cefd37c66f66d19f364c621f39dfc4e9a3863678ffc6bb27fb3b252c",
+          "written_to": "testlab/extracted/zrtest_docs/2024/02/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 28865,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 40,
+          "path": "/2024/03/note_0.txt",
+          "size": 5865,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 5865,
+          "sha256": "dfff38b5c6ca1cc36a5d82839cc50ae0f3436bee3e9901c2408a31d9ab0ce507",
+          "written_to": "testlab/extracted/zrtest_docs/2024/03/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 5865,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 41,
+          "path": "/2024/03/note_1.txt",
+          "size": 11615,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 11615,
+          "bytes_missing": 0,
+          "sha256": "14b94d45008e42d11d14ceb9527cab38fe128748aa5e3a106684f2ec934cf32d",
+          "written_to": "testlab/extracted/zrtest_docs/2024/03/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 11615,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 42,
+          "path": "/2024/03/note_2.txt",
+          "size": 17365,
+          "size_inferred": true,
+          "blocksize": 17408,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 17365,
+          "sha256": "d875a79bc635ad8dfd409849d533b6fd3cbae616b2583fe7b68360738dbcbb78",
+          "written_to": "testlab/extracted/zrtest_docs/2024/03/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 17365,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 43,
+          "path": "/2024/03/note_3.txt",
+          "size": 23115,
+          "size_inferred": true,
+          "blocksize": 23552,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 23115,
+          "sha256": "d326989c8c50bf88ec93665ff754ab83ed40327e927512fc7a6f6dee9c379850",
+          "written_to": "testlab/extracted/zrtest_docs/2024/03/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 23115,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 44,
+          "path": "/2024/03/note_4.txt",
+          "size": 28865,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 28865,
+          "bytes_missing": 0,
+          "sha256": "03fafe97cefd37c66f66d19f364c621f39dfc4e9a3863678ffc6bb27fb3b252c",
+          "written_to": "testlab/extracted/zrtest_docs/2024/03/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 28865,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 47,
+          "path": "/2025/01/note_0.txt",
+          "size": 5980,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 5980,
+          "sha256": "7cdd04b9e086d7bd6d6924cc230d5adcd96f615edffc949d9ff588eb7dc6a1dc",
+          "written_to": "testlab/extracted/zrtest_docs/2025/01/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 5980,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 48,
+          "path": "/2025/01/note_1.txt",
+          "size": 11730,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 11730,
+          "bytes_missing": 0,
+          "sha256": "65a65a9c22c599bd0035519c9fd15d060b80f6653b955f173059229eea0b406b",
+          "written_to": "testlab/extracted/zrtest_docs/2025/01/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 11730,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 49,
+          "path": "/2025/01/note_2.txt",
+          "size": 17480,
+          "size_inferred": true,
+          "blocksize": 17920,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 17480,
+          "sha256": "009833d8249fce259914e4706f2bf23f6a3e787c13a6a16b714f1be0d92bd981",
+          "written_to": "testlab/extracted/zrtest_docs/2025/01/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 17480,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 50,
+          "path": "/2025/01/note_3.txt",
+          "size": 23230,
+          "size_inferred": true,
+          "blocksize": 23552,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 23230,
+          "bytes_missing": 0,
+          "sha256": "acfd751fca9ad705655ace4dfdbf3c0f453f27a1e52d0e5f563aa8c63df3dc89",
+          "written_to": "testlab/extracted/zrtest_docs/2025/01/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 23230,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 51,
+          "path": "/2025/01/note_4.txt",
+          "size": 28980,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 28980,
+          "sha256": "e867a845f40bc78c9831a919b819fa6cafd45c77e9300ae90c43328b52bafce5",
+          "written_to": "testlab/extracted/zrtest_docs/2025/01/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 28980,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 53,
+          "path": "/2025/02/note_0.txt",
+          "size": 5980,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 5980,
+          "bytes_missing": 0,
+          "sha256": "79be49aff03b19da53f4241e1493b9e4f85b75b49dbc38918d7c4e0bc8b9dfc3",
+          "written_to": "testlab/extracted/zrtest_docs/2025/02/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 5980,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 54,
+          "path": "/2025/02/note_1.txt",
+          "size": 11730,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 11730,
+          "sha256": "4c4133539168bcfba965872da2c9d4fab56a47c1525336ba2b33c3e18ac4b552",
+          "written_to": "testlab/extracted/zrtest_docs/2025/02/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 11730,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 55,
+          "path": "/2025/02/note_2.txt",
+          "size": 17480,
+          "size_inferred": true,
+          "blocksize": 17920,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 17480,
+          "bytes_missing": 0,
+          "sha256": "8a906e3c89263109b5332edea4023b6853d1bb91bef626cc3aa52986b3e4fa31",
+          "written_to": "testlab/extracted/zrtest_docs/2025/02/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 17480,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 56,
+          "path": "/2025/02/note_3.txt",
+          "size": 23230,
+          "size_inferred": true,
+          "blocksize": 23552,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 23230,
+          "sha256": "9cf63318d636b389915ff6f99945088e9094f173122f1c6cdc8419edfe4af184",
+          "written_to": "testlab/extracted/zrtest_docs/2025/02/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 23230,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 57,
+          "path": "/2025/02/note_4.txt",
+          "size": 28980,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 28980,
+          "bytes_missing": 0,
+          "sha256": "c4baf3c8488f3f4fc68cff3f723f8cdf96e531f954cb827a8670d74e9b1d207f",
+          "written_to": "testlab/extracted/zrtest_docs/2025/02/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 28980,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 59,
+          "path": "/2025/03/note_0.txt",
+          "size": 5980,
+          "size_inferred": true,
+          "blocksize": 6144,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 5980,
+          "sha256": "7cdd04b9e086d7bd6d6924cc230d5adcd96f615edffc949d9ff588eb7dc6a1dc",
+          "written_to": "testlab/extracted/zrtest_docs/2025/03/note_0.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 5980,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 60,
+          "path": "/2025/03/note_1.txt",
+          "size": 11730,
+          "size_inferred": true,
+          "blocksize": 11776,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 11730,
+          "bytes_missing": 0,
+          "sha256": "65a65a9c22c599bd0035519c9fd15d060b80f6653b955f173059229eea0b406b",
+          "written_to": "testlab/extracted/zrtest_docs/2025/03/note_1.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 11730,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 61,
+          "path": "/2025/03/note_2.txt",
+          "size": 17480,
+          "size_inferred": true,
+          "blocksize": 17920,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 17480,
+          "sha256": "009833d8249fce259914e4706f2bf23f6a3e787c13a6a16b714f1be0d92bd981",
+          "written_to": "testlab/extracted/zrtest_docs/2025/03/note_2.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 17480,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 62,
+          "path": "/2025/03/note_3.txt",
+          "size": 23230,
+          "size_inferred": true,
+          "blocksize": 23552,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 23230,
+          "bytes_missing": 0,
+          "sha256": "acfd751fca9ad705655ace4dfdbf3c0f453f27a1e52d0e5f563aa8c63df3dc89",
+          "written_to": "testlab/extracted/zrtest_docs/2025/03/note_3.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 23230,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 63,
+          "path": "/2025/03/note_4.txt",
+          "size": 28980,
+          "size_inferred": true,
+          "blocksize": 29184,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 28980,
+          "sha256": "e867a845f40bc78c9831a919b819fa6cafd45c77e9300ae90c43328b52bafce5",
+          "written_to": "testlab/extracted/zrtest_docs/2025/03/note_4.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 28980,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 64,
+          "path": "/gros_texte_2M.txt",
+          "size": 2415000,
+          "size_inferred": true,
+          "blocksize": 131072,
+          "state": "PARTIEL",
+          "blocks_total": 19,
+          "blocks_ok": 9,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1179648,
+          "bytes_missing": 1235352,
+          "sha256": "65225456799d32b6630a2370f9b00cbf6d958edbcde9ee601e1e36736dd61b8e",
+          "written_to": "testlab/extracted/zrtest_docs/gros_texte_2M.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 1,
+              "status": "RECOVERED",
+              "offset": 131072,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 2,
+              "status": "MISSING_DATA",
+              "offset": 262144,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 3,
+              "status": "RECOVERED",
+              "offset": 393216,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 4,
+              "status": "MISSING_DATA",
+              "offset": 524288,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 5,
+              "status": "RECOVERED",
+              "offset": 655360,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 6,
+              "status": "MISSING_DATA",
+              "offset": 786432,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 7,
+              "status": "RECOVERED",
+              "offset": 917504,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 8,
+              "status": "MISSING_DATA",
+              "offset": 1048576,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 9,
+              "status": "RECOVERED",
+              "offset": 1179648,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 10,
+              "status": "MISSING_DATA",
+              "offset": 1310720,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 11,
+              "status": "RECOVERED",
+              "offset": 1441792,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 12,
+              "status": "MISSING_DATA",
+              "offset": 1572864,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 13,
+              "status": "RECOVERED",
+              "offset": 1703936,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 14,
+              "status": "MISSING_DATA",
+              "offset": 1835008,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 15,
+              "status": "RECOVERED",
+              "offset": 1966080,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 16,
+              "status": "MISSING_DATA",
+              "offset": 2097152,
+              "length": 131072,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            },
+            {
+              "blkid": 17,
+              "status": "RECOVERED",
+              "offset": 2228224,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 18,
+              "status": "MISSING_DATA",
+              "offset": 2359296,
+              "length": 55704,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 65,
+          "path": "/moyen_200K.txt",
+          "size": 241500,
+          "size_inferred": true,
+          "blocksize": 131072,
+          "state": "PARTIEL",
+          "blocks_total": 2,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 131072,
+          "bytes_missing": 110428,
+          "sha256": "1e2273a776afebdebfb54b73ece30d4a8e561834e563f4dc3b84d52a63f340a9",
+          "written_to": "testlab/extracted/zrtest_docs/moyen_200K.txt",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 131072,
+              "detail": ""
+            },
+            {
+              "blkid": 1,
+              "status": "MISSING_DATA",
+              "offset": 131072,
+              "length": 110428,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zrtest/edge",
+      "readable": false,
+      "reason": "MISSING_DATA"
+    },
+    {
+      "name": "zrtest/small",
+      "readable": true,
+      "summary": {
+        "files_total": 168,
+        "by_state": {
+          "COMPLET": 82,
+          "PERDU": 86
+        },
+        "bytes_recovered": 95935,
+        "bytes_missing": 106022,
+        "blocks_total": 168,
+        "blocks_ok": 82,
+        "blocks_reconstructed": 0,
+        "ratio_bytes": 0.47502686215382484
+      },
+      "sa_layout_inferred": 169,
+      "files": [
+        {
+          "object_id": 2,
+          "path": "/file_000.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "262b3cda793798106fa77c8f2e853043769b7d884d8e6f711aeaeb85b29d1935",
+          "written_to": "testlab/extracted/zrtest_small/file_000.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 3,
+          "path": "/file_001.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_001.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 4,
+          "path": "/file_002.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_002.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 5,
+          "path": "/file_003.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "f850c06ca3f59b9128b9908ece03c9f528b2cc1d584460d1babf3c08d6b1ccf4",
+          "written_to": "testlab/extracted/zrtest_small/file_003.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 6,
+          "path": "/file_004.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_004.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 7,
+          "path": "/file_005.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_005.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 8,
+          "path": "/file_006.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "c73f0f82a2304eb74af62c035c6241a86fc739c8f3f0d2a7def326ee12b62655",
+          "written_to": "testlab/extracted/zrtest_small/file_006.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 9,
+          "path": "/file_007.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_007.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 10,
+          "path": "/file_008.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "1818ef3ecc2c109c2dd1f82430eaa47b117b6ee6599f294fc817acf97eba1b27",
+          "written_to": "testlab/extracted/zrtest_small/file_008.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 11,
+          "path": "/file_009.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_009.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 12,
+          "path": "/file_010.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "835940657294f25f653b62672e328ff61cded1b1fe27d1b2a6ebb8b4e806546d",
+          "written_to": "testlab/extracted/zrtest_small/file_010.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 13,
+          "path": "/file_011.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_011.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 14,
+          "path": "/file_012.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "b16f1100d0423e1abf46a0fa43700fa304075e112e30d33901de34aa616dd383",
+          "written_to": "testlab/extracted/zrtest_small/file_012.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 15,
+          "path": "/file_013.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_013.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 16,
+          "path": "/file_014.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "a2aee1fc4be2efcd1f597a5316a151ef038b03ea7e25ba0ec242b90b42ddb1a4",
+          "written_to": "testlab/extracted/zrtest_small/file_014.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 17,
+          "path": "/file_015.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_015.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 18,
+          "path": "/file_016.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "13418be66f5bc0dc1099d9feca6555a89542e280c607ce14adbed6716b064e89",
+          "written_to": "testlab/extracted/zrtest_small/file_016.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 19,
+          "path": "/file_017.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_017.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 20,
+          "path": "/file_018.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "da1114c20d72923e5f92fff61d711821dec8df1492c3d5918f4e225041842d39",
+          "written_to": "testlab/extracted/zrtest_small/file_018.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 21,
+          "path": "/file_019.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_019.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 22,
+          "path": "/file_020.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "302a35d5ab81c329e6c213877507925ea0d2924d286f99c37378c14d40763a66",
+          "written_to": "testlab/extracted/zrtest_small/file_020.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 23,
+          "path": "/file_021.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_021.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 24,
+          "path": "/file_022.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "d64e133cd03b1dacd3629a336035209650d9d8afe43a73d3c54d7b16a44fe58f",
+          "written_to": "testlab/extracted/zrtest_small/file_022.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 25,
+          "path": "/file_023.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_023.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 26,
+          "path": "/file_024.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "3dd93514f710b0dbc9efa8c69fefad3989bf67abcfb0da945c5e03f90b8795cb",
+          "written_to": "testlab/extracted/zrtest_small/file_024.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 27,
+          "path": "/file_025.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_025.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 28,
+          "path": "/file_026.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "deef47c345a378c65e8ccc8a63ce7dc09738c6bcd200f34ac30921c7b81d9173",
+          "written_to": "testlab/extracted/zrtest_small/file_026.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 29,
+          "path": "/file_027.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_027.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 30,
+          "path": "/file_028.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "d4d02bf2fbe3631da73ce4ca8edf5ebbe93a036e31bbbfa5d8b79ce77c4526cd",
+          "written_to": "testlab/extracted/zrtest_small/file_028.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 31,
+          "path": "/file_029.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_029.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 37,
+          "path": "/file_030.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "86fb02f3c6c23d748e011f9a649d436d420818d8d28b62d9c64618913e2c8642",
+          "written_to": "testlab/extracted/zrtest_small/file_030.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 38,
+          "path": "/file_031.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_031.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 39,
+          "path": "/file_032.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "53dd474013935f3960b0e62d6ad7b6105617f5e23da40752cad609ecba8966a3",
+          "written_to": "testlab/extracted/zrtest_small/file_032.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 40,
+          "path": "/file_033.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_033.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 41,
+          "path": "/file_034.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "a98600f7979b3818b1d020bee9b923ad203fed7b1a024fbad240b14c83e54f3d",
+          "written_to": "testlab/extracted/zrtest_small/file_034.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 42,
+          "path": "/file_035.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_035.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 43,
+          "path": "/file_036.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "32e95b1fbe093045b13fa5287c7062d9195ad4a13efe18b587256a39428e4467",
+          "written_to": "testlab/extracted/zrtest_small/file_036.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 44,
+          "path": "/file_037.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_037.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 45,
+          "path": "/file_038.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "fcc2d17f99f7943fa53476941d776780a50b0a8df3432b85c78f25c1366e6d87",
+          "written_to": "testlab/extracted/zrtest_small/file_038.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 46,
+          "path": "/file_039.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_039.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 47,
+          "path": "/file_040.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "e86a16a8608feb8169a5f3fa810776bae2d4e3f22bc85b489eb77a648c6cdb42",
+          "written_to": "testlab/extracted/zrtest_small/file_040.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 48,
+          "path": "/file_041.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_041.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 49,
+          "path": "/file_042.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "197560ade65f616c2d5d534a8b1e4fcb91abafd91d8aa7b97f55ff6761142066",
+          "written_to": "testlab/extracted/zrtest_small/file_042.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 50,
+          "path": "/file_043.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_043.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 51,
+          "path": "/file_044.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "5c87029d127988c6068423332043b984b5053a2019d0cdc77dda877d8d4fe9e7",
+          "written_to": "testlab/extracted/zrtest_small/file_044.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 52,
+          "path": "/file_045.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_045.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 53,
+          "path": "/file_046.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "9946bb79c2bc27d3cf7224d4d7368bfd41d395c2c68e20944ad8028e63d23962",
+          "written_to": "testlab/extracted/zrtest_small/file_046.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 54,
+          "path": "/file_047.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_047.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 55,
+          "path": "/file_048.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "6de5db007ed1b7101b4467b864b0535f05e49fd0dafa9e9d982c20724a6a2e3d",
+          "written_to": "testlab/extracted/zrtest_small/file_048.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 56,
+          "path": "/file_049.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_049.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 57,
+          "path": "/file_050.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "6e45340e553379876a595bd79d9007954a05b6cec5323479cc53999b48c91598",
+          "written_to": "testlab/extracted/zrtest_small/file_050.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 58,
+          "path": "/file_051.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_051.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 59,
+          "path": "/file_052.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "337b92b9d5b53eac21924388efd759438e8cf7388c50af9caa53b3b02c41e110",
+          "written_to": "testlab/extracted/zrtest_small/file_052.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 60,
+          "path": "/file_053.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_053.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 61,
+          "path": "/file_054.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "5bf51f115701db2328efe831f743df797e1e60e78139813ee0c51b74304f5e8a",
+          "written_to": "testlab/extracted/zrtest_small/file_054.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 62,
+          "path": "/file_055.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_055.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 63,
+          "path": "/file_056.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "e553ce13d07550a5b56f80d0894aa23363f819731f6efc8b18aef2df32e5b960",
+          "written_to": "testlab/extracted/zrtest_small/file_056.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 64,
+          "path": "/file_057.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_057.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 65,
+          "path": "/file_058.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_058.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 66,
+          "path": "/file_059.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "18f348c8fa22f9d1b7affadfd68fc1b7b3127406e72e1caf99b51a79ea6eb1e1",
+          "written_to": "testlab/extracted/zrtest_small/file_059.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 67,
+          "path": "/file_060.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_060.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 68,
+          "path": "/file_061.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "53d53e8843767cc2ebca506bdcfd8cf5ad2825d3b59a6752015c782c4dbfd1e1",
+          "written_to": "testlab/extracted/zrtest_small/file_061.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 69,
+          "path": "/file_062.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_062.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 70,
+          "path": "/file_063.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "1d6d2fe5877b8be024006f107d1c1b73de97fd62b77c97522bb16cc60137d2f1",
+          "written_to": "testlab/extracted/zrtest_small/file_063.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 71,
+          "path": "/file_064.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_064.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 72,
+          "path": "/file_065.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "d54efebe934bc8a2b9116c960efdb1a216e80eeadf02c69015b279859cba28da",
+          "written_to": "testlab/extracted/zrtest_small/file_065.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 73,
+          "path": "/file_066.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_066.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 74,
+          "path": "/file_067.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "f64ea85daee7ea7ba9040ce09bf3be4bc6390ac5b69760ea8ba47a361bf6618b",
+          "written_to": "testlab/extracted/zrtest_small/file_067.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 75,
+          "path": "/file_068.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_068.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 76,
+          "path": "/file_069.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "4e83fbd74d400c48f4af2630ea4fbba8c90ccb46950c2f32046efbbc17becacf",
+          "written_to": "testlab/extracted/zrtest_small/file_069.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 77,
+          "path": "/file_070.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_070.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 78,
+          "path": "/file_071.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "5514fa683e5112b17b9750055b1e805109d2c9c52dd27dcd4c3f048268f001a0",
+          "written_to": "testlab/extracted/zrtest_small/file_071.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 79,
+          "path": "/file_072.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_072.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 80,
+          "path": "/file_073.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "1cb1786734ff0716f1ba4035c6006b4df80644b4ffb75eb8cb23b918adfb953a",
+          "written_to": "testlab/extracted/zrtest_small/file_073.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 81,
+          "path": "/file_074.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_074.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 82,
+          "path": "/file_075.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "7753093a8092d27a8dbd9e2fb763b693fabfd436a48234d8af70e313d85503f4",
+          "written_to": "testlab/extracted/zrtest_small/file_075.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 83,
+          "path": "/file_076.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_076.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 84,
+          "path": "/file_077.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "94d4b01739a50e9ca2ce14dafb42606c91019d67f9f0b6a5f08209602bf2e5be",
+          "written_to": "testlab/extracted/zrtest_small/file_077.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 85,
+          "path": "/file_078.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_078.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 86,
+          "path": "/file_079.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "7002330d6636cb0222dc1323a504c4acf837110678baff9d1a2e481d8f20e12c",
+          "written_to": "testlab/extracted/zrtest_small/file_079.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 87,
+          "path": "/file_080.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_080.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 88,
+          "path": "/file_081.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "1d620835417e63436137535cbe53e8929bc9fce5c37e1e45e5b415f9e952e745",
+          "written_to": "testlab/extracted/zrtest_small/file_081.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 89,
+          "path": "/file_082.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_082.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 90,
+          "path": "/file_083.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "596e97e612250bb9ced18206951443665de5d0497d0efd128c7bd3cde71b7f9a",
+          "written_to": "testlab/extracted/zrtest_small/file_083.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 91,
+          "path": "/file_084.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_084.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 92,
+          "path": "/file_085.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "59d1d4ed67504fa8a94dcb2edb8fe01448c8d9da1d2a00d0200b102b61188f7f",
+          "written_to": "testlab/extracted/zrtest_small/file_085.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 93,
+          "path": "/file_086.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_086.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 94,
+          "path": "/file_087.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "a0a58fe5af0d190d72be49c74d31feab46545f516848af54174560619e7fd7ed",
+          "written_to": "testlab/extracted/zrtest_small/file_087.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 95,
+          "path": "/file_088.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_088.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 128,
+          "path": "/file_121.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_121.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 129,
+          "path": "/file_122.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "997c7b32810a7dfe5ca605a8878ce06eaf9d892ae835c64708aef8a1feb345b1",
+          "written_to": "testlab/extracted/zrtest_small/file_122.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 130,
+          "path": "/file_123.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "718015060e040428c6fc850d56799f17abeff345927c165d65e2c7022399d0b1",
+          "written_to": "testlab/extracted/zrtest_small/file_123.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 131,
+          "path": "/file_124.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_124.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 132,
+          "path": "/file_125.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "24aacbe1656f6aa6d9b544eddeac62cb596e89e8efbb08737fb5ce6dca3d7712",
+          "written_to": "testlab/extracted/zrtest_small/file_125.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 133,
+          "path": "/file_126.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_126.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 134,
+          "path": "/file_127.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "226da7dd00a137d16107e75894857751a5590e507b65207f2cd4ad0ec52627c6",
+          "written_to": "testlab/extracted/zrtest_small/file_127.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 135,
+          "path": "/file_128.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_128.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 136,
+          "path": "/file_129.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "89550d133ea0e2aa561024d8420ed4754a54f5799a3698cd878b51a6556a5d99",
+          "written_to": "testlab/extracted/zrtest_small/file_129.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 137,
+          "path": "/file_130.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_130.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 138,
+          "path": "/file_131.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "7d4a1f5a1298d31515c74cb07da309e9e6128f3a9f831020c37aff50bf765825",
+          "written_to": "testlab/extracted/zrtest_small/file_131.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 139,
+          "path": "/file_132.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_132.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 140,
+          "path": "/file_133.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "d9ae01b213bd0d6fd896dbe056b9c8cc08a05300d9c080f80c0a793ff9238dbc",
+          "written_to": "testlab/extracted/zrtest_small/file_133.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 141,
+          "path": "/file_134.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_134.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 142,
+          "path": "/file_135.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "6a97dbbd55ccaa6c6750ad0c7b09fbcd313fda4a2b5ba57a1f81b1c746965c64",
+          "written_to": "testlab/extracted/zrtest_small/file_135.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 143,
+          "path": "/file_136.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_136.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 144,
+          "path": "/file_137.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "c7934b4b01ce87989e03e4534d1af308fd53ac38df22b39805b3b260cc3f776a",
+          "written_to": "testlab/extracted/zrtest_small/file_137.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 145,
+          "path": "/file_138.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_138.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 146,
+          "path": "/file_139.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "50231378d925a68f1a6ca068535c83378a8519465e0354ad9687d309a5f75f65",
+          "written_to": "testlab/extracted/zrtest_small/file_139.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 147,
+          "path": "/file_140.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_140.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 148,
+          "path": "/file_141.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "97707bfaad5a0ce6c6e17336085c207d94886479bbee5254ab1f362a049c3236",
+          "written_to": "testlab/extracted/zrtest_small/file_141.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 149,
+          "path": "/file_142.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_142.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 150,
+          "path": "/file_143.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "a122c5558b547dc3bb79eb632aaad4b6e8cd0675f6e93fc0989d86ca6ef4896d",
+          "written_to": "testlab/extracted/zrtest_small/file_143.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 151,
+          "path": "/file_144.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_144.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 152,
+          "path": "/file_145.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "e64a54b0beca8c2667c75b99ede4835aa2d563580a1701911dd63ca875048f48",
+          "written_to": "testlab/extracted/zrtest_small/file_145.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 153,
+          "path": "/file_146.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_146.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 154,
+          "path": "/file_147.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "8e6b61ef05cab157a47567b9bc7f0f2ddfc8e5eee1e26a416f87445663901d03",
+          "written_to": "testlab/extracted/zrtest_small/file_147.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 155,
+          "path": "/file_148.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_148.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 156,
+          "path": "/file_149.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "adbce41ceb93610754461201a128123ec1fd50a4ab25d1aaa5957adafa59989c",
+          "written_to": "testlab/extracted/zrtest_small/file_149.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 157,
+          "path": "/file_150.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_150.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 158,
+          "path": "/file_151.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "6a62b01f87bb53bf6954931484e6641be22e2eb21c93d4290bbcc71731356e0b",
+          "written_to": "testlab/extracted/zrtest_small/file_151.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 159,
+          "path": "/file_152.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_152.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 160,
+          "path": "/file_153.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "6f35c7e0a761fea9cc087a844c62a3d5c1a08edbefd4b17c4a4ad1fdba397350",
+          "written_to": "testlab/extracted/zrtest_small/file_153.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 161,
+          "path": "/file_154.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_154.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 162,
+          "path": "/file_155.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "058b4ac3533830aea4b58a9eedaf5c9816abfd456e6c6260c6aac72458586e70",
+          "written_to": "testlab/extracted/zrtest_small/file_155.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 163,
+          "path": "/file_156.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_156.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 164,
+          "path": "/file_157.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "5582c5593b763015ba24eb83fca94580e5b2480006e144b882d12531b3cf2163",
+          "written_to": "testlab/extracted/zrtest_small/file_157.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 165,
+          "path": "/file_158.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_158.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 166,
+          "path": "/file_159.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "28fb93c45474adc46a14bc911905ff616bc3ebca82f90a641c1d6430181e32fc",
+          "written_to": "testlab/extracted/zrtest_small/file_159.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 167,
+          "path": "/file_160.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_160.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 168,
+          "path": "/file_161.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "75dca07342a933cb08dad99a79ff8bd5be163c386cdc04a63035fbf1af3c25ac",
+          "written_to": "testlab/extracted/zrtest_small/file_161.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 169,
+          "path": "/file_162.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_162.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 170,
+          "path": "/file_163.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "e01e32b58005763ceb4f24aeac905e4378cc4a518c679660b75b23a7bd5359ee",
+          "written_to": "testlab/extracted/zrtest_small/file_163.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 171,
+          "path": "/file_164.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_164.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 172,
+          "path": "/file_165.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "4fa32229f713f97b0fc7b382567b3f4577a3ee7c353e133ae99690d3f239ccf6",
+          "written_to": "testlab/extracted/zrtest_small/file_165.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 173,
+          "path": "/file_166.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_166.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 174,
+          "path": "/file_167.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "696a061a4656f993d00c880176cde40832d36068a3224829990b1f641facd03b",
+          "written_to": "testlab/extracted/zrtest_small/file_167.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 175,
+          "path": "/file_168.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_168.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 176,
+          "path": "/file_169.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_169.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 177,
+          "path": "/file_170.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "d96b9729ed46fa03972de12dd43fa4e46b57d8072f1c9fee50cae0854146a4f8",
+          "written_to": "testlab/extracted/zrtest_small/file_170.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 178,
+          "path": "/file_171.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_171.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 179,
+          "path": "/file_172.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 512,
+          "bytes_missing": 0,
+          "sha256": "35f46f3e3c459ac99fcab7698f371678a7aca86f5ea926eeff0d298e9fbd9bd5",
+          "written_to": "testlab/extracted/zrtest_small/file_172.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 512,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 180,
+          "path": "/file_173.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 137,
+          "sha256": "4a93894f08d98d707cd9a0274f4c9a51bcfa27e701359e12befcc78ffb488817",
+          "written_to": "testlab/extracted/zrtest_small/file_173.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 137,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 181,
+          "path": "/file_174.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "78bc8acd27fafc0a4ad2e4449b204fc6c3f012e1d2ef70af9b6839865b3f5ae8",
+          "written_to": "testlab/extracted/zrtest_small/file_174.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 182,
+          "path": "/file_175.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_175.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 183,
+          "path": "/file_176.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "0bf07b53fcc68cff8aa91a3835e40f84ba73646306b050d5eaf45e9217b4cdfa",
+          "written_to": "testlab/extracted/zrtest_small/file_176.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 184,
+          "path": "/file_177.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_177.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 185,
+          "path": "/file_178.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "b7d787e55d07100612ec1db355540a33f1e97ed4aee17c6ddb06e5a929190cd2",
+          "written_to": "testlab/extracted/zrtest_small/file_178.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 186,
+          "path": "/file_179.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_179.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 187,
+          "path": "/file_180.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "00abe3462fdb0f5cb47211f690bc1274ab88b79d66a600f46e410e73e72ccd19",
+          "written_to": "testlab/extracted/zrtest_small/file_180.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 188,
+          "path": "/file_181.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_181.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 189,
+          "path": "/file_182.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "0553640d781902560f8e6900ef26e589649ce4133aafbd0032cae2c88a831fee",
+          "written_to": "testlab/extracted/zrtest_small/file_182.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 190,
+          "path": "/file_183.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_183.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 191,
+          "path": "/file_184.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "86dc65004aad4734773a960570e90ffc089082dd42f75a5ea25ae0f5c9aabad1",
+          "written_to": "testlab/extracted/zrtest_small/file_184.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 192,
+          "path": "/file_185.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_185.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 193,
+          "path": "/file_186.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "933c4c8e6070e6cb9aa875636583ead49314a32c350a5f11918d322fdeaa9234",
+          "written_to": "testlab/extracted/zrtest_small/file_186.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 194,
+          "path": "/file_187.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_187.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 195,
+          "path": "/file_188.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 64,
+          "bytes_missing": 0,
+          "sha256": "a4e8d123162c9b1bd6c252691343efb878abf2151ff78465e1ed2fcb7256e6c5",
+          "written_to": "testlab/extracted/zrtest_small/file_188.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 64,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 196,
+          "path": "/file_189.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_189.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 197,
+          "path": "/file_190.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 1024,
+          "bytes_missing": 0,
+          "sha256": "763e0dcdc05cde3c2c37b854acf0368c7c28c3a50fecaf77ad488b99acc538e7",
+          "written_to": "testlab/extracted/zrtest_small/file_190.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 1024,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 198,
+          "path": "/file_191.bin",
+          "size": 512,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 512,
+          "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560",
+          "written_to": "testlab/extracted/zrtest_small/file_191.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 512,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 199,
+          "path": "/file_192.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "a874e9802028667cc5dee734ad40ed34418f41fe3a9d973a2dfd7f6527e57722",
+          "written_to": "testlab/extracted/zrtest_small/file_192.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 200,
+          "path": "/file_193.bin",
+          "size": 1024,
+          "size_inferred": true,
+          "blocksize": 1024,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 1024,
+          "sha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef",
+          "written_to": "testlab/extracted/zrtest_small/file_193.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 1024,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 201,
+          "path": "/file_194.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 3500,
+          "bytes_missing": 0,
+          "sha256": "448db40a56b681a66ea35b02ca26f88168c4d9a696b9fe21d9f8e1235987726b",
+          "written_to": "testlab/extracted/zrtest_small/file_194.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 3500,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 202,
+          "path": "/file_195.bin",
+          "size": 3500,
+          "size_inferred": true,
+          "blocksize": 3584,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 3500,
+          "sha256": "35b2040a56c60e04e883349c5f2fd0edc0a8530b798eb9d29268d14ee5a0fc4f",
+          "written_to": "testlab/extracted/zrtest_small/file_195.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 3500,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 203,
+          "path": "/file_196.bin",
+          "size": 137,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 137,
+          "bytes_missing": 0,
+          "sha256": "46bd743dd2f77c218a8c135a40f7af1233f962c54299063a8d949e9f5a5d371d",
+          "written_to": "testlab/extracted/zrtest_small/file_196.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 137,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 204,
+          "path": "/file_197.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 2048,
+          "sha256": "e5a00aa9991ac8a5ee3109844d84a55583bd20572ad3ffcd42792f3c36b183ad",
+          "written_to": "testlab/extracted/zrtest_small/file_197.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 2048,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        },
+        {
+          "object_id": 205,
+          "path": "/file_198.bin",
+          "size": 2048,
+          "size_inferred": true,
+          "blocksize": 2048,
+          "state": "COMPLET",
+          "blocks_total": 1,
+          "blocks_ok": 1,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 2048,
+          "bytes_missing": 0,
+          "sha256": "ae6001e6e4f3dc8232fefec211e83467a1fb9552647e952a8a857450b8c347e7",
+          "written_to": "testlab/extracted/zrtest_small/file_198.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "RECOVERED",
+              "offset": 0,
+              "length": 2048,
+              "detail": ""
+            }
+          ]
+        },
+        {
+          "object_id": 206,
+          "path": "/file_199.bin",
+          "size": 64,
+          "size_inferred": true,
+          "blocksize": 512,
+          "state": "PERDU",
+          "blocks_total": 1,
+          "blocks_ok": 0,
+          "blocks_reconstructed": 0,
+          "bytes_recovered": 0,
+          "bytes_missing": 64,
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+          "written_to": "testlab/extracted/zrtest_small/file_199.bin",
+          "errors": [],
+          "blocks": [
+            {
+              "blkid": 0,
+              "status": "MISSING_DATA",
+              "offset": 0,
+              "length": 64,
+              "detail": "toutes les copies ont des colonnes manquantes : bloc irrecuperable"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "total": {
+    "files_total": 215,
+    "by_state": {
+      "COMPLET": 103,
+      "PARTIEL": 2,
+      "PERDU": 110
+    },
+    "bytes_recovered": 1788570,
+    "bytes_missing": 1851312,
+    "blocks_total": 234,
+    "blocks_ok": 113,
+    "blocks_reconstructed": 0,
+    "ratio_bytes": 0.49138131400963
+  }
+}

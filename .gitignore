@@ -1,0 +1,22 @@
+# --- donnees volumineuses, jamais publiees -----------------------------------
+# images du pool de test (2 Gio), donnees de reference, extractions, scenarios
+testlab/
+
+# source OpenZFS utilise comme reference normative (71 Mio) :
+# a recuperer avec « apt-get source zfs-linux » (voir README)
+vendor/
+
+# paquets .deb telecharges pour installer les en-tetes noyau (16 Mio)
+pkgs/
+
+# --- divers -------------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# rapports produits sur de vraies images : ils decrivent VOS donnees
+reports/reel_*/

@@ -1,0 +1,460 @@
+{
+  "pool": "zrtest",
+  "pool_guid": 16937172268484420114,
+  "vdev": {
+    "type": "raidz",
+    "nparity": 1,
+    "columns_total": 4,
+    "columns_available": [
+      2,
+      3
+    ],
+    "columns_missing": [
+      0,
+      1
+    ],
+    "ashift": 12
+  },
+  "uberblock": {
+    "txg": 41,
+    "timestamp_utc": "2026-09-18T21:43:17+00:00",
+    "rootbp": "0:1a19e000:2000 0:83ac000:2000 0:200ac000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=41L/41P fill=93"
+  },
+  "mos": {
+    "type": "meta (MOS)",
+    "objects_declared": 93
+  },
+  "warnings": [],
+  "mos_meta_dnode": {
+    "object_id": 0,
+    "type": 10,
+    "type_name": "dnode",
+    "levels": 2,
+    "nblkptr": 3,
+    "datablksize": 16384,
+    "indblksize": 131072,
+    "maxblkid": 12,
+    "nblocks": 13,
+    "used_bytes": 124992,
+    "bonustype": 0,
+    "bonustype_name": "none",
+    "bonuslen": 0,
+    "extra_slots": 0,
+    "flags": 1,
+    "has_spill": false,
+    "checksum": "inherit",
+    "compress": "inherit"
+  },
+  "objects_found": 93,
+  "dnodes_unreadable": 0,
+  "objects_by_type": {
+    "bpobj": 5,
+    "deadlist": 14,
+    "dsl_clones": 1,
+    "dsl_dataset": 2,
+    "dsl_dir": 3,
+    "dsl_dir_child_map": 9,
+    "dsl_ds_snap_map": 7,
+    "dsl_props": 9,
+    "next_clones": 1,
+    "object_array": 1,
+    "object_directory": 1,
+    "packed_nvlist": 1,
+    "pool_props": 1,
+    "spa_history": 1,
+    "space_map": 6,
+    "type_195": 1,
+    "type_196": 30
+  },
+  "object_directory": {
+    "kind": "fat",
+    "complete": true,
+    "entries_found": 16,
+    "entries_declared": 16,
+    "num_leafs": 1,
+    "blocks_total": 2,
+    "blocks_read": 2,
+    "blocks_missing": [],
+    "errors": [],
+    "entries": [
+      {
+        "name": "root_dataset",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 32
+      },
+      {
+        "name": "free_bpobj",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 41
+      },
+      {
+        "name": "features_for_read",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 51
+      },
+      {
+        "name": "features_for_write",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 52
+      },
+      {
+        "name": "feature_descriptions",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 53
+      },
+      {
+        "name": "history",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 60
+      },
+      {
+        "name": "config",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 61
+      },
+      {
+        "name": "creation_version",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 5000
+      },
+      {
+        "name": "deflate",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 1
+      },
+      {
+        "name": "sync_bplist",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 62
+      },
+      {
+        "name": "pool_props",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 63
+      },
+      {
+        "name": "feature_enabled_txg",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 64
+      },
+      {
+        "name": "com.delphix:vdev_zap_map",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 128
+      },
+      {
+        "name": "org.illumos:checksum_salt",
+        "int_size": 1,
+        "num_ints": 32,
+        "source_block": 1,
+        "value_bytes": "ebe37c8fe3fa3fdc37b63d0deac4df0f9be265b3668c808bff6450b8e0a0b80f"
+      },
+      {
+        "name": "com.delphix:log_spacemap_zap",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 136
+      },
+      {
+        "name": "empty_bpobj",
+        "int_size": 8,
+        "num_ints": 1,
+        "source_block": 1,
+        "value": 71
+      }
+    ]
+  },
+  "datasets": {
+    "name": "zrtest",
+    "dir_obj": 32,
+    "dsl_dir": {
+      "object_id": 32,
+      "head_dataset_obj": 54,
+      "parent_obj": 0,
+      "origin_obj": 48,
+      "child_dir_zapobj": 34,
+      "props_zapobj": 33,
+      "used_bytes": 110171520
+    },
+    "dataset": {
+      "object_id": 54,
+      "dir_obj": 32,
+      "guid": 4697899903455869811,
+      "creation_txg": 1,
+      "creation_time": 1789767784,
+      "creation_utc": "2026-09-18T21:43:04+00:00",
+      "referenced_bytes": 178560,
+      "snapnames_zapobj": 55,
+      "prev_snap_obj": 401,
+      "objset_bp": "0:425c000:2000 0:829a000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=18L/18P fill=11"
+    },
+    "snapshots": [
+      {
+        "name": "base",
+        "obj": 401
+      }
+    ],
+    "errors": [],
+    "children": [
+      {
+        "name": "zrtest/$FREE",
+        "dir_obj": 38,
+        "dsl_dir": {
+          "object_id": 38,
+          "head_dataset_obj": 0,
+          "parent_obj": 32,
+          "origin_obj": 0,
+          "child_dir_zapobj": 40,
+          "props_zapobj": 39,
+          "used_bytes": 0
+        },
+        "dataset": null,
+        "snapshots": [],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/$MOS",
+        "dir_obj": 35,
+        "dsl_dir": {
+          "object_id": 35,
+          "head_dataset_obj": 0,
+          "parent_obj": 32,
+          "origin_obj": 0,
+          "child_dir_zapobj": 37,
+          "props_zapobj": 36,
+          "used_bytes": 857088
+        },
+        "dataset": null,
+        "snapshots": [],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/$ORIGIN",
+        "dir_obj": 42,
+        "dsl_dir": {
+          "object_id": 42,
+          "head_dataset_obj": 45,
+          "parent_obj": 32,
+          "origin_obj": 0,
+          "child_dir_zapobj": 44,
+          "props_zapobj": 43,
+          "used_bytes": 0
+        },
+        "dataset": {
+          "object_id": 45,
+          "dir_obj": 42,
+          "guid": 9720957823803349206,
+          "creation_txg": 1,
+          "creation_time": 1789767784,
+          "creation_utc": "2026-09-18T21:43:04+00:00",
+          "referenced_bytes": 0,
+          "snapnames_zapobj": 46,
+          "prev_snap_obj": 48,
+          "objset_bp": "<trou>"
+        },
+        "snapshots": [
+          {
+            "name": "$ORIGIN",
+            "obj": 48
+          }
+        ],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/big",
+        "dir_obj": 391,
+        "dsl_dir": {
+          "object_id": 391,
+          "head_dataset_obj": 394,
+          "parent_obj": 32,
+          "origin_obj": 48,
+          "child_dir_zapobj": 393,
+          "props_zapobj": 392,
+          "used_bytes": 97969920
+        },
+        "dataset": {
+          "object_id": 394,
+          "dir_obj": 391,
+          "guid": 16538488872473496078,
+          "creation_txg": 14,
+          "creation_time": 1789767785,
+          "creation_utc": "2026-09-18T21:43:05+00:00",
+          "referenced_bytes": 97969920,
+          "snapnames_zapobj": 395,
+          "prev_snap_obj": 411,
+          "objset_bp": "0:1a11a000:2000 0:8328000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=21L/21P fill=9"
+        },
+        "snapshots": [
+          {
+            "name": "base",
+            "obj": 411
+          }
+        ],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/blobs",
+        "dir_obj": 259,
+        "dsl_dir": {
+          "object_id": 259,
+          "head_dataset_obj": 262,
+          "parent_obj": 32,
+          "origin_obj": 48,
+          "child_dir_zapobj": 261,
+          "props_zapobj": 260,
+          "used_bytes": 8624448
+        },
+        "dataset": {
+          "object_id": 262,
+          "dir_obj": 259,
+          "guid": 8212199875403083475,
+          "creation_txg": 12,
+          "creation_time": 1789767785,
+          "creation_utc": "2026-09-18T21:43:05+00:00",
+          "referenced_bytes": 8624448,
+          "snapnames_zapobj": 263,
+          "prev_snap_obj": 409,
+          "objset_bp": "0:4262000:2000 0:82a0000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=18L/18P fill=9"
+        },
+        "snapshots": [
+          {
+            "name": "base",
+            "obj": 409
+          }
+        ],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/docs",
+        "dir_obj": 384,
+        "dsl_dir": {
+          "object_id": 384,
+          "head_dataset_obj": 387,
+          "parent_obj": 32,
+          "origin_obj": 48,
+          "child_dir_zapobj": 386,
+          "props_zapobj": 385,
+          "used_bytes": 583296
+        },
+        "dataset": {
+          "object_id": 387,
+          "dir_obj": 384,
+          "guid": 16886048776836884567,
+          "creation_txg": 10,
+          "creation_time": 1789767785,
+          "creation_utc": "2026-09-18T21:43:05+00:00",
+          "referenced_bytes": 583296,
+          "snapnames_zapobj": 388,
+          "prev_snap_obj": 407,
+          "objset_bp": "0:4260000:2000 0:829e000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=18L/18P fill=65"
+        },
+        "snapshots": [
+          {
+            "name": "base",
+            "obj": 407
+          }
+        ],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/edge",
+        "dir_obj": 267,
+        "dsl_dir": {
+          "object_id": 267,
+          "head_dataset_obj": 270,
+          "parent_obj": 32,
+          "origin_obj": 48,
+          "child_dir_zapobj": 269,
+          "props_zapobj": 268,
+          "used_bytes": 553536
+        },
+        "dataset": {
+          "object_id": 270,
+          "dir_obj": 267,
+          "guid": 5319459373051900289,
+          "creation_txg": 16,
+          "creation_time": 1789767785,
+          "creation_utc": "2026-09-18T21:43:05+00:00",
+          "referenced_bytes": 553536,
+          "snapnames_zapobj": 271,
+          "prev_snap_obj": 405,
+          "objset_bp": "0:1a100000:2000 0:8310000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=20L/20P fill=10"
+        },
+        "snapshots": [
+          {
+            "name": "base",
+            "obj": 405
+          }
+        ],
+        "errors": [],
+        "children": []
+      },
+      {
+        "name": "zrtest/small",
+        "dir_obj": 65,
+        "dsl_dir": {
+          "object_id": 65,
+          "head_dataset_obj": 68,
+          "parent_obj": 32,
+          "origin_obj": 48,
+          "child_dir_zapobj": 67,
+          "props_zapobj": 66,
+          "used_bytes": 1404672
+        },
+        "dataset": {
+          "object_id": 68,
+          "dir_obj": 65,
+          "guid": 617916243947214827,
+          "creation_txg": 7,
+          "creation_time": 1789767785,
+          "creation_utc": "2026-09-18T21:43:05+00:00",
+          "referenced_bytes": 1404672,
+          "snapnames_zapobj": 69,
+          "prev_snap_obj": 403,
+          "objset_bp": "0:425e000:2000 0:829c000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=18L/18P fill=206"
+        },
+        "snapshots": [
+          {
+            "name": "base",
+            "obj": 403
+          }
+        ],
+        "errors": [],
+        "children": []
+      }
+    ]
+  }
+}

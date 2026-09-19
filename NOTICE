@@ -1,0 +1,49 @@
+zfs-raidz1-rescue
+=================
+
+Copyright (c) 2026 les contributeurs du projet zfs-raidz1-rescue.
+
+Ce logiciel est distribue sous les termes de la Common Development and
+Distribution License version 1.0 (CDDL-1.0), reproduite dans le fichier
+LICENSE.
+
+Pourquoi la CDDL
+----------------
+
+Ce projet n'est pas une reimplementation independante de ZFS : plusieurs de
+ses modules sont des portages directs, ligne a ligne, de code OpenZFS publie
+sous CDDL-1.0, et toutes ses structures binaires sont recopiees depuis les
+en-tetes d'OpenZFS. Les emplacements exacts sont cites en commentaire dans
+chaque fichier concerne.
+
+  zfsrescue/raidz.py      portage de vdev_raidz_map_alloc()  (module/zfs/vdev_raidz.c)
+                          et de vdev_raidz_asize()
+  zfsrescue/checksum.py   fletcher-2 et fletcher-4 (module/zcommon/zfs_fletcher.c),
+                          SHA-256 facon ZFS (module/zfs/sha2_zfs.c)
+  zfsrescue/compress.py   LZJB (module/zfs/lzjb.c), ZLE (module/zfs/zle.c),
+                          en-tetes LZ4 et zstd
+  zfsrescue/nvlist.py     format XDR des nvlist (module/nvpair/nvpair.c)
+  zfsrescue/label.py      geometrie du label et checksum embarque
+                          (include/sys/vdev_impl.h, module/zfs/zio_checksum.c)
+  zfsrescue/blkptr.py     blkptr_t et ses accesseurs (include/sys/spa.h)
+  zfsrescue/uberblock.py  uberblock_t (include/sys/uberblock_impl.h)
+  zfsrescue/dmu.py        objset_phys_t, dnode_phys_t
+  zfsrescue/zap.py        micro-ZAP et fat ZAP (include/sys/zap_*.h)
+  zfsrescue/dsl.py        dsl_dir_phys_t, dsl_dataset_phys_t
+  zfsrescue/zpl.py        System Attributes et entrees de repertoire
+  zfsrescue/zfs_enums.py  GENERE automatiquement depuis les en-tetes OpenZFS
+
+Distribuer ce travail sous une licence plus permissive reviendrait a
+redistribuer du code derive de la CDDL sous d'autres termes. La CDDL-1.0 est
+donc retenue par coherence avec l'origine du code.
+
+OpenZFS
+-------
+
+OpenZFS est disponible sur https://github.com/openzfs/zfs et distribue sous
+CDDL-1.0. Le present projet n'est ni affilie ni approuve par le projet
+OpenZFS. Les eventuelles erreurs d'interpretation des structures ZFS sont
+imputables a ce projet, pas a OpenZFS.
+
+Le source OpenZFS utilise comme reference (version 2.3.9) n'est PAS inclus
+dans ce depot ; voir le README pour le recuperer.

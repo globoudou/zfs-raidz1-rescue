@@ -1,0 +1,1634 @@
+{
+  "tool": {
+    "name": "zfsrescue",
+    "version": "0.1.0",
+    "stage": "etape 2 — labels et topologie",
+    "openzfs_reference": "OpenZFS 2.3.9 (Debian zfs-linux 2.3.9-0+deb13u1)",
+    "read_only": true
+  },
+  "run": {
+    "timestamp_utc": "2026-09-18T21:57:21.649757+00:00",
+    "host": "testhost",
+    "python": "3.13.5"
+  },
+  "devices_supplied": [
+    {
+      "path": "testlab/images/diska.img",
+      "real_path": "/srv/zfsrescue/testlab/images/diska.img",
+      "kind": "file",
+      "size": 536870912,
+      "psize": 536870912,
+      "size_aligned_off": 0,
+      "logical_sector_size": null,
+      "physical_sector_size": null,
+      "opened_with_noatime": true,
+      "vdev_guid": 1175289873954860442,
+      "pool_guid": 16937172268484420114,
+      "labels_valid": 4,
+      "labels": [
+        {
+          "index": 0,
+          "offset": 0,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "10c627693b56265a",
+              "3be2f00c9db3c04c",
+              "78adaa72477c7d0a",
+              "a88051f43b645737"
+            ],
+            "computed": [
+              "10c627693b56265a",
+              "3be2f00c9db3c04c",
+              "78adaa72477c7d0a",
+              "a88051f43b645737"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 1175289873954860442,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 1,
+          "offset": 262144,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "dab06c4a1dec67c1",
+              "fb1d0e5a80b8e68f",
+              "7cb792f2d812fcf1",
+              "a35bd706d370dcf1"
+            ],
+            "computed": [
+              "dab06c4a1dec67c1",
+              "fb1d0e5a80b8e68f",
+              "7cb792f2d812fcf1",
+              "a35bd706d370dcf1"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 1175289873954860442,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 2,
+          "offset": 536346624,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "d86a9b0eda4c80a3",
+              "0f2799f408d9debf",
+              "e6eb798a32240bb8",
+              "5943e7a140fb419b"
+            ],
+            "computed": [
+              "d86a9b0eda4c80a3",
+              "0f2799f408d9debf",
+              "e6eb798a32240bb8",
+              "5943e7a140fb419b"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 1175289873954860442,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 3,
+          "offset": 536608768,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "cddf0d32927bef36",
+              "ec954f4b3f82e7a7",
+              "d6a2691e831d20c7",
+              "aaecf95f6dc1428a"
+            ],
+            "computed": [
+              "cddf0d32927bef36",
+              "ec954f4b3f82e7a7",
+              "d6a2691e831d20c7",
+              "aaecf95f6dc1428a"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 1175289873954860442,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        }
+      ]
+    },
+    {
+      "path": "testlab/images/diskb.img",
+      "real_path": "/srv/zfsrescue/testlab/images/diskb.img",
+      "kind": "file",
+      "size": 536870912,
+      "psize": 536870912,
+      "size_aligned_off": 0,
+      "logical_sector_size": null,
+      "physical_sector_size": null,
+      "opened_with_noatime": true,
+      "vdev_guid": 10206891752548120991,
+      "pool_guid": 16937172268484420114,
+      "labels_valid": 4,
+      "labels": [
+        {
+          "index": 0,
+          "offset": 0,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "c8dfc28cd5c3484b",
+              "636eb4d418aa204f",
+              "9cef4262c3653fab",
+              "3a4c04a804a0985f"
+            ],
+            "computed": [
+              "c8dfc28cd5c3484b",
+              "636eb4d418aa204f",
+              "9cef4262c3653fab",
+              "3a4c04a804a0985f"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 10206891752548120991,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 1,
+          "offset": 262144,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "029afc89d5e8b899",
+              "8d26d9e1f0cffdce",
+              "499cf03e57f11e4e",
+              "2ddc458b6484d971"
+            ],
+            "computed": [
+              "029afc89d5e8b899",
+              "8d26d9e1f0cffdce",
+              "499cf03e57f11e4e",
+              "2ddc458b6484d971"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 10206891752548120991,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 2,
+          "offset": 536346624,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "f3d0eb83e5bed7a6",
+              "9973b27255c1ccb6",
+              "22c5dd8e26b77168",
+              "08a93d69350f6dd6"
+            ],
+            "computed": [
+              "f3d0eb83e5bed7a6",
+              "9973b27255c1ccb6",
+              "22c5dd8e26b77168",
+              "08a93d69350f6dd6"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 10206891752548120991,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 3,
+          "offset": 536608768,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "837fe3b03327ea67",
+              "5429d03f56d5bf8c",
+              "1b7cfcace997afa8",
+              "e4c00e81ed889671"
+            ],
+            "computed": [
+              "837fe3b03327ea67",
+              "5429d03f56d5bf8c",
+              "1b7cfcace997afa8",
+              "e4c00e81ed889671"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 10206891752548120991,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        }
+      ]
+    },
+    {
+      "path": "testlab/images/diskc.img",
+      "real_path": "/srv/zfsrescue/testlab/images/diskc.img",
+      "kind": "file",
+      "size": 536870912,
+      "psize": 536870912,
+      "size_aligned_off": 0,
+      "logical_sector_size": null,
+      "physical_sector_size": null,
+      "opened_with_noatime": true,
+      "vdev_guid": 11093400500959107295,
+      "pool_guid": 16937172268484420114,
+      "labels_valid": 4,
+      "labels": [
+        {
+          "index": 0,
+          "offset": 0,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "527ebfd51a20f287",
+              "7c23bc69518c207c",
+              "79850793c4e63353",
+              "b5199942d89b715b"
+            ],
+            "computed": [
+              "527ebfd51a20f287",
+              "7c23bc69518c207c",
+              "79850793c4e63353",
+              "b5199942d89b715b"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 11093400500959107295,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 1,
+          "offset": 262144,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "fc8c083f2c49579e",
+              "75d179fb9e19cdce",
+              "3b4bd6b58517f19b",
+              "f0e31e98a5b38670"
+            ],
+            "computed": [
+              "fc8c083f2c49579e",
+              "75d179fb9e19cdce",
+              "3b4bd6b58517f19b",
+              "f0e31e98a5b38670"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 11093400500959107295,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 2,
+          "offset": 536346624,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "8436dfbf3732bbe7",
+              "b7a890a04e8eae23",
+              "761d56dc995772ca",
+              "6922525c2ee64873"
+            ],
+            "computed": [
+              "8436dfbf3732bbe7",
+              "b7a890a04e8eae23",
+              "761d56dc995772ca",
+              "6922525c2ee64873"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 11093400500959107295,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 3,
+          "offset": 536608768,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "bba3329c8c80b208",
+              "d80093ab3d2f7890",
+              "cd627f189c0abbc9",
+              "8fd370fe7f72e968"
+            ],
+            "computed": [
+              "bba3329c8c80b208",
+              "d80093ab3d2f7890",
+              "cd627f189c0abbc9",
+              "8fd370fe7f72e968"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 11093400500959107295,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        }
+      ]
+    },
+    {
+      "path": "testlab/images/diskd.img",
+      "real_path": "/srv/zfsrescue/testlab/images/diskd.img",
+      "kind": "file",
+      "size": 536870912,
+      "psize": 536870912,
+      "size_aligned_off": 0,
+      "logical_sector_size": null,
+      "physical_sector_size": null,
+      "opened_with_noatime": true,
+      "vdev_guid": 18241272884698506692,
+      "pool_guid": 16937172268484420114,
+      "labels_valid": 4,
+      "labels": [
+        {
+          "index": 0,
+          "offset": 0,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "503c3c19a416c51d",
+              "c06ab04a1b3a1ad5",
+              "c955f829f27fe9cc",
+              "ae93a4550055aee4"
+            ],
+            "computed": [
+              "503c3c19a416c51d",
+              "c06ab04a1b3a1ad5",
+              "c955f829f27fe9cc",
+              "ae93a4550055aee4"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 18241272884698506692,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 1,
+          "offset": 262144,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "b128eabe4c98e2f9",
+              "907bc1b93f5bff92",
+              "8f52d12e45c2da26",
+              "2d955949669022a2"
+            ],
+            "computed": [
+              "b128eabe4c98e2f9",
+              "907bc1b93f5bff92",
+              "8f52d12e45c2da26",
+              "2d955949669022a2"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 18241272884698506692,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 2,
+          "offset": 536346624,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "a58979768f8383da",
+              "611a90f4a50bfdda",
+              "0bf12242c83d1f4b",
+              "dfcc8c1f326d3715"
+            ],
+            "computed": [
+              "a58979768f8383da",
+              "611a90f4a50bfdda",
+              "0bf12242c83d1f4b",
+              "dfcc8c1f326d3715"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 18241272884698506692,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        },
+        {
+          "index": 3,
+          "offset": 536608768,
+          "present": true,
+          "valid": true,
+          "nvlist_encoding": "xdr",
+          "nvlist_endian": "little",
+          "checksum": {
+            "magic_ok": true,
+            "byteswapped": false,
+            "valid": true,
+            "stored": [
+              "233c188a20bff281",
+              "f177a4d876990ebe",
+              "6763f2a5ed0e18a1",
+              "cb98718437ba01dc"
+            ],
+            "computed": [
+              "233c188a20bff281",
+              "f177a4d876990ebe",
+              "6763f2a5ed0e18a1",
+              "cb98718437ba01dc"
+            ]
+          },
+          "errors": [],
+          "config": {
+            "version": 5000,
+            "name": "zrtest",
+            "state": 1,
+            "txg": 41,
+            "pool_guid": 16937172268484420114,
+            "errata": 0,
+            "min_alloc": 4096,
+            "max_alloc": 4096,
+            "hostid": 0,
+            "hostname": "testhost",
+            "top_guid": 4297192006630364948,
+            "guid": 18241272884698506692,
+            "vdev_children": 1,
+            "vdev_tree": {
+              "type": "raidz",
+              "id": 0,
+              "guid": 4297192006630364948,
+              "nparity": 1,
+              "metaslab_array": 135,
+              "metaslab_shift": 27,
+              "ashift": 12,
+              "asize": 2128609280,
+              "min_alloc": 4096,
+              "is_log": 0,
+              "create_txg": 4,
+              "children": [
+                {
+                  "type": "file",
+                  "id": 0,
+                  "guid": 1175289873954860442,
+                  "path": "/srv/zfsrescue/testlab/images/diska.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 1,
+                  "guid": 10206891752548120991,
+                  "path": "/srv/zfsrescue/testlab/images/diskb.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 2,
+                  "guid": 11093400500959107295,
+                  "path": "/srv/zfsrescue/testlab/images/diskc.img",
+                  "create_txg": 4
+                },
+                {
+                  "type": "file",
+                  "id": 3,
+                  "guid": 18241272884698506692,
+                  "path": "/srv/zfsrescue/testlab/images/diskd.img",
+                  "create_txg": 4
+                }
+              ]
+            },
+            "features_for_read": {
+              "com.delphix:hole_birth": true,
+              "com.delphix:embedded_data": true,
+              "com.klarasystems:vdev_zaps_v2": true
+            }
+          },
+          "anomalies_nvlist": []
+        }
+      ]
+    }
+  ],
+  "pool": {
+    "name": "zrtest",
+    "pool_guid": 16937172268484420114,
+    "state": 1,
+    "state_name": "EXPORTED",
+    "version": 5000,
+    "txg_from_label": 41,
+    "hostid": 0,
+    "hostname": "testhost",
+    "errata": 0,
+    "config_source": {
+      "device": "testlab/images/diska.img",
+      "label": 0
+    },
+    "features_for_read": {
+      "com.delphix:hole_birth": true,
+      "com.delphix:embedded_data": true,
+      "com.klarasystems:vdev_zaps_v2": true
+    },
+    "top_level_vdevs": [
+      {
+        "id": 0,
+        "guid": 4297192006630364948,
+        "type": "raidz",
+        "nparity": 1,
+        "ashift": 12,
+        "asize": 2128609280,
+        "is_log": 0,
+        "children_total": 4,
+        "children_available": 4,
+        "children_missing": 0,
+        "children": [
+          {
+            "id": 0,
+            "guid": 1175289873954860442,
+            "type": "file",
+            "path_in_label": "/srv/zfsrescue/testlab/images/diska.img",
+            "state": "AVAILABLE",
+            "device_path": "testlab/images/diska.img",
+            "psize": 536870912,
+            "asize": 532152320,
+            "labels_valid": 4
+          },
+          {
+            "id": 1,
+            "guid": 10206891752548120991,
+            "type": "file",
+            "path_in_label": "/srv/zfsrescue/testlab/images/diskb.img",
+            "state": "AVAILABLE",
+            "device_path": "testlab/images/diskb.img",
+            "psize": 536870912,
+            "asize": 532152320,
+            "labels_valid": 4
+          },
+          {
+            "id": 2,
+            "guid": 11093400500959107295,
+            "type": "file",
+            "path_in_label": "/srv/zfsrescue/testlab/images/diskc.img",
+            "state": "AVAILABLE",
+            "device_path": "testlab/images/diskc.img",
+            "psize": 536870912,
+            "asize": 532152320,
+            "labels_valid": 4
+          },
+          {
+            "id": 3,
+            "guid": 18241272884698506692,
+            "type": "file",
+            "path_in_label": "/srv/zfsrescue/testlab/images/diskd.img",
+            "state": "AVAILABLE",
+            "device_path": "testlab/images/diskd.img",
+            "psize": 536870912,
+            "asize": 532152320,
+            "labels_valid": 4
+          }
+        ],
+        "raidz_mapping": {
+          "vdev_type": "raidz",
+          "nparity": 1,
+          "ncols": 4,
+          "ashift": 12,
+          "sector_size": 4096,
+          "asize_total": 2128609280,
+          "asize_per_child": 532152320,
+          "leaf_data_start": 4194304,
+          "leaf_reserved_end": 524288,
+          "metaslab_array": 135,
+          "metaslab_shift": 27,
+          "metaslab_size": 134217728,
+          "metaslab_count": 15,
+          "uberblock_shift": 12,
+          "uberblock_size": 4096,
+          "uberblocks_per_label": 32,
+          "max_reconstructible_missing_columns": 1
+        }
+      }
+    ],
+    "warnings": [],
+    "inconsistencies": []
+  },
+  "recoverability": {
+    "per_top_level_vdev": [
+      {
+        "vdev_id": 0,
+        "columns_total": 4,
+        "columns_available": 4,
+        "columns_missing": 0,
+        "parity": 1,
+        "full_stripe_reconstructible": true,
+        "comment": "Toute stripe reste reconstructible (pertes <= parite)."
+      }
+    ]
+  }
+}

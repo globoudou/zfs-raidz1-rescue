@@ -1,0 +1,558 @@
+{
+  "pool": {
+    "name": "zrtest",
+    "pool_guid": 16937172268484420114,
+    "txg_from_label": 41
+  },
+  "ashift": 12,
+  "ring": {
+    "uberblock_size": 4096,
+    "slots_per_label": 32,
+    "labels_per_device": 4,
+    "devices": 2
+  },
+  "counts": {
+    "slots_examined": 256,
+    "with_magic": 160,
+    "valid": 160,
+    "corrupt": 0
+  },
+  "guid_sum_expected": 6610987066146725634,
+  "best": {
+    "device": "testlab/scenarios/missing_a_b/diskc.img",
+    "label": 0,
+    "slot": 9,
+    "offset": 167936,
+    "slot_size": 4096,
+    "valid": true,
+    "magic_ok": true,
+    "byteswapped": false,
+    "checksum": {
+      "magic_ok": true,
+      "byteswapped": false,
+      "valid": true,
+      "stored": [
+        "4bf7a582976acd80",
+        "d142afe65dd2c4c0",
+        "ae3ce42bc460e41a",
+        "bb7bfd0ccc87f61c"
+      ],
+      "computed": [
+        "4bf7a582976acd80",
+        "d142afe65dd2c4c0",
+        "ae3ce42bc460e41a",
+        "bb7bfd0ccc87f61c"
+      ]
+    },
+    "version": 5000,
+    "txg": 41,
+    "guid_sum": 6610987066146725634,
+    "timestamp": 1789767797,
+    "timestamp_utc": "2026-09-18T21:43:17+00:00",
+    "software_version": 5000,
+    "mmp": {
+      "magic_ok": true,
+      "enabled": false,
+      "delay": 0,
+      "config": 0
+    },
+    "checkpoint_txg": 0,
+    "raidz_reflow_info": 0,
+    "raidz_reflow_state": 0,
+    "raidz_reflow_state_name": "NOT_IN_USE",
+    "raidz_reflow_offset": 0,
+    "rootbp": {
+      "hole": false,
+      "embedded": false,
+      "gang": false,
+      "level": 0,
+      "type": 11,
+      "type_name": "objset",
+      "lsize": 4096,
+      "psize": 4096,
+      "compress": "off",
+      "checksum": "fletcher_4",
+      "byteorder": "little",
+      "dedup": false,
+      "encrypted": false,
+      "birth_logical": 41,
+      "birth_physical": 0,
+      "fill": 93,
+      "copies": 3,
+      "cksum": [
+        "00000002fcd3d1e8",
+        "00000b748417cb45",
+        "0015fbfb58160599",
+        "1c2866801d02d37d"
+      ],
+      "dvas": [
+        {
+          "vdev": 0,
+          "offset": 437903360,
+          "asize": 8192,
+          "gang": false,
+          "text": "0:1a19e000:2000"
+        },
+        {
+          "vdev": 0,
+          "offset": 138067968,
+          "asize": 8192,
+          "gang": false,
+          "text": "0:83ac000:2000"
+        },
+        {
+          "vdev": 0,
+          "offset": 537575424,
+          "asize": 8192,
+          "gang": false,
+          "text": "0:200ac000:2000"
+        }
+      ]
+    },
+    "rootbp_text": "0:1a19e000:2000 0:83ac000:2000 0:200ac000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=41L/0P fill=93",
+    "errors": []
+  },
+  "history": [
+    {
+      "txg": 41,
+      "timestamp": 1789767797,
+      "timestamp_utc": "2026-09-18T21:43:17+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 9,
+      "coherent_copies": true,
+      "rootbp": "0:1a19e000:2000 0:83ac000:2000 0:200ac000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=41L/0P fill=93",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 32,
+      "timestamp": 1789767797,
+      "timestamp_utc": "2026-09-18T21:43:17+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 0,
+      "coherent_copies": true,
+      "rootbp": "0:1a194000:2000 0:83a2000:2000 0:200a2000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=32L/0P fill=97",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 25,
+      "timestamp": 1789767794,
+      "timestamp_utc": "2026-09-18T21:43:14+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 25,
+      "coherent_copies": true,
+      "rootbp": "0:1a180000:2000 0:838e000:2000 0:2008e000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=25L/0P fill=97",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 24,
+      "timestamp": 1789767788,
+      "timestamp_utc": "2026-09-18T21:43:08+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 24,
+      "coherent_copies": true,
+      "rootbp": "0:1a16c000:2000 0:837a000:2000 0:2007a000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=24L/0P fill=96",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 21,
+      "timestamp": 1789767788,
+      "timestamp_utc": "2026-09-18T21:43:08+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 21,
+      "coherent_copies": true,
+      "rootbp": "0:1a122000:2000 0:8330000:2000 0:20030000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=21L/0P fill=83",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 20,
+      "timestamp": 1789767788,
+      "timestamp_utc": "2026-09-18T21:43:08+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 20,
+      "coherent_copies": true,
+      "rootbp": "0:1a10e000:2000 0:831e000:2000 0:20020000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=20L/0P fill=83",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 19,
+      "timestamp": 1789767786,
+      "timestamp_utc": "2026-09-18T21:43:06+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 19,
+      "coherent_copies": true,
+      "rootbp": "0:19824000:2000 0:82d8000:2000 0:20006000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=19L/0P fill=83",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 18,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 18,
+      "coherent_copies": true,
+      "rootbp": "0:4274000:2000 0:82b2000:2000 0:1014c000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=18L/0P fill=81",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 17,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 17,
+      "coherent_copies": true,
+      "rootbp": "0:228000:2000 0:8228000:2000 0:1013a000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=17L/0P fill=81",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 16,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 16,
+      "coherent_copies": true,
+      "rootbp": "0:1ea000:2000 0:81ea000:2000 0:10114000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=16L/0P fill=81",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 15,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 15,
+      "coherent_copies": true,
+      "rootbp": "0:1d0000:2000 0:81d0000:2000 0:1010c000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=15L/0P fill=75",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 14,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 14,
+      "coherent_copies": true,
+      "rootbp": "0:190000:2000 0:8190000:2000 0:100e4000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=14L/0P fill=75",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 13,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 13,
+      "coherent_copies": true,
+      "rootbp": "0:176000:2000 0:8176000:2000 0:100dc000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=13L/0P fill=69",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 12,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 12,
+      "coherent_copies": true,
+      "rootbp": "0:138000:2000 0:8138000:2000 0:100b6000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=12L/0P fill=69",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 11,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 11,
+      "coherent_copies": true,
+      "rootbp": "0:11e000:2000 0:811e000:2000 0:100ae000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=11L/0P fill=63",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 10,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 10,
+      "coherent_copies": true,
+      "rootbp": "0:de000:2000 0:80de000:2000 0:10086000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=10L/0P fill=63",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 7,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 7,
+      "coherent_copies": true,
+      "rootbp": "0:aa000:2000 0:80aa000:2000 0:10068000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=7L/0P fill=57",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 6,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 6,
+      "coherent_copies": true,
+      "rootbp": "0:6e000:2000 0:806e000:2000 0:10044000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=6L/0P fill=50",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 5,
+      "timestamp": 1789767785,
+      "timestamp_utc": "2026-09-18T21:43:05+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 5,
+      "coherent_copies": true,
+      "rootbp": "0:52000:2000 0:8052000:2000 0:10038000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=5L/0P fill=49",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    },
+    {
+      "txg": 4,
+      "timestamp": 1789767784,
+      "timestamp_utc": "2026-09-18T21:43:04+00:00",
+      "copies": 8,
+      "devices": [
+        "testlab/scenarios/missing_a_b/diskc.img",
+        "testlab/scenarios/missing_a_b/diskd.img"
+      ],
+      "labels": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot": 4,
+      "coherent_copies": true,
+      "rootbp": "0:36000:2000 0:8036000:2000 0:1001c000:2000 [L0 objset] fletcher_4 off size=1000L/1000P birth=4L/0P fill=48",
+      "rootbp_copies": 3,
+      "checkpoint_txg": 0,
+      "raidz_reflow_state": 0
+    }
+  ],
+  "warnings": []
+}

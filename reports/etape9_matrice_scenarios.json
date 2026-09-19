@@ -1,0 +1,778 @@
+{
+  "scenarios": [
+    {
+      "survivants": [
+        "a",
+        "b"
+      ],
+      "colonnes": [
+        0,
+        1
+      ],
+      "datasets": {
+        "zrtest": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 416
+        },
+        "zrtest/big": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 160
+        },
+        "zrtest/blobs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 160
+        },
+        "zrtest/docs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 25,
+            "by_state": {
+              "COMPLET": 12,
+              "PARTIEL": 2,
+              "PERDU": 11
+            },
+            "bytes_recovered": 1535990,
+            "bytes_missing": 1500930,
+            "blocks_total": 44,
+            "blocks_ok": 23,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.5057722956152945
+          },
+          "sa_infere": 32,
+          "dnodes_illisibles": 32
+        },
+        "zrtest/edge": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 64
+        },
+        "zrtest/small": {
+          "lisible": true,
+          "resume": {
+            "files_total": 168,
+            "by_state": {
+              "COMPLET": 85,
+              "PERDU": 83
+            },
+            "bytes_recovered": 110806,
+            "bytes_missing": 97919,
+            "blocks_total": 168,
+            "blocks_ok": 85,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.5308707629656246
+          },
+          "sa_infere": 169,
+          "dnodes_illisibles": 32
+        }
+      },
+      "faux": [],
+      "fichiers": {
+        "COMPLET": 97,
+        "PARTIEL": 2,
+        "PERDU": 94,
+        "total": 193
+      },
+      "octets": {
+        "recuperes": 1646796,
+        "perdus": 1598849,
+        "ratio": 50.74
+      },
+      "blocs": {
+        "total": 212,
+        "ok": 108,
+        "reconstruits": 0
+      },
+      "duree_s": 0.5
+    },
+    {
+      "survivants": [
+        "a",
+        "c"
+      ],
+      "colonnes": [
+        0,
+        2
+      ],
+      "datasets": {
+        "zrtest": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/big": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "COMPLET": 1,
+              "PERDU": 2
+            },
+            "bytes_recovered": 6291456,
+            "bytes_missing": 100663296,
+            "blocks_total": 102,
+            "blocks_ok": 6,
+            "blocks_reconstructed": 6,
+            "ratio_bytes": 0.058823529411764705
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/blobs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "PERDU": 3
+            },
+            "bytes_recovered": 0,
+            "bytes_missing": 8454144,
+            "blocks_total": 65,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/docs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 47,
+            "by_state": {
+              "COMPLET": 47
+            },
+            "bytes_recovered": 3437925,
+            "bytes_missing": 0,
+            "blocks_total": 66,
+            "blocks_ok": 66,
+            "blocks_reconstructed": 28,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/edge": {
+          "lisible": true,
+          "resume": {
+            "files_total": 4,
+            "by_state": {
+              "COMPLET": 1,
+              "PERDU": 2,
+              "VIDE": 1
+            },
+            "bytes_recovered": 1,
+            "bytes_missing": 262145,
+            "blocks_total": 4,
+            "blocks_ok": 1,
+            "blocks_reconstructed": 1,
+            "ratio_bytes": 3.814668162016586e-06
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/small": {
+          "lisible": true,
+          "resume": {
+            "files_total": 200,
+            "by_state": {
+              "COMPLET": 200
+            },
+            "bytes_recovered": 244347,
+            "bytes_missing": 0,
+            "blocks_total": 200,
+            "blocks_ok": 200,
+            "blocks_reconstructed": 123,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        }
+      },
+      "faux": [],
+      "fichiers": {
+        "COMPLET": 249,
+        "PERDU": 7,
+        "VIDE": 1,
+        "total": 257
+      },
+      "octets": {
+        "recuperes": 9973729,
+        "perdus": 109379585,
+        "ratio": 8.36
+      },
+      "blocs": {
+        "total": 437,
+        "ok": 273,
+        "reconstruits": 158
+      },
+      "duree_s": 2.1
+    },
+    {
+      "survivants": [
+        "a",
+        "d"
+      ],
+      "colonnes": [
+        0,
+        3
+      ],
+      "datasets": {
+        "zrtest": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/big": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "PERDU": 3
+            },
+            "bytes_recovered": 0,
+            "bytes_missing": 106954752,
+            "blocks_total": 102,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/blobs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "PERDU": 3
+            },
+            "bytes_recovered": 0,
+            "bytes_missing": 8454144,
+            "blocks_total": 65,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/docs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 47,
+            "by_state": {
+              "COMPLET": 47
+            },
+            "bytes_recovered": 3437925,
+            "bytes_missing": 0,
+            "blocks_total": 66,
+            "blocks_ok": 66,
+            "blocks_reconstructed": 33,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/edge": {
+          "lisible": true,
+          "resume": {
+            "files_total": 4,
+            "by_state": {
+              "COMPLET": 1,
+              "PERDU": 2,
+              "VIDE": 1
+            },
+            "bytes_recovered": 1,
+            "bytes_missing": 262145,
+            "blocks_total": 4,
+            "blocks_ok": 1,
+            "blocks_reconstructed": 1,
+            "ratio_bytes": 3.814668162016586e-06
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/small": {
+          "lisible": true,
+          "resume": {
+            "files_total": 200,
+            "by_state": {
+              "COMPLET": 200
+            },
+            "bytes_recovered": 244347,
+            "bytes_missing": 0,
+            "blocks_total": 200,
+            "blocks_ok": 200,
+            "blocks_reconstructed": 98,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        }
+      },
+      "faux": [],
+      "fichiers": {
+        "COMPLET": 248,
+        "PERDU": 8,
+        "VIDE": 1,
+        "total": 257
+      },
+      "octets": {
+        "recuperes": 3682273,
+        "perdus": 115671041,
+        "ratio": 3.09
+      },
+      "blocs": {
+        "total": 437,
+        "ok": 267,
+        "reconstruits": 132
+      },
+      "duree_s": 1.4
+    },
+    {
+      "survivants": [
+        "b",
+        "c"
+      ],
+      "colonnes": [
+        1,
+        2
+      ],
+      "datasets": {
+        "zrtest": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/big": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "COMPLET": 1,
+              "PERDU": 2
+            },
+            "bytes_recovered": 6291456,
+            "bytes_missing": 100663296,
+            "blocks_total": 102,
+            "blocks_ok": 6,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.058823529411764705
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/blobs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "PERDU": 3
+            },
+            "bytes_recovered": 0,
+            "bytes_missing": 8454144,
+            "blocks_total": 65,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/docs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 47,
+            "by_state": {
+              "COMPLET": 47
+            },
+            "bytes_recovered": 3437925,
+            "bytes_missing": 0,
+            "blocks_total": 66,
+            "blocks_ok": 66,
+            "blocks_reconstructed": 33,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/edge": {
+          "lisible": true,
+          "resume": {
+            "files_total": 4,
+            "by_state": {
+              "COMPLET": 1,
+              "PERDU": 2,
+              "VIDE": 1
+            },
+            "bytes_recovered": 1,
+            "bytes_missing": 262145,
+            "blocks_total": 4,
+            "blocks_ok": 1,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 3.814668162016586e-06
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/small": {
+          "lisible": true,
+          "resume": {
+            "files_total": 200,
+            "by_state": {
+              "COMPLET": 200
+            },
+            "bytes_recovered": 244347,
+            "bytes_missing": 0,
+            "blocks_total": 200,
+            "blocks_ok": 200,
+            "blocks_reconstructed": 102,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        }
+      },
+      "faux": [],
+      "fichiers": {
+        "COMPLET": 249,
+        "PERDU": 7,
+        "VIDE": 1,
+        "total": 257
+      },
+      "octets": {
+        "recuperes": 9973729,
+        "perdus": 109379585,
+        "ratio": 8.36
+      },
+      "blocs": {
+        "total": 437,
+        "ok": 273,
+        "reconstruits": 135
+      },
+      "duree_s": 2.0
+    },
+    {
+      "survivants": [
+        "b",
+        "d"
+      ],
+      "colonnes": [
+        1,
+        3
+      ],
+      "datasets": {
+        "zrtest": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/big": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "PERDU": 3
+            },
+            "bytes_recovered": 0,
+            "bytes_missing": 106954752,
+            "blocks_total": 102,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/blobs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 3,
+            "by_state": {
+              "PERDU": 3
+            },
+            "bytes_recovered": 0,
+            "bytes_missing": 8454144,
+            "blocks_total": 65,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/docs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 47,
+            "by_state": {
+              "COMPLET": 47
+            },
+            "bytes_recovered": 3437925,
+            "bytes_missing": 0,
+            "blocks_total": 66,
+            "blocks_ok": 66,
+            "blocks_reconstructed": 38,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/edge": {
+          "lisible": true,
+          "resume": {
+            "files_total": 4,
+            "by_state": {
+              "COMPLET": 1,
+              "PERDU": 2,
+              "VIDE": 1
+            },
+            "bytes_recovered": 1,
+            "bytes_missing": 262145,
+            "blocks_total": 4,
+            "blocks_ok": 1,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 3.814668162016586e-06
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/small": {
+          "lisible": true,
+          "resume": {
+            "files_total": 200,
+            "by_state": {
+              "COMPLET": 200
+            },
+            "bytes_recovered": 244347,
+            "bytes_missing": 0,
+            "blocks_total": 200,
+            "blocks_ok": 200,
+            "blocks_reconstructed": 77,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 0
+        }
+      },
+      "faux": [],
+      "fichiers": {
+        "COMPLET": 248,
+        "PERDU": 8,
+        "VIDE": 1,
+        "total": 257
+      },
+      "octets": {
+        "recuperes": 3682273,
+        "perdus": 115671041,
+        "ratio": 3.09
+      },
+      "blocs": {
+        "total": 437,
+        "ok": 267,
+        "reconstruits": 115
+      },
+      "duree_s": 1.4
+    },
+    {
+      "survivants": [
+        "c",
+        "d"
+      ],
+      "colonnes": [
+        2,
+        3
+      ],
+      "datasets": {
+        "zrtest": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 4,
+          "dnodes_illisibles": 64
+        },
+        "zrtest/big": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 160
+        },
+        "zrtest/blobs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 0,
+            "by_state": {},
+            "bytes_recovered": 0,
+            "bytes_missing": 0,
+            "blocks_total": 0,
+            "blocks_ok": 0,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 1.0
+          },
+          "sa_infere": 0,
+          "dnodes_illisibles": 160
+        },
+        "zrtest/docs": {
+          "lisible": true,
+          "resume": {
+            "files_total": 47,
+            "by_state": {
+              "COMPLET": 21,
+              "PARTIEL": 2,
+              "PERDU": 24
+            },
+            "bytes_recovered": 1692635,
+            "bytes_missing": 1745290,
+            "blocks_total": 66,
+            "blocks_ok": 31,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.4923420377117011
+          },
+          "sa_infere": 60,
+          "dnodes_illisibles": 0
+        },
+        "zrtest/edge": {
+          "lisible": false,
+          "etat": "MISSING_DATA"
+        },
+        "zrtest/small": {
+          "lisible": true,
+          "resume": {
+            "files_total": 168,
+            "by_state": {
+              "COMPLET": 82,
+              "PERDU": 86
+            },
+            "bytes_recovered": 95935,
+            "bytes_missing": 106022,
+            "blocks_total": 168,
+            "blocks_ok": 82,
+            "blocks_reconstructed": 0,
+            "ratio_bytes": 0.47502686215382484
+          },
+          "sa_infere": 169,
+          "dnodes_illisibles": 32
+        }
+      },
+      "faux": [],
+      "fichiers": {
+        "COMPLET": 103,
+        "PARTIEL": 2,
+        "PERDU": 110,
+        "total": 215
+      },
+      "octets": {
+        "recuperes": 1788570,
+        "perdus": 1851312,
+        "ratio": 49.14
+      },
+      "blocs": {
+        "total": 234,
+        "ok": 113,
+        "reconstruits": 0
+      },
+      "duree_s": 0.6
+    }
+  ],
+  "fichiers_reference": 257
+}

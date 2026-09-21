@@ -91,6 +91,20 @@ python3 scripts/60_scenarios_matrix.py                # les 6 scénarios, valid�
   après chaque exécution (`scripts/90_verify_readonly.sh`) ;
 - la seule écriture de l'outil est le fichier de rapport demandé par `--json`.
 
+## Clé USB amorçable
+
+Une image live Debian embarquant l'outil, `ddrescue` et `zdb`, qui **passe tous
+les disques en lecture seule au démarrage** et interdit le chargement du module
+noyau ZFS :
+
+```bash
+sudo apt install -y mmdebstrap squashfs-tools xorriso \
+     grub-efi-amd64-bin grub-pc-bin mtools dosfstools
+bash live/build.sh            # construction sans droits root (~10 min)
+```
+
+Voir `docs/cle_usb_bootable.md`.
+
 ## Licence et origine du code
 
 Projet distribué sous **CDDL-1.0**, comme OpenZFS. Ce n'est pas une

@@ -20,3 +20,6 @@ venv/
 
 # rapports produits sur de vraies images : ils decrivent VOS donnees
 reports/reel_*/
+
+# repertoire de construction de l image live
+build/

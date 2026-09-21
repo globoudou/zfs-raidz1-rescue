@@ -1,0 +1,5 @@
+#!/bin/sh
+# Passe un disque en lecture seule, sauf si la protection a ete desactivee
+# au demarrage (parametre noyau « zfsrescue.noro »).
+grep -qw zfsrescue.noro /proc/cmdline && exit 0
+exec /sbin/blockdev --setro "$1"

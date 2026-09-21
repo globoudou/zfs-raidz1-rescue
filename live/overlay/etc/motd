@@ -1,0 +1,30 @@
+
+  ######  zfs-raidz1-rescue  —  systeme de recuperation forensic  ######
+
+  PROTECTION EN ECRITURE ACTIVE : tous les disques detectes sont passes en
+  lecture seule par le noyau. Rien ne peut ecrire dessus par accident.
+
+  1. Etat des disques
+        zfsrescue-status
+
+  2. Imager les disques survivants (vers un support de travail)
+        zfsrescue-unlock /dev/sdZ            # le support de DESTINATION
+        mount /dev/sdZ1 /mnt
+        ddrescue -f -n /dev/sda /mnt/disk1.img /mnt/disk1.map
+        ddrescue -f -r3 /dev/sda /mnt/disk1.img /mnt/disk1.map
+        sha256sum /mnt/disk1.img | tee /mnt/disk1.img.sha256
+
+  3. Analyser les images, sans rien extraire
+        cd /opt/zfs-raidz1-rescue
+        bash scripts/70_analyse_reelle.sh /mnt/disk1.img /mnt/disk2.img
+
+  4. Extraire, seulement apres lecture du rapport
+        zfsrescue extract /mnt/disk1.img /mnt/disk2.img \
+                  --dest /mnt/recuperation --blocks --json /mnt/rapport.json
+
+  Documentation complete : /opt/zfs-raidz1-rescue/docs/
+  Procedure detaillee   : /opt/zfs-raidz1-rescue/docs/etape10_procedure_reelle.md
+
+  Le pool n'est JAMAIS importe et le module noyau ZFS n'est pas charge :
+  seul zdb, en espace utilisateur, est disponible pour verification.
+

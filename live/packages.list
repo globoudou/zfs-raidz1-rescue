@@ -1,0 +1,56 @@
+# Paquets du systeme live « zfs-raidz1-rescue ».
+# Une ligne par paquet ; les lignes vides et les commentaires sont ignores.
+
+# --- systeme de base et amorcage live ---------------------------------------
+linux-image-amd64
+firmware-linux-free
+live-boot
+systemd-sysv
+udev
+dbus
+kbd
+console-setup
+keyboard-configuration
+locales
+less
+nano
+file
+bsdextrautils
+
+# --- l'outil lui-meme ---------------------------------------------------------
+python3
+python3-zstandard          # lecture des blocs compresses en zstd
+
+# --- ZFS en espace utilisateur (zdb) -----------------------------------------
+# Volontairement SANS zfs-dkms : l'outil ne charge jamais le module noyau et
+# n'importe jamais le pool. zdb fonctionne en espace utilisateur.
+zfsutils-linux
+
+# --- imagerie et diagnostic des disques --------------------------------------
+gddrescue                  # ddrescue : copie avec journal des secteurs illisibles
+smartmontools
+nvme-cli
+hdparm
+sdparm
+lsscsi
+usbutils
+pciutils
+
+# --- preparation du support de destination -----------------------------------
+parted
+gdisk
+dosfstools
+e2fsprogs
+exfatprogs
+ntfs-3g
+rsync
+pv
+
+# --- confort ------------------------------------------------------------------
+tmux
+htop
+lsof
+ca-certificates
+iproute2
+iputils-ping
+isc-dhcp-client

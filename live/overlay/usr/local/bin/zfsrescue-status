@@ -1,0 +1,16 @@
+#!/bin/sh
+# Etat de protection en ecriture de tous les disques detectes.
+printf '%-14s %-10s %-9s %-22s %s\n' PERIPHERIQUE TAILLE ECRITURE MODELE "POINTS DE MONTAGE"
+for d in /sys/block/*; do
+    n=$(basename "$d")
+    case "$n" in loop*|ram*|sr*|dm-*|zram*) continue ;; esac
+    ro=$(cat "$d/ro" 2>/dev/null)
+    [ "$ro" = "1" ] && etat="BLOQUEE" || etat="autorisee"
+    taille=$(lsblk -dn -o SIZE "/dev/$n" 2>/dev/null | tr -d ' ')
+    modele=$(lsblk -dn -o MODEL "/dev/$n" 2>/dev/null | cut -c1-22)
+    mnt=$(lsblk -n -o MOUNTPOINT "/dev/$n" 2>/dev/null | tr '\n' ' ' | tr -s ' ')
+    printf '%-14s %-10s %-9s %-22s %s\n' "/dev/$n" "$taille" "$etat" "$modele" "$mnt"
+done
+echo
+echo "BLOQUEE = le noyau refuse toute ecriture (protection forensic active)."
+echo "Pour autoriser l'ecriture sur le support de DESTINATION : zfsrescue-unlock /dev/sdX"

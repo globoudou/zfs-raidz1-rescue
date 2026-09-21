@@ -1,0 +1,44 @@
+#!/bin/sh
+# =============================================================================
+# Retire la protection en ecriture d'UN disque — a n'utiliser que sur le
+# support de DESTINATION, jamais sur un disque source.
+# =============================================================================
+set -e
+disque="$1"
+
+if [ -z "$disque" ]; then
+    echo "usage : zfsrescue-unlock /dev/sdX" >&2
+    echo >&2
+    zfsrescue-status >&2
+    exit 1
+fi
+[ -b "$disque" ] || { echo "$disque n'est pas un peripherique bloc" >&2; exit 1; }
+
+nom=$(basename "$disque")
+echo "Disque : $disque"
+lsblk -o NAME,SIZE,TYPE,FSTYPE,LABEL,MODEL "$disque" 2>/dev/null || true
+echo
+echo "Ce disque contient-il des donnees ZFS a recuperer ?"
+if command -v zdb >/dev/null 2>&1; then
+    if zdb -l "$disque" 2>/dev/null | grep -q "name:"; then
+        echo
+        echo "  *** ATTENTION : des labels ZFS ont ete trouves sur $disque ***"
+        echo "  Il s'agit tres probablement d'un disque SOURCE."
+        echo
+    else
+        echo "  aucun label ZFS detecte."
+    fi
+fi
+echo
+printf 'Taper exactement « OUI ECRIRE SUR %s » pour autoriser l ecriture : ' "$nom"
+read -r reponse
+if [ "$reponse" != "OUI ECRIRE SUR $nom" ]; then
+    echo "Annule : $disque reste protege."
+    exit 1
+fi
+blockdev --setrw "$disque"
+for p in /sys/block/"$nom"/"$nom"*; do
+    [ -d "$p" ] && blockdev --setrw "/dev/$(basename "$p")" 2>/dev/null || true
+done
+echo "Ecriture autorisee sur $disque."
+zfsrescue-status

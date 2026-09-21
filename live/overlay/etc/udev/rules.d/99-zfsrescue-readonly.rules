@@ -1,0 +1,15 @@
+# =============================================================================
+# Protection forensic : tout disque detecte est passe en LECTURE SEULE.
+#
+# Le drapeau read-only du noyau empeche toute ecriture, y compris celle d'un
+# montage accidentel ou d'un service qui s'emballerait.
+#
+#   zfsrescue-status              etat de tous les disques
+#   zfsrescue-unlock /dev/sdX     autorise l'ecriture sur le support de
+#                                 DESTINATION uniquement (avec confirmation)
+#
+# Pour demarrer sans cette protection : entree de menu « SANS protection »
+# (ajoute le parametre noyau zfsrescue.noro).
+# =============================================================================
+ACTION=="add|change", SUBSYSTEM=="block", KERNEL=="sd*|nvme*|hd*|mmcblk*|vd*", \
+    RUN+="/usr/local/sbin/zfsrescue-protect /dev/%k"

@@ -22,6 +22,13 @@ set -euo pipefail
 LIVE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJ="$(cd "$LIVE/.." && pwd)"
 
+# Les hooks de mmdebstrap s'executent dans un espace de noms ou l'UID 0 interne
+# correspond a une plage « subuid » (voir /etc/subuid), et NON a l'utilisateur
+# qui lance la construction. Cet UID n'a donc aucun droit sur un repertoire
+# personnel en mode 700 : toutes les entrees et sorties de la construction
+# doivent transiter par un repertoire accessible a tous, hors du home.
+STAGE_BASE="${STAGE_BASE:-/var/tmp}"
+
 SUITE="${SUITE:-trixie}"
 MIRROR="${MIRROR:-http://deb.debian.org/debian}"
 ARCH="${ARCH:-amd64}"
@@ -58,19 +65,40 @@ info "espace libre : ${libre} Mio"
 
 # --- 2. arborescence de travail ----------------------------------------------
 log "Preparation de $WORK"
-rm -rf "$WORK/iso" "$WORK/payload"
-mkdir -p "$WORK/iso/live" "$WORK/iso/boot/grub" "$WORK/payload"
+rm -rf "$WORK/iso"
+mkdir -p "$WORK/iso/live" "$WORK/iso/boot/grub"
 cp "$LIVE/grub/grub.cfg" "$WORK/iso/boot/grub/grub.cfg"
+
+STAGE="$(mktemp -d "$STAGE_BASE/zfsrescue-build.XXXXXX")"
+# conserve le repertoire d'echange en cas d'echec, pour diagnostic
+trap 'code=$?; if ((code)); then
+        printf "\n    (repertoire de travail conserve : %s)\n" "$STAGE"
+      else
+        # les fichiers produits par les hooks appartiennent a un subuid :
+        # seul un espace de noms qui mappe cette plage peut les supprimer
+        rm -rf "$STAGE" 2>/dev/null \
+          || unshare --user --map-auto --map-root-user rm -rf "$STAGE" 2>/dev/null \
+          || printf "    (a supprimer manuellement : %s)\n" "$STAGE"
+      fi' EXIT
+mkdir -p "$STAGE/in" "$STAGE/out"
+chmod 755 "$STAGE" "$STAGE/in"
+chmod 777 "$STAGE/out"          # ecrit par l'UID interne de l'espace de noms
+info "repertoire d'echange : $STAGE"
+
+cp -a "$LIVE/overlay" "$LIVE/hooks" "$STAGE/in/"
+chmod -R a+rX "$STAGE/in"
 
 # --- 3. contenu du projet a embarquer ----------------------------------------
 log "Extraction du projet (contenu suivi par git, donc deja anonymise)"
 if git -C "$PROJ" rev-parse --git-dir >/dev/null 2>&1; then
-    git -C "$PROJ" archive --format=tar HEAD | tar -x -C "$WORK/payload"
+    mkdir -p "$STAGE/in/payload"
+    git -C "$PROJ" archive --format=tar HEAD | tar -x -C "$STAGE/in/payload"
     info "revision $(git -C "$PROJ" rev-parse --short HEAD)"
 else
     die "ce repertoire n'est pas un depot git : impossible de garantir le contenu"
 fi
-info "$(find "$WORK/payload" -type f | wc -l) fichiers embarques"
+chmod -R a+rX "$STAGE/in/payload"
+info "$(find "$STAGE/in/payload" -type f | wc -l) fichiers embarques"
 
 # --- 4. liste des paquets -----------------------------------------------------
 PAQUETS=$(sed -e 's/#.*//' -e '/^[[:space:]]*$/d' -e 's/[[:space:]]//g' \
@@ -79,6 +107,7 @@ info "$(tr ',' '\n' <<< "$PAQUETS" | wc -l) paquets demandes"
 
 # --- 5. construction du systeme de fichiers ----------------------------------
 log "Construction du systeme (telechargement + installation, plusieurs minutes)"
+export TMPDIR="$STAGE_BASE"          # le chroot temporaire depasse la taille du tmpfs
 mmdebstrap \
     --mode=unshare \
     --architectures="$ARCH" \
@@ -86,26 +115,29 @@ mmdebstrap \
     --components='main contrib' \
     --aptopt='Apt::Install-Recommends "false"' \
     --include="$PAQUETS" \
-    --customize-hook="tar -C \"$LIVE/overlay\" -cf - . | tar -C \"\$1\" -xf -" \
+    --customize-hook="tar -C \"$STAGE/in/overlay\" -cf - . | tar -C \"\$1\" -xf -" \
     --customize-hook="mkdir -p \"\$1/opt/zfs-raidz1-rescue\" && \
-        tar -C \"$WORK/payload\" -cf - . | \
+        tar -C \"$STAGE/in/payload\" -cf - . | \
         tar -C \"\$1/opt/zfs-raidz1-rescue\" -xf -" \
-    --customize-hook="cp \"$LIVE/hooks/configure.sh\" \"\$1/tmp/configure.sh\" && \
+    --customize-hook="cp \"$STAGE/in/hooks/configure.sh\" \"\$1/tmp/configure.sh\" && \
         chroot \"\$1\" /tmp/configure.sh && rm -f \"\$1/tmp/configure.sh\"" \
-    --customize-hook="rm -rf \"$WORK/boot\" && cp -a \"\$1/boot\" \"$WORK/boot\"" \
-    --customize-hook="mksquashfs \"\$1\" '$WORK/iso/live/filesystem.squashfs' \
+    --customize-hook="cp \"\$1\"/boot/vmlinuz-* \"\$1\"/boot/initrd.img-* \"$STAGE/out/\"" \
+    --customize-hook="mksquashfs \"\$1\" '$STAGE/out/filesystem.squashfs' \
         -comp xz -Xbcj x86 -b 1M -noappend -no-progress \
         -e boot -e proc -e sys -e dev/pts" \
     "$SUITE" /dev/null "deb $MIRROR $SUITE main contrib"
 
-[[ -f "$WORK/iso/live/filesystem.squashfs" ]] || die "squashfs non produit"
+log "Recuperation des produits de la construction"
+[[ -f "$STAGE/out/filesystem.squashfs" ]] || die "squashfs non produit"
+cp "$STAGE/out/filesystem.squashfs" "$WORK/iso/live/filesystem.squashfs"
+
 info "squashfs : $(du -h "$WORK/iso/live/filesystem.squashfs" | cut -f1)"
 
 # --- 6. noyau et initrd -------------------------------------------------------
 log "Noyau et initrd"
 shopt -s nullglob
-noyaux=("$WORK/boot"/vmlinuz-*)
-initrds=("$WORK/boot"/initrd.img-*)
+noyaux=("$STAGE/out"/vmlinuz-*)
+initrds=("$STAGE/out"/initrd.img-*)
 ((${#noyaux[@]})) || die "aucun noyau trouve dans l'image"
 ((${#initrds[@]})) || die "aucun initrd trouve dans l'image"
 cp "${noyaux[-1]}" "$WORK/iso/live/vmlinuz"
@@ -115,8 +147,11 @@ info "$(basename "${noyaux[-1]}")  +  $(basename "${initrds[-1]}")"
 # --- 7. image ISO hybride (BIOS + UEFI) --------------------------------------
 log "Assemblage de l'image ISO"
 mkdir -p "$(dirname "$ISO")"
-grub-mkrescue --output="$ISO" --volid="$VOLID" "$WORK/iso" \
-    -- -volid "$VOLID" 2>&1 | grep -vE '^xorriso : NOTE|^Drive current' || true
+# Note : grub-mkrescue transmet a xorriso tout ce qui suit « -- ». Le nom de
+# volume se passe donc par -volid (option de l'emulation mkisofs), jamais par
+# --volid, que xorriso refuse.
+grub-mkrescue -o "$ISO" "$WORK/iso" -- -volid "$VOLID" 2>&1 \
+    | grep -vE '^xorriso : (NOTE|UPDATE)|^Drive current|^Media ' || true
 [[ -f "$ISO" ]] || die "l'image n'a pas ete produite"
 
 sha256sum "$ISO" > "$ISO.sha256"

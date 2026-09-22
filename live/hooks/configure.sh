@@ -44,6 +44,8 @@ echo "[live] initramfs (live-boot)"
 update-initramfs -u -k all >/dev/null 2>&1
 
 echo "[live] nettoyage"
-apt-get clean
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 2>/dev/null || true
+# Ne PAS toucher a /tmp ni au cache apt : mmdebstrap y conserve ses propres
+# fichiers de travail et se charge lui-meme de vider les listes et le cache
+# apres les hooks. Supprimer /tmp/* casse son nettoyage final.
 find /var/log -type f -exec truncate -s 0 {} + 2>/dev/null || true
+rm -rf /var/tmp/* 2>/dev/null || true

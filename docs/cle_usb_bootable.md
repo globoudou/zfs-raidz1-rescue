@@ -115,3 +115,43 @@ Le même texte est affiché à chaque connexion (`/etc/motd`).
   **bloqueur d'écriture matériel** dans un contexte judiciaire.
 - Le module noyau ZFS étant interdit, il est impossible d'importer un pool
   depuis cette clé — c'est volontaire.
+
+## Notes de construction
+
+Trois contraintes rencontrées à la mise au point, corrigées dans `live/build.sh`
+et signalées ici pour qui voudrait adapter le script :
+
+1. **Les hooks de `mmdebstrap` ne voient pas votre répertoire personnel.**
+   En mode `unshare`, l'UID 0 interne correspond à une plage *subuid*
+   (`/etc/subuid`), pas à l'utilisateur qui lance la construction : un `$HOME`
+   en mode 700 lui est inaccessible. Toutes les entrées et sorties transitent
+   donc par un répertoire d'échange dans `/var/tmp`, lisible par tous, dont le
+   sous-répertoire de sortie est en mode 777 puisqu'il est écrit par cet UID.
+   Les fichiers produits appartiennent à ce subuid : les supprimer ensuite
+   demande le même espace de noms (`unshare --user --map-auto`).
+
+2. **Ne rien supprimer dans `/tmp` du chroot.** `mmdebstrap` y conserve sa
+   propre configuration apt et s'en sert pour vider les listes de paquets
+   *après* les hooks. Un `rm -rf /tmp/*` dans le hook de configuration fait
+   échouer tout le nettoyage final.
+
+3. **`grub-mkrescue` n'accepte pas `--volid`.** Le nom de volume se transmet à
+   `xorriso` après le séparateur `--`, sous la forme `-volid NOM` (option de
+   l'émulation mkisofs).
+
+## Vérifications effectuées sur l'image produite
+
+| Contrôle | Résultat |
+|---|---|
+| Catalogue El Torito | deux images d'amorçage : BIOS (`i386-pc/eltorito.img`) et UEFI (`efi.img`), avec MBR de protection + GPT — donc écrivable telle quelle sur clé |
+| Amorçage live | l'initrd contient `scripts/live` (live-boot), le module `squashfs` et `blockdev` |
+| Outil embarqué | `python3 -m zfsrescue --version` exécuté avec succès *dans* le chroot pendant la construction |
+| Services ZFS | tous masqués (liens symboliques vers `/dev/null`) |
+| Module ZFS | `blacklist zfs` + `install zfs /bin/false`, aucun module `zfs` dans `/lib/modules` |
+| `zdb`, `ddrescue`, `python3-zstandard` | présents |
+| Clavier / hôte | `XKBLAYOUT="fr"`, nom d'hôte `zfsrescue` |
+
+**Le démarrage réel n'a pas été testé** : aucun émulateur n'est installé sur la
+machine de développement. Avant de compter dessus sur site, démarrez la clé une
+fois sur une machine de test — ou installez `qemu-system-x86` pour un essai à
+blanc.

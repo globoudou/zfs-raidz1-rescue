@@ -154,7 +154,8 @@ grub-mkrescue -o "$ISO" "$WORK/iso" -- -volid "$VOLID" 2>&1 \
     | grep -vE '^xorriso : (NOTE|UPDATE)|^Drive current|^Media ' || true
 [[ -f "$ISO" ]] || die "l'image n'a pas ete produite"
 
-sha256sum "$ISO" > "$ISO.sha256"
+# empreinte avec le seul nom de fichier, directement verifiable
+( cd "$(dirname "$ISO")" && sha256sum "$(basename "$ISO")" ) > "$ISO.sha256"
 
 log "Termine"
 cat <<TXT

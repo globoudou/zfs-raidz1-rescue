@@ -88,3 +88,60 @@ hypothèse SA nécessaire.
 - La file `DELETE_QUEUE` (fichiers supprimés non libérés) n'est pas parcourue.
 - Les snapshots sont listés mais leur contenu n'est pas encore monté ; il est
   accessible en ouvrant leur objset (même code) — à exposer dans la CLI.
+
+## Balayage DSL : retrouver les datasets sans la hiérarchie
+
+Sur un pool réel, la descente nominale s'est arrêtée net : le **ZAP des
+datasets enfants** du répertoire racine était illisible. Résultat, un seul
+dataset visible sur les 45 que comptait le pool.
+
+Or ces 45 datasets étaient là : le MOS contenait bien **45 objets
+`dsl_dataset` lisibles**, et chacun porte dans son *bonus* le pointeur `ds_bp`
+vers l'objset de son dataset — c'est-à-dire l'entrée vers ses fichiers. Le ZAP
+perdu ne portait que les **noms**.
+
+```bash
+python3 -m zfsrescue datasets <supports...> [--txg N] [--usable-only]
+python3 -m zfsrescue ls       <supports...> --scan
+python3 -m zfsrescue extract  <supports...> --scan --dataset <nom ou objet>
+```
+
+Le balayage :
+
+1. parcourt tous les dnodes du MOS et retient ceux dont le bonus est un
+   `dsl_dir` ou un `dsl_dataset` ;
+2. reconstruit les noms en descendant depuis `root_dataset` **tant que** les
+   ZAP d'enfants sont lisibles, et en lisant les `dsl_ds_snap_map` pour les
+   snapshots ;
+3. donne aux autres un nom synthétique `dataset_objN` — leur contenu reste
+   accessible, seul leur nom d'origine est perdu, et le rapport le dit
+   (`named: false`, mention « nom inconnu ») ;
+4. teste l'objset de chacun et affiche son état.
+
+```
+  nom                          objet  type                 objset          refere
+  zrtest/docs                    387  systeme de fichiers  RECOVERED       583296
+  zrtest/docs@base               407  snapshot             RECOVERED       583296
+  zrtest/edge                    270  systeme de fichiers  MISSING_DATA    553536
+  dataset_obj1842               1842  systeme de fichiers  RECOVERED    920571904
+```
+
+### Les snapshots comme seconde chance
+
+Un snapshot possède **son propre bloc objset, ailleurs sur les disques**, tout
+en partageant les blocs de données du système de fichiers vivant. Quand
+l'objset ou la table de dnodes d'un dataset vivant tombe sur les colonnes
+perdues, **son snapshot peut être lisible et donner accès aux mêmes fichiers**.
+
+Le balayage les traite donc comme des sources à part entière : ils apparaissent
+dans `datasets`, dans `ls --scan`, et peuvent servir de source à `extract`.
+
+### Vérification
+
+| Test | Nature |
+|---|---|
+| le balayage retrouve au moins tout ce que donne la hiérarchie | comparaison des deux chemins |
+| snapshots retrouvés, nommés, marqués comme tels | pool de test |
+| **listes d'enfants toutes cassées** (panne réelle simulée) | les datasets restent trouvables, noms synthétiques, objsets testés à l'identique |
+| 2 disques donnent la même liste que 4 | les métadonnées du MOS ont 3 copies |
+| extraction depuis un **snapshot** | 47 fichiers, tous identiques aux originaux |

@@ -9,6 +9,13 @@ sed -i 's/^# *\(fr_FR.UTF-8 UTF-8\)/\1/; s/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/l
 locale-gen >/dev/null
 echo 'LANG=fr_FR.UTF-8' > /etc/default/locale
 
+# Cache clavier de console-setup : sans lui, la console demarre en QWERTY et
+# « loadkeys fr » echoue faute de dispositions installees.
+setupcon --save-only 2>/dev/null \
+  || dpkg-reconfigure -f noninteractive console-setup 2>/dev/null \
+  || echo "    (cache clavier non genere ; console-data permet loadkeys fr)"
+ls -l /etc/console-setup/cached*.kmap.gz 2>/dev/null || true
+
 echo "[live] compte root sans mot de passe (systeme live, aucun service reseau)"
 passwd -d root >/dev/null
 

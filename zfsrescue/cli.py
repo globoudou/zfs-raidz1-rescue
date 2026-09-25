@@ -13,6 +13,7 @@ from .uberblock import UberblockSet, guid_sum_expected, read_uberblocks
 from .pool import PoolOpenError, open_pool
 from .zap import read_zap
 from .zpl import ZplReader, build_index
+from .dsl import DslReader
 from .extract import extraire_noeuds, resume as resume_extraction
 from .readonly import ReadOnlyError
 from .report import build_report, render_json, render_text
@@ -378,10 +379,39 @@ def cmd_mos(args: argparse.Namespace) -> int:
         pool.close()
 
 
-def _datasets_zpl(pool, filtre: str | None):
-    """Rend (nom, objset, index) pour chaque dataset ZPL exploitable."""
+def _correspond(filtre: str | None, nom: str, oid: int | None = None) -> bool:
+    if not filtre:
+        return True
+    return filtre == nom or (oid is not None and filtre == str(oid))
+
+
+def _datasets_zpl(pool, filtre: str | None, scan: bool = False):
+    """
+    Rend (nom, ZplReader, index, echec) pour chaque dataset exploitable.
+
+    En mode `scan`, les datasets sont enumeres par balayage du MOS plutot
+    qu'en suivant la hierarchie : indispensable quand le ZAP des datasets
+    enfants est perdu. Les snapshots sont alors traites comme des sources a
+    part entiere — un snapshot partage les blocs de donnees du systeme de
+    fichiers vivant tout en ayant son propre objset, ailleurs sur les disques.
+    """
+    if scan:
+        resultat = DslReader(pool.dmu, pool.mos).scan(
+            pool.topology.name or "pool")
+        pool.dernier_scan = resultat
+        for e in resultat.entries:
+            if not _correspond(filtre, e.name, e.object_id):
+                continue
+            if e.objset is None:
+                yield e.name, None, None, e.objset_status or "objset illisible"
+                continue
+            zpl = ZplReader(pool.dmu, e.objset)
+            yield e.name, zpl, build_index(zpl), None
+        return
+
     for n in pool.dataset_tree().walk():
-        if filtre and n.name != filtre:
+        oid = n.dataset.object_id if n.dataset else None
+        if not _correspond(filtre, n.name, oid):
             continue
         if n.dataset is None or n.dataset.bp is None or n.dataset.bp.is_hole:
             continue
@@ -393,6 +423,59 @@ def _datasets_zpl(pool, filtre: str | None):
         yield n.name, zpl, build_index(zpl), None
 
 
+def cmd_datasets(args: argparse.Namespace) -> int:
+    """Enumere les datasets par balayage du MOS, hierarchie ou non."""
+    try:
+        pool = _ouvrir(args)
+    except PoolOpenError as exc:
+        print(f"erreur : {exc}", file=sys.stderr)
+        return 2
+    try:
+        resultat = DslReader(pool.dmu, pool.mos).scan(
+            pool.topology.name or "pool", probe=not args.no_probe)
+        rapport = {**pool.summary(), "scan": resultat.as_dict()}
+        if args.json:
+            with open(args.json, "w", encoding="utf-8") as fh:
+                fh.write(json.dumps(rapport, indent=2, ensure_ascii=False) + "\n")
+        if args.json_stdout:
+            print(json.dumps(rapport, indent=2, ensure_ascii=False))
+            return 0
+
+        r = resultat.summary()
+        print(f"Pool {pool.topology.name}   txg {pool.uberblock.txg}   "
+              f"{pool.uberblock.timestamp_iso}")
+        print(f"Colonnes disponibles {sorted(pool.reader.devices)}")
+        print()
+        print(f"  datasets trouves            : {r['datasets_found']}"
+              f"   (dont {r['snapshots']} snapshots)")
+        print(f"  objset lisible              : {r['with_readable_objset']}")
+        print(f"  noms reconstitues           : {r['named']}/{r['datasets_found']}")
+        print(f"  repertoires DSL trouves     : {r['dsl_dirs_found']}")
+        print(f"  listes d'enfants lues/perdues : {r['child_maps_read']}/"
+              f"{r['child_maps_lost']}")
+        if r["child_maps_lost"]:
+            print("  note : des listes de datasets enfants sont perdues ; les "
+                  "datasets concernes gardent un nom synthetique mais restent "
+                  "exploitables (zfsrescue ls --scan)")
+        print()
+        print(f"  {'nom':<40} {'objet':>7}  {'type':<20} {'objset':<16} "
+              f"{'refere':>12}  cree")
+        for e in resultat.entries:
+            if args.usable_only and not e.usable:
+                continue
+            nom = e.name + ("" if e.named else "  (nom inconnu)")
+            print(f"  {nom:<40} {e.object_id:>7}  {e.kind:<20} "
+                  f"{e.objset_status:<16} {e.dataset.referenced_bytes:>12}  "
+                  f"{e.dataset.creation_iso[:10]}")
+        for err in resultat.errors[:10]:
+            print(f"  ! {err}")
+        if args.json:
+            print(f"\nRapport JSON ecrit : {args.json}")
+        return 0
+    finally:
+        pool.close()
+
+
 def cmd_ls(args: argparse.Namespace) -> int:
     """Etape 6 : arborescence des fichiers recuperables."""
     try:
@@ -402,7 +485,7 @@ def cmd_ls(args: argparse.Namespace) -> int:
         return 2
     try:
         rapport = {**pool.summary(), "datasets": []}
-        for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset):
+        for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset, args.scan):
             if idx is None:
                 rapport["datasets"].append(
                     {"name": nom, "readable": False, "reason": echec})
@@ -474,7 +557,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
         rapport = {**pool.summary(), "destination": args.dest,
                    "dry_run": bool(args.dry_run), "datasets": []}
         total = []
-        for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset):
+        for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset, args.scan):
             if idx is None:
                 rapport["datasets"].append({"name": nom, "readable": False,
                                             "reason": echec})
@@ -588,9 +671,26 @@ def main(argv: list[str] | None = None) -> int:
     _options_partition(m)
     m.set_defaults(func=cmd_mos)
 
+    d = sub.add_parser("datasets",
+                       help="enumere les datasets et snapshots par balayage "
+                            "du MOS (utile si la hierarchie est abimee)")
+    d.add_argument("images", nargs="+")
+    d.add_argument("--txg", type=int)
+    d.add_argument("--no-probe", action="store_true",
+                   help="ne teste pas la lisibilite de chaque objset")
+    d.add_argument("--usable-only", action="store_true",
+                   help="n'affiche que les datasets dont l'objset est lisible")
+    d.add_argument("--json", metavar="FICHIER")
+    d.add_argument("--json-stdout", action="store_true")
+    _options_partition(d)
+    d.set_defaults(func=cmd_datasets)
+
     l = sub.add_parser("ls", help="liste les fichiers recuperables")
     l.add_argument("images", nargs="+")
-    l.add_argument("--dataset", help="limite a un dataset")
+    l.add_argument("--dataset", help="limite a un dataset (nom ou numero d'objet)")
+    l.add_argument("--scan", action="store_true",
+                   help="enumere les datasets par balayage du MOS au lieu de "
+                        "suivre la hierarchie ; inclut les snapshots")
     l.add_argument("--txg", type=int)
     l.add_argument("--limit", type=int, default=40)
     l.add_argument("--files", action="store_true",
@@ -604,7 +704,10 @@ def main(argv: list[str] | None = None) -> int:
                        help="extrait les fichiers vers un autre support")
     e.add_argument("images", nargs="+")
     e.add_argument("--dest", help="repertoire de destination")
-    e.add_argument("--dataset", help="limite a un dataset")
+    e.add_argument("--dataset", help="limite a un dataset (nom ou numero d'objet)")
+    e.add_argument("--scan", action="store_true",
+                   help="enumere les datasets par balayage du MOS au lieu de "
+                        "suivre la hierarchie ; inclut les snapshots")
     e.add_argument("--txg", type=int)
     e.add_argument("--dry-run", action="store_true",
                    help="analyse sans rien ecrire")

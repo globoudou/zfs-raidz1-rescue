@@ -34,9 +34,12 @@ python3 -m zfsrescue labels testlab/scenarios/missing_a_b/disk?.img \
 python3 -m zfsrescue uberblocks  <images...>
 python3 -m zfsrescue mos         <images...>
 
+# datasets et snapshots retrouvés par balayage du MOS
+python3 -m zfsrescue datasets <images...>
+
 # fichiers récupérables, puis extraction vers un autre support
-python3 -m zfsrescue ls      <images...> [--dataset zrtest/docs]
-python3 -m zfsrescue extract <images...> --dest /media/destination [--dry-run]
+python3 -m zfsrescue ls      <images...> [--dataset zrtest/docs] [--scan]
+python3 -m zfsrescue extract <images...> --dest /media/destination [--dry-run] [--scan]
 
 # mapping RAIDZ d'un bloc + verdict de récupérabilité
 python3 -m zfsrescue raidz-map --dva 0:1a16c000:2000 --psize 0x1000 \

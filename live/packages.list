@@ -9,6 +9,7 @@ systemd-sysv
 udev
 dbus
 kbd
+console-data              # dispositions de clavier pour « loadkeys »
 console-setup
 keyboard-configuration
 locales

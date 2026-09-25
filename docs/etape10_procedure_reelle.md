@@ -161,3 +161,61 @@ sha256sum -c /media/travail/disk1.img.sha256
 L'outil ne déclare récupérée aucune donnée dont le checksum n'a pas été
 vérifié, et ne comble jamais une colonne absente par des zéros dans ses
 calculs. Tout ce qui est incertain est marqué comme tel dans les rapports.
+
+## Ce qu'une intervention réelle a appris
+
+Trois obstacles rencontrés sur un vrai pool FreeNAS de 4 × 1,8 To, et la façon
+de les franchir. Ils sont désormais gérés par l'outil, mais les connaître fait
+gagner du temps.
+
+### 1. Le vdev est dans une partition
+
+Disposition FreeNAS typique : `p1` = 2 Go de swap, `p2` = le pool. Pointer
+l'outil sur le disque entier donne « 0/4 labels valides ». Depuis la v0.2.0 la
+partition est trouvée automatiquement ; sinon, visez `/dev/sdX2`.
+
+### 2. Le MOS du dernier txg peut être irrécupérable
+
+Le bloc racine du MOS fait souvent **2 Kio**, soit **un seul secteur** en
+`ashift=12` : sur un RAIDZ1 il n'occupe donc que **deux colonnes**. Si ses trois
+copies tombent toutes sur la paire de disques perdue, ce txg est inexploitable —
+et l'outil le dit plutôt que d'inventer.
+
+Mais l'anneau contient **32 uberblocks**, et chaque txg réécrit le MOS
+ailleurs. Il suffit souvent de reculer d'un seul txg :
+
+```bash
+for t in $(seq <txg_max> -1 <txg_max-31>); do
+    python3 -m zfsrescue mos <supports...> --txg $t >/tmp/mos.txt 2>&1 \
+        && { echo "MOS lisible au txg $t"; break; }
+done
+```
+
+Reculer de quelques txg ne coûte presque rien : les 32 états couvrent quelques
+minutes, et ZFS étant copy-on-write, l'essentiel de l'arborescence est partagé.
+
+### 3. La liste des datasets enfants peut manquer
+
+Voir `docs/etape6_navigation.md` : utilisez `--scan`, qui énumère les datasets
+par balayage du MOS au lieu de suivre la hiérarchie, snapshots compris.
+
+### Empreintes : ne pas relire 2 To pour rien
+
+Le contrôle de non-modification est réglable :
+
+```bash
+bash scripts/70_analyse_reelle.sh --empreinte echantillon <s1> <s2>   # défaut
+bash scripts/70_analyse_reelle.sh --empreinte complete    <s1> <s2>
+bash scripts/70_analyse_reelle.sh --empreinte aucune      <s1> <s2>
+```
+
+| Mode | Lecture | Usage |
+|---|---|---|
+| `echantillon` | 64 zones de 1 Mio + les 4 zones de label, soit ~64 Mio | quelques secondes ; détecte toute écriture dans ces zones |
+| `complete` | tout le support | la preuve définitive — des heures sur plusieurs téraoctets |
+| `aucune` | rien | s'en remet au drapeau *read-only* du noyau |
+
+Dans tous les cas, l'état du drapeau lecture seule du noyau est relevé avant et
+après (`ecriture=BLOQUEE`) : c'est lui la vraie protection, l'empreinte n'en est
+que la preuve écrite. Sur un petit support, le mode `echantillon` bascule de
+lui-même en `complete` — échantillonner n'y ferait rien gagner.

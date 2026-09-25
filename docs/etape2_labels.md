@@ -142,3 +142,52 @@ Rapports produits : `reports/etape2_pool_complet.json`,
 - `min_alloc`/`max_alloc` et `com.klarasystems:vdev_zaps_v2` sont propres à ZFS
   ≥ 2.3 ; un pool plus ancien n'aura pas ces champs, ce qui est sans effet sur
   la lecture des labels.
+
+## Vdev situé dans une partition (FreeBSD, FreeNAS/TrueNAS, Linux)
+
+Un vdev n'occupe pas toujours le disque entier. FreeBSD et FreeNAS/TrueNAS
+placent le pool dans une partition, typiquement :
+
+```
+/dev/sdc1     128    4194431      2G    FreeBSD swap
+/dev/sdc2 4194432 3907029127    1,8T    FreeBSD ZFS
+```
+
+Les quatre labels sont alors au début et à la fin de **la partition**, pas du
+disque. Pointer l'outil sur `/dev/sdc` donne donc « 0/4 labels valides ».
+
+L'outil gère ce cas seul :
+
+1. il cherche d'abord les labels sur le support entier ;
+2. s'il n'en trouve aucun, il lit la table de partitions (**GPT** avec
+   vérification des deux CRC, ou **MBR**) ;
+3. il essaie les partitions candidates, celles de type ZFS d'abord
+   (`FreeBSD ZFS`, `Solaris /usr`, `Solaris root`, MBR `0xBF`/`0xA5`) ;
+4. il ne retient une partition **que si de vrais labels valides s'y trouvent**,
+   et le signale dans le rapport :
+
+```
+  /dev/sdc
+      VDEV DANS UNE PARTITION : n°2 a l'offset 2147483648 (FreeBSD ZFS)
+      support entier : 2000398934016 octets (1.82 Tio)
+      note : labels ZFS trouves dans la partition 2 : offset 2147483648, ...
+```
+
+Si rien n'est trouvé nulle part, la table de partitions est affichée telle
+quelle, les candidates ZFS marquées, pour orienter la suite :
+
+```
+      table de partitions GPT (secteur 512) :
+        n°1  offset        1048576      2.00 Gio  FreeBSD swap
+        n°2  offset     2147483648      1.82 Tio  FreeBSD ZFS  <-- candidate ZFS
+```
+
+Deux options pour les cas particuliers :
+
+| Option | Usage |
+|---|---|
+| `--offset OCTETS` | force le début du vdev — utile si la table de partitions est détruite |
+| `--no-partition-scan` | s'en tient au support entier |
+
+Cette recherche fonctionne aussi bien sur un périphérique bloc que sur une
+**image de disque entier** : inutile d'extraire la partition avant l'analyse.

@@ -66,12 +66,20 @@ class OpenedPool:
         }
 
 
-def open_pool(paths: list[str], txg: int | None = None) -> OpenedPool:
+def open_pool(paths: list[str], txg: int | None = None,
+              scan_partitions: bool = True,
+              offset: int | None = None) -> OpenedPool:
     """
     Ouvre le pool en lecture seule.
-    `txg` permet de choisir un etat historique precis (sinon le plus recent).
+
+    `txg`             choisit un etat historique precis (sinon le plus recent) ;
+    `scan_partitions` cherche le vdev dans les partitions si le support entier
+                      n'en porte pas (cas FreeBSD / FreeNAS / TrueNAS) ;
+    `offset`          force le debut du vdev sur chaque support.
     """
-    scanned = scan_devices(paths)
+    offsets = {c: offset for c in paths} if offset is not None else None
+    scanned = scan_devices(paths, scan_partitions=scan_partitions,
+                           offsets=offsets)
     topo = build_topology(scanned)
     avertissements: list[str] = list(topo.warnings)
 

@@ -19,9 +19,34 @@ from .report import build_report, render_json, render_text
 from .topology import build_topology, scan_devices
 
 
+def _options_partition(p: argparse.ArgumentParser) -> None:
+    g = p.add_argument_group("emplacement du vdev sur le support")
+    g.add_argument("--offset", type=lambda x: int(x, 0), metavar="OCTETS",
+                   help="force le debut du vdev sur chaque support "
+                        "(utile si la table de partitions est detruite)")
+    g.add_argument("--no-partition-scan", action="store_true",
+                   help="n'essaie pas de trouver le vdev dans une partition")
+
+
+def _scan(args: argparse.Namespace):
+    offsets = ({i: args.offset for i in args.images}
+               if getattr(args, "offset", None) is not None else None)
+    return scan_devices(args.images,
+                        scan_partitions=not getattr(args, "no_partition_scan",
+                                                    False),
+                        offsets=offsets)
+
+
+def _ouvrir(args: argparse.Namespace):
+    return open_pool(args.images, txg=getattr(args, "txg", None),
+                     scan_partitions=not getattr(args, "no_partition_scan",
+                                                 False),
+                     offset=getattr(args, "offset", None))
+
+
 def cmd_labels(args: argparse.Namespace) -> int:
     try:
-        scanned = scan_devices(args.images)
+        scanned = _scan(args)
     except (ReadOnlyError, OSError) as exc:
         print(f"erreur : {exc}", file=sys.stderr)
         return 2
@@ -144,7 +169,7 @@ def cmd_raidz_map(args: argparse.Namespace) -> int:
 
 def cmd_uberblocks(args: argparse.Namespace) -> int:
     """Etape 4 : decouverte et validation des uberblocks."""
-    scanned = scan_devices(args.images)
+    scanned = _scan(args)
     try:
         topo = build_topology(scanned)
         if not topo.top_levels:
@@ -262,7 +287,7 @@ def cmd_uberblocks(args: argparse.Namespace) -> int:
 def cmd_mos(args: argparse.Namespace) -> int:
     """Etape 5/6 : lecture du MOS et de la hierarchie des datasets."""
     try:
-        pool = open_pool(args.images, txg=args.txg)
+        pool = _ouvrir(args)
     except PoolOpenError as exc:
         print(f"erreur : {exc}", file=sys.stderr)
         return 2
@@ -371,7 +396,7 @@ def _datasets_zpl(pool, filtre: str | None):
 def cmd_ls(args: argparse.Namespace) -> int:
     """Etape 6 : arborescence des fichiers recuperables."""
     try:
-        pool = open_pool(args.images, txg=args.txg)
+        pool = _ouvrir(args)
     except PoolOpenError as exc:
         print(f"erreur : {exc}", file=sys.stderr)
         return 2
@@ -441,7 +466,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
               file=sys.stderr)
         return 2
     try:
-        pool = open_pool(args.images, txg=args.txg)
+        pool = _ouvrir(args)
     except PoolOpenError as exc:
         print(f"erreur : {exc}", file=sys.stderr)
         return 2
@@ -514,6 +539,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="calcule l'empreinte SHA-256 de chaque support (lecture integrale)")
     p.add_argument("-q", "--quiet", action="store_true",
                    help="n'affiche pas le rapport texte")
+    _options_partition(p)
     p.set_defaults(func=cmd_labels)
 
     r = sub.add_parser("raidz-map",
@@ -547,6 +573,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="inclut tous les uberblocks dans le JSON")
     u.add_argument("--json", metavar="FICHIER")
     u.add_argument("--json-stdout", action="store_true")
+    _options_partition(u)
     u.set_defaults(func=cmd_uberblocks)
 
     m = sub.add_parser("mos",
@@ -558,6 +585,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="detaille chaque objet du MOS dans le JSON")
     m.add_argument("--json", metavar="FICHIER")
     m.add_argument("--json-stdout", action="store_true")
+    _options_partition(m)
     m.set_defaults(func=cmd_mos)
 
     l = sub.add_parser("ls", help="liste les fichiers recuperables")
@@ -569,6 +597,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="detaille chaque objet dans le JSON")
     l.add_argument("--json", metavar="FICHIER")
     l.add_argument("-q", "--quiet", action="store_true")
+    _options_partition(l)
     l.set_defaults(func=cmd_ls)
 
     e = sub.add_parser("extract",
@@ -587,6 +616,7 @@ def main(argv: list[str] | None = None) -> int:
     e.add_argument("--blocks", action="store_true",
                    help="detaille l'etat de chaque bloc dans le JSON")
     e.add_argument("--json", metavar="FICHIER")
+    _options_partition(e)
     e.set_defaults(func=cmd_extract)
 
     args = ap.parse_args(argv)

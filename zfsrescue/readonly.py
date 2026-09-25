@@ -27,18 +27,31 @@ class ReadOnlyError(Exception):
 class DeviceInfo:
     path: str
     real_path: str
-    size: int              # taille brute constatee
+    size: int              # taille de la FENETRE exploitee (= support entier par defaut)
     psize: int             # taille alignee sur 256 Kio (vdev_psize d'OpenZFS)
+    offset: int            # debut de la fenetre sur le support (0 = support entier)
+    media_size: int        # taille totale du support
     kind: str              # "file" | "blockdev"
     logical_sector_size: int | None
     physical_sector_size: int | None
     noatime: bool
 
+    @property
+    def windowed(self) -> bool:
+        """Vrai si l'on ne lit qu'une partie du support (une partition)."""
+        return self.offset != 0 or self.size != self.media_size
+
 
 class ReadOnlyDevice:
     """Image disque ou peripherique bloc ouvert en lecture seule."""
 
-    def __init__(self, path: str):
+    def __init__(self, path: str, offset: int = 0, length: int | None = None):
+        """
+        `offset` et `length` permettent de ne lire qu'une FENETRE du support :
+        c'est ainsi qu'on traite un vdev place dans une partition. Toutes les
+        lectures ulterieures sont relatives a cette fenetre, si bien que les
+        couches superieures (labels, mapping RAIDZ) n'ont pas a s'en soucier.
+        """
         self.path = path
         self._real = os.path.realpath(path)
 
@@ -65,10 +78,20 @@ class ReadOnlyDevice:
             self._fd = os.open(self._real, flags)
 
         # Taille : st_size pour un fichier, seek(END) pour un peripherique bloc.
-        size = st.st_size if kind == "file" else os.lseek(self._fd, 0, os.SEEK_END)
-        if size == 0:
+        media = st.st_size if kind == "file" else os.lseek(self._fd, 0, os.SEEK_END)
+        if media == 0:
             os.close(self._fd)
             raise ReadOnlyError(f"{path}: taille nulle")
+
+        if offset < 0 or offset >= media:
+            os.close(self._fd)
+            raise ReadOnlyError(
+                f"{path}: offset {offset} hors du support ({media} octets)")
+        size = media - offset if length is None else min(length, media - offset)
+        if size <= 0:
+            os.close(self._fd)
+            raise ReadOnlyError(f"{path}: fenetre de taille nulle")
+        self._offset = offset
 
         # module/zfs/vdev.c:2229 -> osize = P2ALIGN(osize, sizeof(vdev_label_t))
         psize = size - (size % consts.VDEV_LABEL_SIZE)
@@ -77,6 +100,8 @@ class ReadOnlyDevice:
             path=path,
             real_path=self._real,
             size=size,
+            offset=offset,
+            media_size=media,
             psize=psize,
             kind=kind,
             logical_sector_size=self._sysfs_int("queue/logical_block_size", kind),
@@ -94,8 +119,9 @@ class ReadOnlyDevice:
                 f"lecture hors support : {offset}+{length} > {self.info.size}"
             )
         out = bytearray()
+        base = self._offset + offset
         while len(out) < length:
-            chunk = os.pread(self._fd, length - len(out), offset + len(out))
+            chunk = os.pread(self._fd, length - len(out), base + len(out))
             if not chunk:
                 raise ReadOnlyError(
                     f"lecture courte a l'offset {offset + len(out)} "
@@ -139,4 +165,5 @@ class ReadOnlyDevice:
         self.close()
 
     def __repr__(self) -> str:
-        return f"<ReadOnlyDevice {self.path} size={self.info.size}>"
+        fenetre = (f" offset={self.info.offset}" if self.info.windowed else "")
+        return f"<ReadOnlyDevice {self.path}{fenetre} size={self.info.size}>"

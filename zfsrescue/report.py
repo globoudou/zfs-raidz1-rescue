@@ -68,6 +68,13 @@ def render_text(report: dict[str, Any]) -> str:
     add("SUPPORTS FOURNIS")
     for d in report["devices_supplied"]:
         add(f"  {d['path']}")
+        if d.get("partition"):
+            p = d["partition"]
+            add(f"      VDEV DANS UNE PARTITION : n°{p['index']} a l'offset "
+                f"{p['start']} ({p['type_name']}"
+                + (f" « {p['name']} »" if p.get("name") else "") + ")")
+            add(f"      support entier : {d['media_size']} octets "
+                f"({_fmt_size(d['media_size'])})")
         add(f"      type={d['kind']}  taille={d['size']} octets "
             f"({_fmt_size(d['size'])})  psize={d['psize']}")
         if d["size"] != d["psize"]:
@@ -85,6 +92,18 @@ def render_text(report: dict[str, Any]) -> str:
             det = ("checksum SHA-256 verifie" if ck and ck["valid"]
                    else (", ".join(lab["errors"]) or "checksum invalide"))
             add(f"        L{lab['index']} @ {lab['offset']:>12}  {etat} {det}")
+        for n in d.get("notes", []):
+            add(f"      note : {n}")
+        table = d.get("partition_table")
+        if table and table.get("kind") and not d.get("partition"):
+            add(f"      table de partitions {table['kind'].upper()} "
+                f"(secteur {table['sector_size']}) :")
+            for p in table["partitions"]:
+                marque = "  <-- candidate ZFS" if p["likely_zfs"] else ""
+                add(f"        n°{p['index']:<2} offset {p['start']:>14}  "
+                    f"{_fmt_size(p['size']):>10}  {p['type_name']}{marque}")
+            for e in table.get("errors", []):
+                add(f"        ! {e}")
         if "sha256" in d:
             add(f"      sha256 image : {d['sha256']}")
 

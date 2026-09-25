@@ -12,6 +12,7 @@ from typing import Any
 
 from . import consts
 from .label import VdevLabel, read_all_labels, uberblock_shift
+from .parttable import Partition, PartitionTable, read_partition_table
 from .readonly import ReadOnlyDevice
 
 STATE_AVAILABLE = "AVAILABLE"
@@ -23,6 +24,9 @@ class ScannedDevice:
     """Un support fourni par l'utilisateur, avec ses 4 labels."""
     device: ReadOnlyDevice
     labels: list[VdevLabel]
+    partition: Partition | None = None          # si le vdev est dans une partition
+    partition_table: PartitionTable | None = None
+    notes: list[str] = field(default_factory=list)
 
     @property
     def valid_labels(self) -> list[VdevLabel]:
@@ -49,6 +53,12 @@ class ScannedDevice:
             "path": i.path,
             "real_path": i.real_path,
             "kind": i.kind,
+            "media_size": i.media_size,
+            "window_offset": i.offset,
+            "partition": self.partition.as_dict() if self.partition else None,
+            "partition_table": (self.partition_table.as_dict()
+                                if self.partition_table else None),
+            "notes": self.notes,
             "size": i.size,
             "psize": i.psize,
             "size_aligned_off": i.size - i.psize,
@@ -189,11 +199,62 @@ class PoolTopology:
         }
 
 
-def scan_devices(paths: list[str]) -> list[ScannedDevice]:
+def scan_devices(paths: list[str], scan_partitions: bool = True,
+                 offsets: dict[str, int] | None = None) -> list[ScannedDevice]:
+    """
+    Ouvre chaque support en lecture seule et y cherche les labels ZFS.
+
+    Un vdev n'occupe pas toujours le support entier : FreeBSD, FreeNAS/TrueNAS
+    et beaucoup d'installations Linux placent le pool dans une PARTITION, dont
+    les labels se trouvent au debut et a la fin de la partition. Quand aucun
+    label n'est trouve sur le support entier, on lit donc sa table de
+    partitions et on essaie les partitions candidates. Rien n'est suppose :
+    une partition n'est retenue que si de vrais labels valides s'y trouvent.
+    """
+    offsets = offsets or {}
     out = []
-    for p in paths:
-        dev = ReadOnlyDevice(p)
-        out.append(ScannedDevice(device=dev, labels=read_all_labels(dev)))
+    for chemin in paths:
+        if chemin in offsets:
+            dev = ReadOnlyDevice(chemin, offset=offsets[chemin])
+            sd = ScannedDevice(device=dev, labels=read_all_labels(dev))
+            sd.notes.append(f"lecture forcee a partir de l'offset {offsets[chemin]}")
+            out.append(sd)
+            continue
+
+        dev = ReadOnlyDevice(chemin)
+        labels = read_all_labels(dev)
+        sd = ScannedDevice(device=dev, labels=labels)
+
+        if not sd.valid_labels and scan_partitions:
+            table = read_partition_table(dev.pread, dev.info.size)
+            sd.partition_table = table
+            if table.kind:
+                sd.notes.append(
+                    f"aucun label sur le support entier ; table {table.kind.upper()} "
+                    f"detectee ({len(table.partitions)} partition(s))")
+                trouve = None
+                for part in table.zfs_candidates:
+                    try:
+                        essai = ReadOnlyDevice(chemin, offset=part.start,
+                                               length=part.size)
+                    except Exception as exc:
+                        sd.notes.append(f"partition {part.index} illisible : {exc}")
+                        continue
+                    labels_part = read_all_labels(essai)
+                    if any(l.valid for l in labels_part):
+                        trouve = (part, essai, labels_part)
+                        break
+                    essai.close()
+                if trouve is not None:
+                    part, essai, labels_part = trouve
+                    dev.close()
+                    sd = ScannedDevice(device=essai, labels=labels_part,
+                                       partition=part, partition_table=table)
+                    sd.notes.append(f"labels ZFS trouves dans la {part}")
+                else:
+                    sd.notes.append(
+                        "aucune partition ne porte de label ZFS valide")
+        out.append(sd)
     return out
 
 

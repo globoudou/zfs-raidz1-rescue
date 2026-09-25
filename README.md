@@ -43,6 +43,11 @@ python3 -m zfsrescue raidz-map --dva 0:1a16c000:2000 --psize 0x1000 \
         --from-report reports/etape2_missing_a_b.json
 ```
 
+Le vdev peut être un disque entier, une **partition** (FreeBSD, FreeNAS/TrueNAS)
+ou une image de disque entier : l'outil lit la table de partitions et retrouve
+seul la partition ZFS, sans jamais la supposer — il faut que de vrais labels
+valides s'y trouvent. Options : `--offset` et `--no-partition-scan`.
+
 Options de `labels` : `--full-labels` (config complète de chaque label dans le JSON),
 `--sha256` (empreinte de chaque support), `-q` (JSON seulement),
 `--json-stdout`.

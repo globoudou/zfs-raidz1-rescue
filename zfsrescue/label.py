@@ -156,16 +156,34 @@ def read_label(dev: ReadOnlyDevice, index: int) -> VdevLabel:
     lbl.present = True
 
     lbl.checksum = verify_embedded_checksum(raw, phys_off)
-    if not lbl.checksum.magic_ok:
-        lbl.errors.append("zec_magic absent : emplacement de label non initialise")
 
+    erreur_nvlist = None
     try:
-        nvl, hdr, _ = parse_packed_nvlist(raw[:consts.VDEV_PHYS_SIZE - consts.ZIO_ECK_SIZE])
+        nvl, hdr, _ = parse_packed_nvlist(
+            raw[:consts.VDEV_PHYS_SIZE - consts.ZIO_ECK_SIZE])
         lbl.nvlist = nvl
         lbl.nvlist_encoding = hdr.encoding_name
         lbl.nvlist_endian = hdr.endian_name
     except NvlistError as exc:
-        lbl.errors.append(f"nvlist illisible : {exc}")
+        erreur_nvlist = str(exc)
+
+    # Un diagnostic par situation, plutot que d'empiler des messages techniques
+    # qui donneraient l'impression d'un label abime alors qu'il n'y en a aucun.
+    if not lbl.checksum.magic_ok and erreur_nvlist:
+        vide = raw.count(0) == len(raw)
+        lbl.errors.append(
+            "emplacement de label vide" if vide else
+            "emplacement de label non initialise : ni checksum ni configuration "
+            "exploitables (ce support ne porte probablement pas de vdev ici)")
+    elif not lbl.checksum.magic_ok:
+        lbl.errors.append(
+            "checksum absent mais configuration lisible : label partiellement "
+            "ecrase")
+    else:
+        if not lbl.checksum.valid:
+            lbl.errors.append("checksum SHA-256 non conforme")
+        if erreur_nvlist:
+            lbl.errors.append(f"nvlist illisible : {erreur_nvlist}")
 
     return lbl
 

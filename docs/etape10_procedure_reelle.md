@@ -49,6 +49,28 @@ lus. Un secteur illisible n'est pas un secteur vide — l'outil doit le savoir.
 > Si `ddrescue` signale des zones non lues, indiquez-le moi : l'outil les
 > traitera comme des colonnes absentes plutôt que comme des données valides.
 
+### Disques partitionnés (FreeBSD / FreeNAS / TrueNAS)
+
+Relevez la table de partitions **avant** d'imager :
+
+```bash
+sudo sfdisk -d /dev/sdX | tee /media/travail/disk1.parttable.txt
+lsblk -o NAME,SIZE,TYPE,PARTTYPENAME /dev/sdX
+```
+
+Si vous voyez une disposition de ce genre, le pool est dans la partition 2 :
+
+```
+/dev/sdc1   2G    FreeBSD swap
+/dev/sdc2   1,8T  FreeBSD ZFS
+```
+
+**Imagez quand même le disque entier** (`/dev/sdX`, pas `/dev/sdX2`) : c'est la
+bonne pratique forensic, et l'outil retrouve seul la partition ZFS à
+l'intérieur de l'image. Pour analyser directement les disques sans image, vous
+pouvez pointer soit le disque (`/dev/sda`), soit la partition (`/dev/sda2`) :
+le résultat est le même.
+
 ## 3. Mettre les originaux hors ligne
 
 Débrancher les disques physiques et les ranger. Toute la suite se fait sur les

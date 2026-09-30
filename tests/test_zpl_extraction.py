@@ -10,10 +10,12 @@ Principes verifies :
 
 import glob
 import hashlib
+import json
 import os
 import tempfile
 import unittest
 
+from zfsrescue.cli import main
 from zfsrescue.extract import (ETAT_COMPLET, ETAT_PARTIEL, ETAT_PERDU,
                                ETAT_VIDE, extraire_fichier, extraire_noeuds,
                                resume)
@@ -414,3 +416,83 @@ class TestRangementDesResultats(unittest.TestCase):
             self._extraire(d)
             self.assertFalse(os.path.exists(os.path.join(d, "_en_cours")),
                              "le repertoire temporaire doit disparaitre")
+
+
+@unittest.skipUnless(len(IMAGES) == 4 and os.path.isdir(REFERENCE),
+                     "pool de test absent")
+class TestTriHorsLigne(unittest.TestCase):
+    """
+    « trier » range une extraction deja faite d'apres son rapport, sans
+    relire les disques : indispensable quand l'extraction a pris des heures.
+    """
+
+    def _extraction_ancienne_maniere(self, dest):
+        """Reproduit le comportement d'avant : tout est ecrit, meme les nuls."""
+        p = open_pool(SURVIVANTS_ALIGNES)
+        try:
+            _z, idx, _e = index_dataset(p, "zrtest/docs")
+            res = extraire_noeuds(p.dmu, sorted(idx.files, key=lambda n: n.path),
+                                  dest, prefixe="docs", ecrire_perdus=True,
+                                  separer_partiels=False)
+        finally:
+            p.close()
+        rapport = {"destination": dest,
+                   "datasets": [{"name": "zrtest/docs", "readable": True,
+                                 "files": [r.as_dict() for r in res]}]}
+        return res, rapport
+
+    def test_supprime_les_nuls_et_range_les_partiels(self):
+        with tempfile.TemporaryDirectory() as d:
+            res, rapport = self._extraction_ancienne_maniere(d)
+            perdus = [r for r in res if r.state == ETAT_PERDU]
+            partiels = [r for r in res if r.state == ETAT_PARTIEL]
+            self.assertTrue(perdus and partiels)
+            for r in perdus:
+                self.assertTrue(os.path.exists(r.written_to))
+
+            chemin_rapport = os.path.join(d, "rapport.json")
+            with open(chemin_rapport, "w", encoding="utf-8") as fh:
+                json.dump(rapport, fh)
+
+            self.assertEqual(main(["trier", chemin_rapport]), 0)
+
+            for r in perdus:
+                self.assertFalse(os.path.exists(r.written_to),
+                                 "un fichier entierement nul doit disparaitre")
+            for r in partiels:
+                self.assertFalse(os.path.exists(r.written_to))
+                rel = os.path.relpath(r.written_to, d)
+                self.assertTrue(os.path.exists(os.path.join(d, "_partiels", rel)))
+            for r in res:
+                if r.state != ETAT_COMPLET:
+                    continue
+                self.assertTrue(os.path.exists(r.written_to))
+                ref = os.path.join(REFERENCE, "docs", r.path.lstrip("/"))
+                self.assertEqual(sha256(r.written_to), sha256(ref))
+
+    def test_refuse_de_supprimer_un_fichier_non_nul(self):
+        """Garde-fou : si le fichier ne correspond pas au rapport, on n'y touche pas."""
+        with tempfile.TemporaryDirectory() as d:
+            res, rapport = self._extraction_ancienne_maniere(d)
+            perdu = next(r for r in res if r.state == ETAT_PERDU)
+            with open(perdu.written_to, "r+b") as fh:      # contenu inattendu
+                fh.write(b"DONNEES")
+            chemin_rapport = os.path.join(d, "rapport.json")
+            with open(chemin_rapport, "w", encoding="utf-8") as fh:
+                json.dump(rapport, fh)
+            self.assertEqual(main(["trier", chemin_rapport]), 0)
+            self.assertTrue(os.path.exists(perdu.written_to),
+                            "un fichier au contenu inattendu doit etre conserve")
+
+    def test_dry_run_ne_modifie_rien(self):
+        with tempfile.TemporaryDirectory() as d:
+            res, rapport = self._extraction_ancienne_maniere(d)
+            chemin_rapport = os.path.join(d, "rapport.json")
+            with open(chemin_rapport, "w", encoding="utf-8") as fh:
+                json.dump(rapport, fh)
+            avant = sorted(os.path.join(r, f)
+                           for r, _s, fs in os.walk(d) for f in fs)
+            self.assertEqual(main(["trier", chemin_rapport, "--dry-run"]), 0)
+            apres = sorted(os.path.join(r, f)
+                           for r, _s, fs in os.walk(d) for f in fs)
+            self.assertEqual(avant, apres)

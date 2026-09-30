@@ -175,3 +175,22 @@ Deux garde-fous :
 
 Trois tests couvrent ce comportement, dont celui du cas rencontré en
 production : un fichier existant là où il faudrait un répertoire.
+
+## Ranger une extraction déjà faite
+
+Si une extraction a été produite par une version antérieure — ou avec
+`--ecrire-perdus` — le rapport JSON permet de la ranger **sans relire les
+disques**, ce qui évite de recommencer des heures de lecture :
+
+```bash
+python3 -m zfsrescue trier /mnt/rescue/07_extraction.json --dry-run   # aperçu
+python3 -m zfsrescue trier /mnt/rescue/07_extraction.json
+```
+
+- les fichiers dont aucun bloc n'était lisible sont **supprimés** ;
+- les fichiers partiels sont déplacés dans `_partiels/` ;
+- les fichiers complets ne bougent pas.
+
+Chaque suppression est vérifiée sur le fichier lui-même : il doit avoir la
+taille annoncée **et** ne contenir que des zéros. Au moindre écart, le fichier
+est conservé et signalé. Dans le doute, on ne supprime pas.

@@ -423,6 +423,101 @@ def _datasets_zpl(pool, filtre: str | None, scan: bool = False):
         yield n.name, zpl, build_index(zpl), None
 
 
+def _est_nul(chemin: str, taille_attendue: int | None) -> bool:
+    """Vrai si le fichier a la taille annoncee et ne contient que des zeros."""
+    try:
+        taille = os.path.getsize(chemin)
+    except OSError:
+        return False
+    if taille_attendue is not None and taille != taille_attendue:
+        return False
+    with open(chemin, "rb") as fh:
+        while True:
+            bloc = fh.read(1 << 20)
+            if not bloc:
+                return True
+            if bloc.count(0) != len(bloc):
+                return False
+
+
+def cmd_trier(args: argparse.Namespace) -> int:
+    """
+    Range une extraction deja faite d'apres son rapport, SANS relire les
+    disques sources : supprime les fichiers entierement nuls (aucun bloc
+    lisible) et deplace les fichiers partiels dans _partiels/.
+
+    Chaque suppression est verifiee sur le fichier lui-meme : il doit avoir la
+    taille annoncee et ne contenir que des zeros. Dans le doute, on ne
+    supprime pas.
+    """
+    with open(args.rapport, encoding="utf-8") as fh:
+        r = json.load(fh)
+    racine = args.dest or r.get("destination")
+    if not racine:
+        print("erreur : destination inconnue, precisez --dest", file=sys.stderr)
+        return 2
+
+    supprimes = deplaces = laisses = absents = refuses = 0
+    for ds in r.get("datasets", []):
+        for f in ds.get("files", []):
+            chemin = f.get("written_to")
+            if not chemin:
+                continue
+            if not os.path.exists(chemin):
+                absents += 1
+                continue
+            etat = f.get("state")
+            if etat == "PERDU":
+                if not _est_nul(chemin, f.get("size")):
+                    refuses += 1
+                    print(f"  ! {chemin} : annonce perdu mais son contenu "
+                          "n'est pas entierement nul — laisse en place")
+                    continue
+                if args.dry_run:
+                    print(f"  supprimerait {chemin}")
+                else:
+                    os.unlink(chemin)
+                supprimes += 1
+            elif etat == "PARTIEL" and not args.melanger:
+                rel = os.path.relpath(chemin, racine)
+                if rel.startswith("_partiels" + os.sep):
+                    laisses += 1
+                    continue
+                cible = os.path.join(racine, "_partiels", rel)
+                if args.dry_run:
+                    print(f"  deplacerait {rel}")
+                else:
+                    os.makedirs(os.path.dirname(cible) or ".", exist_ok=True)
+                    os.replace(chemin, cible)
+                deplaces += 1
+            else:
+                laisses += 1
+
+    if not args.dry_run:                       # repertoires devenus vides
+        for rep, sous, fichiers in os.walk(racine, topdown=False):
+            if sous or fichiers:
+                continue
+            if os.path.normpath(rep) == os.path.normpath(racine):
+                continue
+            try:
+                os.rmdir(rep)
+            except OSError:
+                pass
+
+    verbe = "a supprimer" if args.dry_run else "supprimes"
+    print()
+    print(f"fichiers entierement nuls {verbe} : {supprimes}")
+    print(f"fichiers partiels ranges dans _partiels/ : {deplaces}")
+    print(f"fichiers complets laisses en place       : {laisses}")
+    if refuses:
+        print(f"fichiers refuses (contenu inattendu)     : {refuses}")
+    if absents:
+        print(f"fichiers du rapport deja absents         : {absents}")
+    if args.dry_run:
+        print("\n(--dry-run : rien n'a ete modifie)")
+    return 0
+
+
 def cmd_resume(args: argparse.Namespace) -> int:
     """Recapitulatif lisible d'un rapport JSON deja produit (aucun disque lu)."""
     with open(args.rapport, encoding="utf-8") as fh:
@@ -755,6 +850,18 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--json-stdout", action="store_true")
     _options_partition(m)
     m.set_defaults(func=cmd_mos)
+
+    tr = sub.add_parser("trier",
+                        help="range une extraction deja faite d'apres son "
+                             "rapport, sans relire les disques")
+    tr.add_argument("rapport")
+    tr.add_argument("--dest", help="racine de l'extraction "
+                                   "(sinon lue dans le rapport)")
+    tr.add_argument("--melanger", action="store_true",
+                    help="ne deplace pas les fichiers partiels")
+    tr.add_argument("--dry-run", action="store_true",
+                    help="montre ce qui serait fait, sans rien modifier")
+    tr.set_defaults(func=cmd_trier)
 
     rs = sub.add_parser("resume",
                         help="recapitulatif d'un rapport JSON deja produit "

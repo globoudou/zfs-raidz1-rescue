@@ -242,3 +242,83 @@ class TestExtraction(unittest.TestCase):
                     self.assertEqual(
                         sha256(r.written_to),
                         sha256(os.path.join(REFERENCE, "edge", nom.lstrip("/"))))
+
+
+@unittest.skipUnless(len(IMAGES) == 4 and os.path.isdir(REFERENCE),
+                     "pool de test absent")
+class TestRobustesseExtraction(unittest.TestCase):
+    """
+    Une anomalie sur un fichier ne doit jamais interrompre une extraction qui
+    peut durer des heures. Cas rencontre sur de vraies donnees : un objet
+    designe comme parent un autre objet qui est un fichier, si bien que le
+    chemin reconstitue est impossible a creer.
+    """
+
+    def _un_fichier(self, pool, dataset="zrtest/docs"):
+        _zpl, idx, echec = index_dataset(pool, dataset)
+        self.assertIsNone(echec)
+        return sorted(idx.files, key=lambda n: n.path)[0]
+
+    def test_chemin_impossible_ecrit_a_plat_sans_planter(self):
+        import copy
+        p = open_pool(IMAGES)
+        try:
+            modele = self._un_fichier(p)
+            with tempfile.TemporaryDirectory() as d:
+                # un fichier existe deja la ou il faudrait un repertoire
+                os.makedirs(os.path.join(d, "ds"), exist_ok=True)
+                with open(os.path.join(d, "ds", "objet_10"), "wb") as fh:
+                    fh.write(b"x")
+                noeud = copy.copy(modele)
+                noeud.path = "/objet_10/objet_11"
+                res = extraire_noeuds(p.dmu, [noeud], d, prefixe="ds")
+                self.assertEqual(len(res), 1)
+                r = res[0]
+                self.assertTrue(any("_conflits" in e for e in r.errors), r.errors)
+                self.assertIsNotNone(r.written_to)
+                self.assertTrue(os.path.exists(r.written_to))
+                self.assertEqual(r.state, ETAT_COMPLET)
+        finally:
+            p.close()
+
+    def test_une_anomalie_n_interrompt_pas_le_lot(self):
+        import copy
+        p = open_pool(IMAGES)
+        try:
+            modele = self._un_fichier(p)
+            with tempfile.TemporaryDirectory() as d:
+                os.makedirs(os.path.join(d, "ds"), exist_ok=True)
+                with open(os.path.join(d, "ds", "objet_10"), "wb") as fh:
+                    fh.write(b"x")
+                mauvais = copy.copy(modele)
+                mauvais.path = "/objet_10/impossible"
+                bon1, bon2 = copy.copy(modele), copy.copy(modele)
+                bon1.path, bon2.path = "/avant.bin", "/apres.bin"
+                res = extraire_noeuds(p.dmu, [bon1, mauvais, bon2], d,
+                                      prefixe="ds")
+                self.assertEqual(len(res), 3, "aucun fichier ne doit etre perdu "
+                                              "de vue")
+                self.assertTrue(os.path.exists(os.path.join(d, "ds", "avant.bin")))
+                self.assertTrue(os.path.exists(os.path.join(d, "ds", "apres.bin")))
+        finally:
+            p.close()
+
+    def test_parent_qui_n_est_pas_un_repertoire_est_rattache_aux_orphelins(self):
+        """La reconstruction de chemins ne doit pas fabriquer d'arborescence
+        impossible."""
+        from zfsrescue.zpl import ZplReader, build_index
+        p = open_pool(IMAGES)
+        try:
+            zpl, idx, _ = index_dataset(p, "zrtest/docs")
+            fichiers = [n for n in idx.nodes.values() if n.is_file]
+            victime = fichiers[0]
+            faux_parent = fichiers[1]
+            victime.parent_obj = faux_parent.object_id      # un fichier !
+            idx2 = build_index(zpl)
+            for n in idx2.nodes.values():
+                parent = idx2.nodes.get(n.parent_obj) if n.parent_obj else None
+                if parent is not None and not parent.is_dir:
+                    self.assertIn("(parent perdu)", n.path,
+                                  "un fichier ne peut pas servir de repertoire")
+        finally:
+            p.close()

@@ -677,10 +677,16 @@ def build_index(zpl: "ZplReader") -> DatasetIndex:
         if oid in vus:
             return f"/(boucle {oid})"
         vus.add(oid)
-        if n.parent_obj is None or n.parent_obj not in idx.nodes:
-            base = f"/(parent perdu)/objet_{oid}" if not n.name \
-                else f"/(parent perdu)/{n.name}"
-            return base
+        parent = idx.nodes.get(n.parent_obj) if n.parent_obj is not None else None
+        # Un parent doit etre un repertoire. Quand les metadonnees sont
+        # reconstituees par hypothese, il arrive qu'un objet en designe un
+        # autre qui n'en est pas un : on ne fabrique pas une arborescence
+        # impossible, on rattache l'objet aux orphelins.
+        if parent is None or not parent.is_dir:
+            if parent is not None and not parent.is_dir:
+                n.errors.append(
+                    f"parent declare {n.parent_obj} n'est pas un repertoire")
+            return f"/(parent perdu)/{n.name or f'objet_{oid}'}"
         return f"{chemin(n.parent_obj, vus)}/{n.name or f'objet_{oid}'}"
 
     for oid, n in idx.nodes.items():

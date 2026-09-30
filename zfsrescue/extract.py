@@ -16,6 +16,7 @@ recuperes, et le rapport indique precisement leur position.
 
 from __future__ import annotations
 
+import errno
 import hashlib
 import os
 from dataclasses import dataclass, field
@@ -173,6 +174,29 @@ def extraire_fichier(dmu: DmuReader, dn: Dnode, chemin_dest: str | None,
     return res
 
 
+# Erreurs signalant un chemin reconstitue contradictoire : un objet du chemin
+# existe deja comme fichier alors qu'il devrait etre un repertoire, ou l'inverse.
+CONFLITS_DE_CHEMIN = (errno.ENOTDIR, errno.EEXIST, errno.EISDIR,
+                      errno.ENAMETOOLONG, errno.EINVAL)
+
+
+def _echec(n: IndexedNode, message: str) -> ResultatFichier:
+    return ResultatFichier(object_id=n.object_id, path=n.path, size=n.size,
+                           blocksize=n.dnode.datablksize if n.dnode else 0,
+                           errors=[message])
+
+
+def _chemin_de_secours(racine_dest: str | None, prefixe: str,
+                       n: IndexedNode) -> str | None:
+    """Chemin a plat, pour un objet dont l'arborescence reconstituee est
+    contradictoire."""
+    if racine_dest is None:
+        return None
+    plat = n.path.strip("/").replace("/", "_") or f"objet_{n.object_id}"
+    return os.path.normpath(os.path.join(racine_dest, prefixe, "_conflits",
+                                         f"{n.object_id}_{plat}"[:200]))
+
+
 def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
                     racine_dest: str | None, prefixe: str = "",
                     combler: bool = True,
@@ -208,8 +232,35 @@ def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
                 out.append(essai)
                 continue
 
-        out.append(extraire_fichier(dmu, n.dnode, dest, n.size, n.object_id,
-                                    n.path, combler, n.attrs_inferred))
+        # Une anomalie sur un fichier ne doit jamais interrompre une extraction
+        # qui peut durer des heures : on la consigne et on passe au suivant.
+        try:
+            out.append(extraire_fichier(dmu, n.dnode, dest, n.size,
+                                        n.object_id, n.path, combler,
+                                        n.attrs_inferred))
+            continue
+        except OSError as exc:
+            if exc.errno not in CONFLITS_DE_CHEMIN or dest is None:
+                out.append(_echec(n, f"ecriture impossible : {exc}"))
+                continue
+            premiere = exc
+        except Exception as exc:                      # jamais d'abandon global
+            out.append(_echec(n, f"erreur inattendue : "
+                                 f"{type(exc).__name__} : {exc}"))
+            continue
+
+        # Le chemin reconstitue est contradictoire (un objet du chemin existe
+        # deja comme fichier, ou l'inverse) : on ecrit a plat plutot que de
+        # perdre le contenu.
+        secours = _chemin_de_secours(racine_dest, prefixe, n)
+        try:
+            r = extraire_fichier(dmu, n.dnode, secours, n.size, n.object_id,
+                                 n.path, combler, n.attrs_inferred)
+            r.errors.append(f"chemin impossible ({premiere.strerror}) : "
+                            "ecrit a plat dans _conflits")
+            out.append(r)
+        except Exception as exc:
+            out.append(_echec(n, f"ecriture impossible : {exc}"))
     return out
 
 

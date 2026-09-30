@@ -129,3 +129,24 @@ python3 -m zfsrescue resume /mnt/rescue/07_extraction.json
 Rend le bilan par dataset et les totaux à partir d'un rapport JSON déjà
 produit — utile pour relire un résultat sans rien recalculer, et sans avoir à
 taper de commande compliquée sur une console.
+
+## Rien n'interrompt une extraction
+
+Sur de vraies données, les métadonnées reconstituées peuvent se contredire :
+un objet en désigne un autre comme répertoire parent alors que celui-ci est un
+fichier. Le chemin reconstruit est alors impossible à créer.
+
+Deux garde-fous :
+
+1. **À la reconstruction des chemins** — un parent qui n'est pas un répertoire
+   n'est pas suivi : l'objet est rattaché à `(parent perdu)`, et l'anomalie est
+   consignée dans ses erreurs. On ne fabrique pas d'arborescence impossible.
+2. **À l'écriture** — si le système de fichiers refuse quand même le chemin
+   (`ENOTDIR`, `EEXIST`, `EISDIR`, nom trop long…), le fichier est écrit **à
+   plat** dans `_conflits/<objet>_<chemin aplati>`, avec la mention
+   correspondante dans le rapport. Toute autre erreur est consignée et
+   l'extraction **continue** : une anomalie sur un fichier ne doit jamais faire
+   perdre les heures de travail déjà effectuées ni les fichiers suivants.
+
+Trois tests couvrent ce comportement, dont celui du cas rencontré en
+production : un fichier existant là où il faudrait un répertoire.

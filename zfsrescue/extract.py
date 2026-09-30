@@ -180,6 +180,26 @@ CONFLITS_DE_CHEMIN = (errno.ENOTDIR, errno.EEXIST, errno.EISDIR,
                       errno.ENAMETOOLONG, errno.EINVAL)
 
 
+def _effacer(chemin: str) -> None:
+    try:
+        os.unlink(chemin)
+    except OSError:
+        pass
+
+
+def _ranger(temporaire: str, final: str) -> str | None:
+    """Deplace le fichier temporaire vers sa place definitive.
+    Rend None si le chemin est refuse (conflit fichier/repertoire...)."""
+    try:
+        os.makedirs(os.path.dirname(final) or ".", exist_ok=True)
+        os.replace(temporaire, final)
+        return final
+    except OSError as exc:
+        if exc.errno in CONFLITS_DE_CHEMIN:
+            return None
+        raise
+
+
 def _echec(n: IndexedNode, message: str) -> ResultatFichier:
     return ResultatFichier(object_id=n.object_id, path=n.path, size=n.size,
                            blocksize=n.dnode.datablksize if n.dnode else 0,
@@ -200,67 +220,106 @@ def _chemin_de_secours(racine_dest: str | None, prefixe: str,
 def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
                     racine_dest: str | None, prefixe: str = "",
                     combler: bool = True,
-                    sauter_incomplets: bool = False) -> list[ResultatFichier]:
+                    sauter_incomplets: bool = False,
+                    ecrire_perdus: bool = False,
+                    separer_partiels: bool = True) -> list[ResultatFichier]:
     """
     Extrait une liste de fichiers. `racine_dest` a None = analyse seule
     (aucune ecriture nulle part).
+
+    Par defaut :
+      * un fichier dont AUCUN bloc n'a pu etre lu n'est pas ecrit du tout.
+        L'ecrire reviendrait a deposer un fichier entierement nul, de la bonne
+        taille et du bon nom, que rien ne distingue d'un fichier valide tant
+        qu'on ne l'ouvre pas (`ecrire_perdus=True` pour retablir) ;
+      * les fichiers partiellement recuperes vont dans une arborescence
+        separee `_partiels/`, pour que ce qui se trouve dans l'arborescence
+        principale soit integralement verifie par checksum
+        (`separer_partiels=False` pour tout melanger).
     """
     out = []
+    en_cours = (os.path.join(racine_dest, "_en_cours") if racine_dest else None)
     for n in noeuds:
         if n.dnode is None or not n.is_file:
             continue
         rel = n.path.lstrip("/") or f"objet_{n.object_id}"
         rel = rel.replace("(parent perdu)", "_parent_perdu")
-        dest = None
-        if racine_dest:
-            dest = os.path.join(racine_dest, prefixe, rel)
-            dest = os.path.normpath(dest)
-            if not dest.startswith(os.path.normpath(racine_dest)):
-                out.append(ResultatFichier(
-                    object_id=n.object_id, path=n.path, size=n.size,
-                    blocksize=n.dnode.datablksize,
-                    errors=["chemin sortant du repertoire de destination : ignore"]))
-                continue
 
-        if sauter_incomplets and dest:
-            # premiere passe sans ecriture pour connaitre l'etat
-            essai = extraire_fichier(dmu, n.dnode, None, n.size, n.object_id,
-                                     n.path, combler, n.attrs_inferred)
-            if essai.state != ETAT_COMPLET:
-                essai.errors.append("fichier incomplet : non ecrit "
-                                    "(--skip-incomplete)")
-                out.append(essai)
-                continue
-
-        # Une anomalie sur un fichier ne doit jamais interrompre une extraction
-        # qui peut durer des heures : on la consigne et on passe au suivant.
-        try:
-            out.append(extraire_fichier(dmu, n.dnode, dest, n.size,
-                                        n.object_id, n.path, combler,
-                                        n.attrs_inferred))
+        if racine_dest is None:                      # analyse seule
+            try:
+                out.append(extraire_fichier(dmu, n.dnode, None, n.size,
+                                            n.object_id, n.path, combler,
+                                            n.attrs_inferred))
+            except Exception as exc:
+                out.append(_echec(n, f"erreur inattendue : "
+                                     f"{type(exc).__name__} : {exc}"))
             continue
-        except OSError as exc:
-            if exc.errno not in CONFLITS_DE_CHEMIN or dest is None:
-                out.append(_echec(n, f"ecriture impossible : {exc}"))
-                continue
-            premiere = exc
-        except Exception as exc:                      # jamais d'abandon global
+
+        # UNE SEULE lecture : on ecrit d'abord dans un fichier temporaire,
+        # puis on le range selon l'etat obtenu. Sonder d'abord doublerait le
+        # temps de lecture, ce qui est hors de question sur plusieurs To.
+        os.makedirs(en_cours, exist_ok=True)
+        temporaire = os.path.join(en_cours, f"{n.object_id}.part")
+        try:
+            r = extraire_fichier(dmu, n.dnode, temporaire, n.size,
+                                 n.object_id, n.path, combler,
+                                 n.attrs_inferred)
+        except Exception as exc:
+            _effacer(temporaire)
             out.append(_echec(n, f"erreur inattendue : "
                                  f"{type(exc).__name__} : {exc}"))
             continue
 
-        # Le chemin reconstitue est contradictoire (un objet du chemin existe
-        # deja comme fichier, ou l'inverse) : on ecrit a plat plutot que de
-        # perdre le contenu.
-        secours = _chemin_de_secours(racine_dest, prefixe, n)
-        try:
-            r = extraire_fichier(dmu, n.dnode, secours, n.size, n.object_id,
-                                 n.path, combler, n.attrs_inferred)
-            r.errors.append(f"chemin impossible ({premiere.strerror}) : "
-                            "ecrit a plat dans _conflits")
+        etat = r.state
+        if etat == ETAT_PERDU and not ecrire_perdus:
+            _effacer(temporaire)
+            r.written_to = None
+            r.errors.append(
+                "aucun bloc lisible : fichier non ecrit (il aurait ete "
+                "entierement nul) — --ecrire-perdus pour le creer quand meme")
             out.append(r)
-        except Exception as exc:
-            out.append(_echec(n, f"ecriture impossible : {exc}"))
+            continue
+        if sauter_incomplets and etat not in (ETAT_COMPLET, ETAT_VIDE):
+            _effacer(temporaire)
+            r.written_to = None
+            r.errors.append("fichier incomplet : non ecrit (--skip-incomplete)")
+            out.append(r)
+            continue
+
+        racine = racine_dest
+        if separer_partiels and etat in (ETAT_PARTIEL, ETAT_PERDU):
+            racine = os.path.join(racine_dest,
+                                  "_partiels" if etat == ETAT_PARTIEL
+                                  else "_perdus")
+        final = os.path.normpath(os.path.join(racine, prefixe, rel))
+        if not final.startswith(os.path.normpath(racine_dest)):
+            _effacer(temporaire)
+            r.written_to = None
+            r.errors.append("chemin sortant du repertoire de destination : ignore")
+            out.append(r)
+            continue
+
+        place = _ranger(temporaire, final)
+        if place is None:
+            secours = _chemin_de_secours(racine_dest, prefixe, n)
+            place = _ranger(temporaire, secours)
+            if place is None:
+                _effacer(temporaire)
+                r.written_to = None
+                r.errors.append("ecriture impossible : chemin refuse par le "
+                                "systeme de fichiers")
+                out.append(r)
+                continue
+            r.errors.append(f"chemin impossible ({n.path}) : ecrit a plat "
+                            "dans _conflits")
+        r.written_to = place
+        out.append(r)
+
+    if en_cours and os.path.isdir(en_cours):
+        try:
+            os.rmdir(en_cours)
+        except OSError:
+            pass
     return out
 
 

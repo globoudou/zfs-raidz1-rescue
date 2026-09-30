@@ -27,6 +27,31 @@ Options : `--dataset` (un seul dataset), `--txg` (état historique),
 Aucun bloc n'est accepté sans validation du checksum. Une colonne absente reste
 absente : elle n'est jamais remplacée par des zéros *dans le calcul*.
 
+## Où atterrissent les fichiers
+
+Rencontré en conditions réelles : un fichier dont **aucun** bloc n'est lisible
+était tout de même écrit, entièrement nul. Même nom, même taille, rien pour le
+distinguer d'un fichier valide tant qu'on ne l'ouvre pas. C'est exactement ce
+qu'un outil de récupération ne doit pas faire.
+
+```
+<destination>/<dataset>/...       fichiers INTEGRALEMENT verifies par checksum
+<destination>/_partiels/<ds>/...  fichiers incomplets (trous combles de zeros)
+<destination>/_conflits/...       chemin reconstitue impossible, ecrit a plat
+                                  (rien)  fichiers dont aucun bloc n'est lisible
+```
+
+| Option | Effet |
+|---|---|
+| `--ecrire-perdus` | écrit quand même les fichiers sans aucun bloc lisible — ils seront nuls |
+| `--melanger` | remet les partiels dans l'arborescence principale |
+| `--skip-incomplete` | n'écrit que les fichiers intégralement récupérés |
+| `--no-fill` | tronque au premier trou au lieu de combler de zéros |
+
+Le tri se fait **après** écriture, par déplacement d'un fichier temporaire :
+chaque bloc n'est lu qu'une fois. Sonder l'état avant d'écrire aurait doublé le
+temps de lecture — inacceptable sur plusieurs téraoctets.
+
 ## État de chaque fichier
 
 | État | Règle |

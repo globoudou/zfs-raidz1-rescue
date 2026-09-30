@@ -322,3 +322,95 @@ class TestRobustesseExtraction(unittest.TestCase):
                                   "un fichier ne peut pas servir de repertoire")
         finally:
             p.close()
+
+
+@unittest.skipUnless(len(IMAGES) == 4 and os.path.isdir(REFERENCE),
+                     "pool de test absent")
+class TestRangementDesResultats(unittest.TestCase):
+    """
+    Un fichier dont aucun bloc n'est lisible serait ecrit entierement nul :
+    meme nom, meme taille, rien pour le distinguer d'un fichier valide tant
+    qu'on ne l'ouvre pas. Il ne doit pas etre ecrit du tout, et les fichiers
+    partiels doivent etre ranges a part.
+    """
+
+    def _extraire(self, dest, **kw):
+        p = open_pool(SURVIVANTS_ALIGNES)
+        try:
+            _z, idx, echec = index_dataset(p, "zrtest/docs")
+            self.assertIsNone(echec)
+            return extraire_noeuds(p.dmu,
+                                   sorted(idx.files, key=lambda n: n.path),
+                                   dest, prefixe="docs", **kw)
+        finally:
+            p.close()
+
+    def test_fichier_perdu_non_ecrit(self):
+        with tempfile.TemporaryDirectory() as d:
+            res = self._extraire(d)
+            perdus = [r for r in res if r.state == ETAT_PERDU]
+            self.assertTrue(perdus, "ce scenario perd des fichiers")
+            for r in perdus:
+                self.assertIsNone(r.written_to)
+                self.assertTrue(any("entierement nul" in e for e in r.errors))
+            # aucun fichier nul ne traine sur le disque
+            for rep, _s, fichiers in os.walk(d):
+                for f in fichiers:
+                    chemin = os.path.join(rep, f)
+                    with open(chemin, "rb") as fh:
+                        contenu = fh.read()
+                    self.assertTrue(contenu == b"" or contenu.count(0) != len(contenu),
+                                    f"{chemin} est entierement nul")
+
+    def test_option_ecrire_perdus(self):
+        with tempfile.TemporaryDirectory() as d:
+            res = self._extraire(d, ecrire_perdus=True)
+            perdus = [r for r in res if r.state == ETAT_PERDU]
+            self.assertTrue(perdus)
+            for r in perdus:
+                self.assertIsNotNone(r.written_to)
+                with open(r.written_to, "rb") as fh:
+                    contenu = fh.read()
+                self.assertEqual(contenu.count(0), len(contenu),
+                                 "un fichier perdu ecrit est nul, par construction")
+
+    def test_partiels_ranges_a_part(self):
+        with tempfile.TemporaryDirectory() as d:
+            res = self._extraire(d)
+            partiels = [r for r in res if r.state == ETAT_PARTIEL]
+            self.assertTrue(partiels, "ce scenario a des fichiers partiels")
+            for r in partiels:
+                self.assertIn("_partiels", r.written_to)
+            # l'arborescence principale ne contient que des fichiers exacts
+            principale = os.path.join(d, "docs")
+            for rep, _s, fichiers in os.walk(principale):
+                for f in fichiers:
+                    chemin = os.path.join(rep, f)
+                    rel = os.path.relpath(chemin, principale)
+                    ref = os.path.join(REFERENCE, "docs", rel)
+                    self.assertTrue(os.path.exists(ref), rel)
+                    self.assertEqual(sha256(chemin), sha256(ref),
+                                     f"{rel} doit etre identique a l'original")
+
+    def test_une_seule_lecture_par_fichier(self):
+        """Le rangement se fait apres coup : pas de passe de sonde supplementaire."""
+        with tempfile.TemporaryDirectory() as d:
+            p = open_pool(SURVIVANTS_ALIGNES)
+            try:
+                _z, idx, _e = index_dataset(p, "zrtest/docs")
+                fichiers = sorted(idx.files, key=lambda n: n.path)[:5]
+                avant = p.dmu.cache_misses + p.dmu.cache_hits
+                extraire_noeuds(p.dmu, fichiers, d, prefixe="docs")
+                lectures = p.dmu.cache_misses + p.dmu.cache_hits - avant
+                blocs = sum(f.dnode.nblocks for f in fichiers)
+                self.assertLessEqual(lectures, blocs * 2 + 10,
+                                     "chaque bloc ne doit etre lu qu'une fois "
+                                     "(plus les blocs indirects)")
+            finally:
+                p.close()
+
+    def test_repertoire_de_travail_nettoye(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._extraire(d)
+            self.assertFalse(os.path.exists(os.path.join(d, "_en_cours")),
+                             "le repertoire temporaire doit disparaitre")

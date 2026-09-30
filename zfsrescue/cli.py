@@ -641,7 +641,9 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 pool.dmu, sorted(idx.files, key=lambda n: n.path),
                 None if args.dry_run else args.dest, prefixe=prefixe,
                 combler=not args.no_fill,
-                sauter_incomplets=args.skip_incomplete)
+                sauter_incomplets=args.skip_incomplete,
+                ecrire_perdus=args.ecrire_perdus,
+                separer_partiels=not args.melanger)
             total += resultats
             r = resume_extraction(resultats)
             rapport["datasets"].append(
@@ -664,6 +666,16 @@ def cmd_extract(args: argparse.Namespace) -> int:
               f" (dont {t['blocks_reconstructed']} reconstruits par la parite)")
         print(f"  octets de donnees : {t['bytes_recovered']} recuperes, "
               f"{t['bytes_missing']} perdus ({100 * t['ratio_bytes']:.1f} %)")
+        if not args.dry_run and args.dest:
+            print()
+            print(f"  {args.dest}/            fichiers INTEGRALEMENT verifies "
+                  "par checksum")
+            if not args.melanger:
+                print(f"  {args.dest}/_partiels/  fichiers incomplets : les "
+                      "trous sont combles par des zeros")
+            print("  les fichiers dont aucun bloc n'est lisible ne sont pas "
+                  "ecrits" + ("" if not args.ecrire_perdus else
+                              " (sauf --ecrire-perdus : ils sont nuls)"))
         if args.json:
             with open(args.json, "w", encoding="utf-8") as fh:
                 fh.write(json.dumps(rapport, indent=2, ensure_ascii=False) + "\n")
@@ -798,6 +810,14 @@ def main(argv: list[str] | None = None) -> int:
                         "de combler avec des zeros")
     e.add_argument("--skip-incomplete", action="store_true",
                    help="n'ecrit que les fichiers integralement recuperes")
+    e.add_argument("--ecrire-perdus", action="store_true",
+                   help="ecrit aussi les fichiers dont AUCUN bloc n'est "
+                        "lisible : ils seront entierement nuls (par defaut "
+                        "ils ne sont pas crees)")
+    e.add_argument("--melanger", action="store_true",
+                   help="ecrit les fichiers partiels dans la meme arborescence "
+                        "que les fichiers complets (par defaut ils vont dans "
+                        "_partiels/)")
     e.add_argument("--blocks", action="store_true",
                    help="detaille l'etat de chaque bloc dans le JSON")
     e.add_argument("--json", metavar="FICHIER")

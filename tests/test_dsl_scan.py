@@ -173,3 +173,69 @@ class TestCliScan(unittest.TestCase):
             self.assertGreater(ds["summary"]["files_total"], 40)
             self.assertEqual(ds["summary"]["by_state"].get("COMPLET"),
                              ds["summary"]["files_total"])
+
+
+@unittest.skipUnless(len(IMAGES) == 4, "pool de test absent")
+class TestAvertissementHierarchie(unittest.TestCase):
+    """
+    Quand le ZAP des datasets enfants est perdu, la descente nominale rend
+    zero fichier sans expliquer pourquoi. L'outil doit le dire et renvoyer
+    vers --scan.
+    """
+
+    @staticmethod
+    def _casser_les_listes_d_enfants(pool):
+        cibles = set()
+        for oid, dn, _e in pool.dmu.iter_dnodes(pool.mos.meta_dnode):
+            if dn is not None and dn.allocated and dn.bonus \
+                    and dn.bonustype_name == "dsl_dir":
+                d = DslDir.from_bonus(oid, dn.bonus)
+                if d.child_dir_zapobj:
+                    cibles.add(d.child_dir_zapobj)
+        vrai = DslReader._dnode
+
+        def casse(self, obj):
+            return None if obj in cibles else vrai(self, obj)
+
+        return vrai, casse
+
+    def test_pas_d_avertissement_quand_tout_va_bien(self):
+        from zfsrescue.cli import _hierarchie_tronquee
+        p = open_pool(IMAGES)
+        try:
+            self.assertIsNone(_hierarchie_tronquee(p))
+        finally:
+            p.close()
+
+    def test_avertissement_quand_les_listes_manquent(self):
+        from zfsrescue.cli import _hierarchie_tronquee
+        p = open_pool(IMAGES)
+        try:
+            vrai, casse = self._casser_les_listes_d_enfants(p)
+            DslReader._dnode = casse
+            try:
+                message = _hierarchie_tronquee(p)
+            finally:
+                DslReader._dnode = vrai
+            self.assertIsNotNone(message)
+            self.assertIn("--scan", message)
+        finally:
+            p.close()
+
+    def test_le_rapport_json_porte_l_avertissement(self):
+        import tempfile
+        p = open_pool(IMAGES)
+        vrai, casse = self._casser_les_listes_d_enfants(p)
+        p.close()
+        DslReader._dnode = casse
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                sortie = os.path.join(d, "r.json")
+                main(["extract", *SURVIVANTS, "--dry-run", "--json", sortie])
+                with open(sortie, encoding="utf-8") as fh:
+                    rapport = json.load(fh)
+                self.assertTrue(any("--scan" in a
+                                    for a in rapport.get("warnings", [])),
+                                rapport.get("warnings"))
+        finally:
+            DslReader._dnode = vrai

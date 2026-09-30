@@ -385,6 +385,26 @@ def _correspond(filtre: str | None, nom: str, oid: int | None = None) -> bool:
     return filtre == nom or (oid is not None and filtre == str(oid))
 
 
+def _hierarchie_tronquee(pool) -> str | None:
+    """
+    Rend un avertissement si la descente nominale ne peut pas voir tous les
+    datasets : c'est le cas des que le ZAP des datasets enfants d'un
+    repertoire DSL est illisible, et l'utilisateur se retrouve alors avec un
+    total a zero sans savoir pourquoi.
+    """
+    vus = 0
+    incomplet = False
+    for n in pool.dataset_tree().walk():
+        vus += 1
+        if any("incomplete" in e or "illisible" in e for e in n.errors):
+            incomplet = True
+    if not incomplet:
+        return None
+    return ("la liste des datasets enfants est incomplete : la hierarchie ne "
+            "montre qu'une partie du pool.\n  Relancez avec --scan pour "
+            "enumerer les datasets par balayage du MOS (snapshots compris).")
+
+
 def _datasets_zpl(pool, filtre: str | None, scan: bool = False):
     """
     Rend (nom, ZplReader, index, echec) pour chaque dataset exploitable.
@@ -653,6 +673,9 @@ def cmd_ls(args: argparse.Namespace) -> int:
         return 2
     try:
         rapport = {**pool.summary(), "datasets": []}
+        avertissement = None if args.scan else _hierarchie_tronquee(pool)
+        if avertissement:
+            rapport["warnings"] = rapport.get("warnings", []) + [avertissement]
         for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset, args.scan):
             if idx is None:
                 rapport["datasets"].append(
@@ -695,6 +718,8 @@ def cmd_ls(args: argparse.Namespace) -> int:
             if reste > 0:
                 print(f"   ... {reste} entree(s) de plus (--limit)")
 
+        if avertissement and not args.quiet:
+            print(f"\n  ATTENTION : {avertissement}")
         if args.json:
             with open(args.json, "w", encoding="utf-8") as fh:
                 fh.write(json.dumps(rapport, indent=2, ensure_ascii=False) + "\n")
@@ -724,6 +749,10 @@ def cmd_extract(args: argparse.Namespace) -> int:
     try:
         rapport = {**pool.summary(), "destination": args.dest,
                    "dry_run": bool(args.dry_run), "datasets": []}
+        avertissement = None if args.scan else _hierarchie_tronquee(pool)
+        if avertissement:
+            rapport["warnings"] = rapport.get("warnings", []) + [avertissement]
+            print(f"\n  ATTENTION : {avertissement}\n")
         total = []
         for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset, args.scan):
             if idx is None:
@@ -761,6 +790,11 @@ def cmd_extract(args: argparse.Namespace) -> int:
               f" (dont {t['blocks_reconstructed']} reconstruits par la parite)")
         print(f"  octets de donnees : {t['bytes_recovered']} recuperes, "
               f"{t['bytes_missing']} perdus ({100 * t['ratio_bytes']:.1f} %)")
+        if t["files_total"] == 0 and not args.scan:
+            print()
+            print("  Aucun fichier : la hierarchie des datasets est peut-etre "
+                  "inexploitable.")
+            print("  Relancez la meme commande en ajoutant --scan.")
         if not args.dry_run and args.dest:
             print()
             print(f"  {args.dest}/            fichiers INTEGRALEMENT verifies "

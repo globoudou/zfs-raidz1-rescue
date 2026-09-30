@@ -28,6 +28,8 @@ dnode_phys_t (512 octets, ou plus si dn_extra_slots) :
 
 from __future__ import annotations
 
+import collections
+import os
 import struct
 from dataclasses import dataclass, field
 from typing import Any, Iterator
@@ -225,17 +227,57 @@ class DmuReader:
     Toute lecture impossible est signalee, jamais comblee.
     """
 
-    def __init__(self, reader: PoolReader):
+    # Budget memoire du cache de blocs. Il doit rester BORNE : le systeme live
+    # tourne entierement en RAM, et un cache sans limite finit par la remplir
+    # (chaque bloc de donnees peut peser jusqu'a 1 Mio, et une extraction en
+    # parcourt des centaines de milliers).
+    CACHE_DEFAUT = 256 << 20
+
+    def __init__(self, reader: PoolReader, cache_bytes: int | None = None):
         self.reader = reader
-        self._cache: dict[tuple, BlockResult] = {}
+        if cache_bytes is None:
+            cache_bytes = int(os.environ.get("ZFSRESCUE_CACHE",
+                                             self.CACHE_DEFAUT))
+        self._cache_max = max(cache_bytes, 0)
+        self._cache: "collections.OrderedDict[bytes, BlockResult]" = \
+            collections.OrderedDict()
+        self._cache_bytes = 0
+        self.cache_hits = 0
+        self.cache_misses = 0
+
+    @staticmethod
+    def _poids(res: BlockResult) -> int:
+        return len(res.data or b"") + len(res.physical or b"")
 
     def _read_bp(self, bp: BlockPointer) -> BlockResult:
-        cle = (bp.raw,)
+        cle = bp.raw
         res = self._cache.get(cle)
-        if res is None:
-            res = self.reader.read_block(bp)
+        if res is not None:
+            self._cache.move_to_end(cle)
+            self.cache_hits += 1
+            return res
+        self.cache_misses += 1
+        res = self.reader.read_block(bp)
+
+        # Un gros bloc n'est presque jamais relu (les donnees de fichier ne le
+        # sont qu'une fois) : le garder chasserait des metadonnees utiles.
+        poids = self._poids(res)
+        if poids and poids <= max(self._cache_max // 8, 1):
             self._cache[cle] = res
+            self._cache_bytes += poids
+            while self._cache_bytes > self._cache_max and self._cache:
+                _vieille, ancienne = self._cache.popitem(last=False)
+                self._cache_bytes -= self._poids(ancienne)
         return res
+
+    def vider_cache(self) -> None:
+        self._cache.clear()
+        self._cache_bytes = 0
+
+    def stats_cache(self) -> dict[str, int]:
+        return {"entrees": len(self._cache), "octets": self._cache_bytes,
+                "plafond": self._cache_max,
+                "succes": self.cache_hits, "echecs": self.cache_misses}
 
     def read_objset(self, bp: BlockPointer) -> tuple[Objset | None, BlockResult]:
         res = self._read_bp(bp)

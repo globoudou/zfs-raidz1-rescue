@@ -97,3 +97,35 @@ qu'un bloc incompressible**.
   128 Kio). Pour un vrai pool de plusieurs téraoctets, il faudra accélérer
   (numpy ou extension C) ; les lectures elles-mêmes ne sont pas le facteur
   limitant.
+
+## Mémoire : le cache de blocs est borné
+
+Le lecteur DMU garde en mémoire les blocs déjà lus, ce qui évite de relire
+cent fois les mêmes blocs indirects. Ce cache doit rester **borné** : le
+système live tourne entièrement en RAM, et une extraction parcourt des
+centaines de milliers de blocs pouvant peser jusqu'à 1 Mio chacun. Sans limite,
+la session finit par être tuée en cours d'extraction.
+
+- plafond par défaut : **256 Mio**, réglable par la variable d'environnement
+  `ZFSRESCUE_CACHE` (en octets) ;
+- éviction LRU ;
+- les blocs volumineux (> plafond/8) ne sont pas conservés : les données de
+  fichier ne sont lues qu'une fois, les garder chasserait des métadonnées utiles.
+
+```bash
+ZFSRESCUE_CACHE=$((64<<20)) python3 -m zfsrescue extract ...   # machine limitée
+```
+
+Si une extraction est interrompue malgré tout, reprenez **dataset par dataset**
+avec `--dataset <nom ou numéro d'objet>` : chaque exécution repart à zéro et
+n'accumule rien d'une passe à l'autre.
+
+## Récapituler un rapport sans relire les disques
+
+```bash
+python3 -m zfsrescue resume /mnt/rescue/07_extraction.json
+```
+
+Rend le bilan par dataset et les totaux à partir d'un rapport JSON déjà
+produit — utile pour relire un résultat sans rien recalculer, et sans avoir à
+taper de commande compliquée sur une console.

@@ -423,6 +423,79 @@ def _datasets_zpl(pool, filtre: str | None, scan: bool = False):
         yield n.name, zpl, build_index(zpl), None
 
 
+def cmd_resume(args: argparse.Namespace) -> int:
+    """Recapitulatif lisible d'un rapport JSON deja produit (aucun disque lu)."""
+    with open(args.rapport, encoding="utf-8") as fh:
+        r = json.load(fh)
+
+    pool = r.get("pool")
+    if isinstance(pool, str):
+        print(f"Pool {pool}   txg {r.get('uberblock', {}).get('txg')}   "
+              f"{r.get('uberblock', {}).get('timestamp_utc', '')}")
+        v = r.get("vdev", {})
+        if v:
+            print(f"Colonnes disponibles {v.get('columns_available')}, "
+                  f"MANQUANTES {v.get('columns_missing')}")
+        print()
+
+    if "scan" in r:                                   # rapport « datasets »
+        s = r["scan"]
+        print(f"datasets trouves {s['datasets_found']} "
+              f"(dont {s['snapshots']} snapshots), "
+              f"objset lisible {s['with_readable_objset']}, "
+              f"noms reconstitues {s['named']}")
+        lisibles = [d for d in s["datasets"] if d["objset_status"] == "RECOVERED"
+                    or d["objset_status"] == "RECOVERED_WITH_RECONSTRUCTION"]
+        lisibles.sort(key=lambda d: -d["referenced_bytes"])
+        print(f"\n  {'dataset':<28} {'objset':<30} {'refere':>14}  cree")
+        for d in lisibles[:args.limit]:
+            print(f"  {d['name'][:28]:<28} {d['objset_status']:<30} "
+                  f"{d['referenced_bytes']:>14}  {d['creation_utc'][:10]}")
+        return 0
+
+    datasets = r.get("datasets")
+    if not isinstance(datasets, list):
+        print("type de rapport non reconnu", file=sys.stderr)
+        return 2
+
+    total_f = total_o = total_p = 0
+    lignes = []
+    for d in datasets:
+        if not d.get("readable"):
+            continue
+        if "summary" in d:                            # rapport « extract »
+            s = d["summary"]
+            etats = s["by_state"]
+            lignes.append((s["files_total"], d["name"],
+                           f"{etats}  octets {s['bytes_recovered']}/"
+                           f"{s['bytes_recovered'] + s['bytes_missing']}"))
+            total_f += s["files_total"]
+            total_o += s["bytes_recovered"]
+            total_p += s["bytes_missing"]
+        else:                                         # rapport « ls »
+            lus = d["dnodes_total"] - d["dnodes_unreadable"]
+            lignes.append((d["files"], d["name"],
+                           f"dnodes {lus}/{d['dnodes_total']}  "
+                           f"fichiers {d['files']}  orphelins {d['orphans']}"))
+            total_f += d["files"]
+
+    lignes.sort(reverse=True)
+    for n, nom, detail in lignes[:args.limit]:
+        if n == 0 and not args.tout:
+            continue
+        print(f"  {nom[:34]:<34} {detail}")
+    caches = sum(1 for n, _no, _d in lignes if n == 0)
+    if caches and not args.tout:
+        print(f"  ... {caches} dataset(s) sans fichier (--tout pour les voir)")
+    print()
+    print(f"TOTAL fichiers : {total_f}")
+    if total_o or total_p:
+        pct = 100 * total_o / (total_o + total_p) if (total_o + total_p) else 100
+        print(f"TOTAL octets   : {total_o} recuperes, {total_p} perdus "
+              f"({pct:.1f} %)")
+    return 0
+
+
 def cmd_datasets(args: argparse.Namespace) -> int:
     """Enumere les datasets par balayage du MOS, hierarchie ou non."""
     try:
@@ -670,6 +743,15 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--json-stdout", action="store_true")
     _options_partition(m)
     m.set_defaults(func=cmd_mos)
+
+    rs = sub.add_parser("resume",
+                        help="recapitulatif d'un rapport JSON deja produit "
+                             "(ne lit aucun disque)")
+    rs.add_argument("rapport")
+    rs.add_argument("--limit", type=int, default=60)
+    rs.add_argument("--tout", action="store_true",
+                    help="affiche aussi les datasets sans aucun fichier")
+    rs.set_defaults(func=cmd_resume)
 
     d = sub.add_parser("datasets",
                        help="enumere les datasets et snapshots par balayage "

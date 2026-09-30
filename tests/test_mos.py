@@ -221,3 +221,57 @@ class TestLectureDeBlocs(unittest.TestCase):
             parse_objset(res.data)
         finally:
             p.close()
+
+
+@unittest.skipUnless(len(IMAGES) == 4, "pool de test absent")
+class TestCacheBorne(unittest.TestCase):
+    """
+    Le cache de blocs doit rester borne : le systeme live tourne en RAM et une
+    extraction parcourt des centaines de milliers de blocs.
+    """
+
+    def test_plafond_respecte(self):
+        from zfsrescue.dmu import DmuReader
+        p = open_pool(IMAGES)
+        try:
+            petit = DmuReader(p.reader, cache_bytes=64 << 10)   # 64 Kio
+            mos, _ = petit.read_objset(p.uberblock.rootbp)
+            for _oid, _dn, _e in petit.iter_dnodes(mos.meta_dnode):
+                pass
+            stats = petit.stats_cache()
+            self.assertLessEqual(stats["octets"], 64 << 10,
+                                 "le cache doit respecter son plafond")
+            self.assertGreater(stats["echecs"], 0)
+        finally:
+            p.close()
+
+    def test_resultats_identiques_avec_et_sans_cache(self):
+        from zfsrescue.dmu import DmuReader
+        p = open_pool(IMAGES)
+        try:
+            sans = DmuReader(p.reader, cache_bytes=0)
+            avec = DmuReader(p.reader, cache_bytes=64 << 20)
+            m1, _ = sans.read_objset(p.uberblock.rootbp)
+            m2, _ = avec.read_objset(p.uberblock.rootbp)
+            a = [(o, d.type if d else None) for o, d, _e in sans.iter_dnodes(m1.meta_dnode)]
+            b = [(o, d.type if d else None) for o, d, _e in avec.iter_dnodes(m2.meta_dnode)]
+            self.assertEqual(a, b)
+            self.assertEqual(sans.stats_cache()["entrees"], 0)
+        finally:
+            p.close()
+
+    def test_gros_blocs_non_conserves(self):
+        """Un bloc de donnees volumineux ne doit pas chasser les metadonnees."""
+        from zfsrescue.dmu import DmuReader
+        p = open_pool(IMAGES)
+        try:
+            lecteur = DmuReader(p.reader, cache_bytes=8 << 20)
+            plafond_unitaire = (8 << 20) // 8
+            mos, _ = lecteur.read_objset(p.uberblock.rootbp)
+            for _oid, _dn, _e in lecteur.iter_dnodes(mos.meta_dnode):
+                pass
+            for res in lecteur._cache.values():
+                self.assertLessEqual(len(res.data or b"") + len(res.physical or b""),
+                                     plafond_unitaire)
+        finally:
+            p.close()

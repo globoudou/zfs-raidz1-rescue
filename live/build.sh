@@ -33,7 +33,8 @@ SUITE="${SUITE:-trixie}"
 MIRROR="${MIRROR:-http://deb.debian.org/debian}"
 ARCH="${ARCH:-amd64}"
 WORK="${WORK:-$PROJ/build}"
-ISO="${1:-$WORK/zfs-raidz1-rescue-$(date +%Y%m%d).iso}"
+VERSION="$(sed -n 's/^__version__ = "\(.*\)"/\1/p' "$PROJ/zfsrescue/__init__.py")"
+ISO="${1:-$WORK/zfs-raidz1-rescue-${VERSION}-$(date +%Y%m%d).iso}"
 VOLID="${VOLID:-ZFSRESCUE}"
 
 log()  { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }

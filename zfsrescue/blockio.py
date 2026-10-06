@@ -25,8 +25,8 @@ from typing import Any
 from . import checksum as cks
 from . import compress as cmp
 from .blkptr import DVA, BlockPointer
-from .raidz import (ROLE_DATA, ROLE_PARITY, RaidzMap, io_size_for_psize,
-                    raidz_map_alloc)
+from .raidz import (ROLE_DATA, ROLE_PARITY, RaidzMap, analyse_availability,
+                    io_size_for_psize, raidz_map_alloc)
 from .readonly import ReadOnlyDevice
 
 RECOVERED = "RECOVERED"
@@ -135,6 +135,18 @@ class PoolReader:
         taille_io = io_size_for_psize(psize, self.ashift)
         rm = raidz_map_alloc(dva.offset, taille_io, self.ashift, self.ncols,
                              self.nparity)
+
+        # Si la geometrie suffit a conclure que le bloc est irrecuperable, on
+        # ne lit rien du tout : sur un pool ampute, c'est le cas de la moitie
+        # des blocs, et les lectures inutiles coutent cher.
+        verdict = analyse_availability(rm, self.devices)
+        if verdict.status == MISSING_DATA:
+            att.status = MISSING_DATA
+            att.missing_columns = sorted(verdict.missing_data_columns
+                                         + verdict.missing_parity_columns)
+            att.detail = verdict.detail
+            return None, att
+
         colonnes: dict[int, bytes | None] = {}
         for col in rm.columns:
             if col.size == 0:

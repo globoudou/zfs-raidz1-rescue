@@ -31,6 +31,7 @@ ETAT_COMPLET = "COMPLET"
 ETAT_PARTIEL = "PARTIEL"
 ETAT_PERDU = "PERDU"
 ETAT_VIDE = "VIDE"
+ETAT_REPRIS = "DEJA_EXTRAIT"
 
 ETATS_OK = (RECOVERED, RECOVERED_WITH_RECONSTRUCTION)
 
@@ -62,9 +63,12 @@ class ResultatFichier:
     written_to: str | None = None
     errors: list[str] = field(default_factory=list)
     size_inferred: bool = False
+    reprise: bool = False            # fichier deja present, non relu
 
     @property
     def state(self) -> str:
+        if self.reprise:
+            return ETAT_REPRIS
         if self.size == 0:
             return ETAT_VIDE
         if not self.blocks:
@@ -180,6 +184,22 @@ CONFLITS_DE_CHEMIN = (errno.ENOTDIR, errno.EEXIST, errno.EISDIR,
                       errno.ENAMETOOLONG, errno.EINVAL)
 
 
+def _deja_extrait(racine_dest: str, prefixe: str, rel: str,
+                  taille: int | None, separer_partiels: bool) -> str | None:
+    """Chemin du fichier deja extrait s'il existe avec la taille attendue."""
+    candidats = [os.path.join(racine_dest, prefixe, rel)]
+    if separer_partiels:
+        candidats.append(os.path.join(racine_dest, "_partiels", prefixe, rel))
+    for c in candidats:
+        c = os.path.normpath(c)
+        try:
+            if taille is None or os.path.getsize(c) == taille:
+                return c
+        except OSError:
+            continue
+    return None
+
+
 def _effacer(chemin: str) -> None:
     try:
         os.unlink(chemin)
@@ -222,7 +242,8 @@ def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
                     combler: bool = True,
                     sauter_incomplets: bool = False,
                     ecrire_perdus: bool = False,
-                    separer_partiels: bool = True) -> list[ResultatFichier]:
+                    separer_partiels: bool = True,
+                    reprendre: bool = False) -> list[ResultatFichier]:
     """
     Extrait une liste de fichiers. `racine_dest` a None = analyse seule
     (aucune ecriture nulle part).
@@ -244,6 +265,22 @@ def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
             continue
         rel = n.path.lstrip("/") or f"objet_{n.object_id}"
         rel = rel.replace("(parent perdu)", "_parent_perdu")
+
+        if reprendre and racine_dest is not None:
+            # Une extraction de plusieurs heures doit pouvoir reprendre : si le
+            # fichier est deja la, a la bonne taille, on ne le relit pas.
+            deja = _deja_extrait(racine_dest, prefixe, rel, n.size,
+                                 separer_partiels)
+            if deja is not None:
+                r = ResultatFichier(object_id=n.object_id, path=n.path,
+                                    size=n.size,
+                                    blocksize=n.dnode.datablksize,
+                                    size_inferred=n.attrs_inferred)
+                r.written_to = deja
+                r.errors.append("deja extrait : conserve tel quel (--reprendre)")
+                r.reprise = True
+                out.append(r)
+                continue
 
         if racine_dest is None:                      # analyse seule
             try:
@@ -321,6 +358,31 @@ def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
         except OSError:
             pass
     return out
+
+
+def cumuler(cumul: dict[str, Any] | None,
+            resultats: list[ResultatFichier]) -> dict[str, Any]:
+    """
+    Agrege un lot de resultats dans un cumul, sans conserver les objets.
+    Une extraction peut porter sur des centaines de milliers de fichiers :
+    garder tous les ResultatFichier (et leurs listes de blocs) en memoire
+    finit par faire tuer le processus.
+    """
+    c = cumul or {"files_total": 0, "by_state": {}, "bytes_recovered": 0,
+                  "bytes_missing": 0, "blocks_total": 0, "blocks_ok": 0,
+                  "blocks_reconstructed": 0}
+    for r in resultats:
+        c["files_total"] += 1
+        c["by_state"][r.state] = c["by_state"].get(r.state, 0) + 1
+        c["bytes_recovered"] += r.bytes_recovered
+        c["bytes_missing"] += r.bytes_missing
+        c["blocks_total"] += len(r.blocks)
+        c["blocks_ok"] += r.blocks_ok
+        c["blocks_reconstructed"] += r.blocks_reconstructed
+    total = c["bytes_recovered"] + c["bytes_missing"]
+    c["ratio_bytes"] = (c["bytes_recovered"] / total) if total else 1.0
+    c["by_state"] = dict(sorted(c["by_state"].items()))
+    return c
 
 
 def resume(resultats: list[ResultatFichier]) -> dict[str, Any]:

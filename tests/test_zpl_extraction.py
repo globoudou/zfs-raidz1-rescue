@@ -496,3 +496,89 @@ class TestTriHorsLigne(unittest.TestCase):
             apres = sorted(os.path.join(r, f)
                            for r, _s, fs in os.walk(d) for f in fs)
             self.assertEqual(avant, apres)
+
+
+@unittest.skipUnless(len(IMAGES) == 4 and os.path.isdir(REFERENCE),
+                     "pool de test absent")
+class TestRepriseEtEconomieDeLectures(unittest.TestCase):
+
+    def test_reprendre_ne_relit_pas_les_fichiers_deja_extraits(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = open_pool(SURVIVANTS_ALIGNES)
+            try:
+                _z, idx, _e = index_dataset(p, "zrtest/docs")
+                fichiers = sorted(idx.files, key=lambda n: n.path)
+                premiers = extraire_noeuds(p.dmu, fichiers, d, prefixe="docs")
+                complets = [r for r in premiers if r.state == ETAT_COMPLET]
+                self.assertTrue(complets)
+
+                avant = p.dmu.cache_misses
+                seconds = extraire_noeuds(p.dmu, fichiers, d, prefixe="docs",
+                                          reprendre=True)
+                relus = p.dmu.cache_misses - avant
+                repris = [r for r in seconds if r.state == "DEJA_EXTRAIT"]
+                self.assertEqual(len(repris), len(complets)
+                                 + sum(1 for r in premiers
+                                       if r.state == ETAT_PARTIEL))
+                for r in repris:
+                    self.assertTrue(os.path.exists(r.written_to))
+                # les fichiers conserves ne sont pas relus
+                self.assertLess(relus, len(complets) * 2 + 50)
+            finally:
+                p.close()
+
+    def test_contenu_conserve_a_l_identique_apres_reprise(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = open_pool(IMAGES)
+            try:
+                _z, idx, _e = index_dataset(p, "zrtest/docs")
+                fichiers = sorted(idx.files, key=lambda n: n.path)
+                extraire_noeuds(p.dmu, fichiers, d, prefixe="docs")
+                extraire_noeuds(p.dmu, fichiers, d, prefixe="docs",
+                                reprendre=True)
+            finally:
+                p.close()
+            base = os.path.join(d, "docs")
+            for rep, _s, fs in os.walk(base):
+                for f in fs:
+                    chemin = os.path.join(rep, f)
+                    rel = os.path.relpath(chemin, base)
+                    self.assertEqual(sha256(chemin),
+                                     sha256(os.path.join(REFERENCE, "docs", rel)))
+
+    def test_bloc_irrecuperable_n_est_pas_lu(self):
+        """Economie decisive : la moitie des blocs d'un pool ampute est
+        irrecuperable, les lire ne sert a rien."""
+        from zfsrescue.blockio import MISSING_DATA
+        p = open_pool(SURVIVANTS_ALIGNES)
+        try:
+            lectures = {"n": 0}
+            vrai = type(next(iter(p.reader.devices.values()))).pread
+
+            def compte(self, offset, length):
+                lectures["n"] += 1
+                return vrai(self, offset, length)
+
+            type(next(iter(p.reader.devices.values()))).pread = compte
+            try:
+                _z, idx, _e = index_dataset(p, "zrtest/small")
+                perdu = None
+                for n in sorted(idx.files, key=lambda x: x.path):
+                    r = extraire_fichier(p.dmu, n.dnode, None, n.size,
+                                         n.object_id, n.path, True, False)
+                    if r.state == ETAT_PERDU:
+                        perdu = n
+                        break
+                self.assertIsNotNone(perdu, "ce scenario perd des fichiers")
+                p.dmu.vider_cache()
+                lectures["n"] = 0
+                r = extraire_fichier(p.dmu, perdu.dnode, None, perdu.size,
+                                     perdu.object_id, perdu.path, True, False)
+                self.assertEqual(r.state, ETAT_PERDU)
+                self.assertEqual(lectures["n"], 0,
+                                 "aucune lecture pour un bloc dont la "
+                                 "geometrie suffit a conclure")
+            finally:
+                type(next(iter(p.reader.devices.values()))).pread = vrai
+        finally:
+            p.close()

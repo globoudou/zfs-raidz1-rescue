@@ -194,3 +194,37 @@ python3 -m zfsrescue trier /mnt/rescue/07_extraction.json
 Chaque suppression est vérifiée sur le fichier lui-même : il doit avoir la
 taille annoncée **et** ne contenir que des zéros. Au moindre écart, le fichier
 est conservé et signalé. Dans le doute, on ne supprime pas.
+
+## Tenir la distance sur un gros pool
+
+Une extraction réelle dure des heures et porte sur des centaines de milliers
+de blocs. Trois dispositions pour qu'elle aboutisse.
+
+### Ne pas lire ce qui est de toute façon perdu
+
+Avant toute lecture, le mapping RAIDZ dit déjà si un bloc est récupérable avec
+les colonnes disponibles. S'il ne l'est pas, **aucune lecture n'est faite** :
+sur un pool amputé de la moitié de ses disques, c'est le cas d'un bloc sur
+deux. Un fichier entièrement perdu ne coûte ainsi aucune entrée-sortie.
+
+### Reprendre une extraction interrompue
+
+```bash
+python3 -m zfsrescue extract ... --dest /mnt/rescue/fichiers --reprendre
+```
+
+Un fichier déjà présent dans la destination avec la taille attendue n'est pas
+relu : il apparaît à l'état `DEJA_EXTRAIT`. Une coupure ne fait donc plus
+perdre le travail accompli.
+
+### Mémoire bornée de bout en bout
+
+- le cache de blocs est plafonné (`ZFSRESCUE_CACHE`, 256 Mio par défaut) ;
+- les résultats sont **agrégés au fil de l'eau** : les objets de chaque dataset
+  sont libérés dès qu'il est traité, au lieu d'être conservés jusqu'à la fin ;
+- le rapport JSON est **réécrit après chaque dataset** : une interruption ne
+  fait plus perdre le rapport de ce qui a déjà été extrait.
+
+L'option `--blocks` détaille chaque bloc de chaque fichier dans le rapport :
+très utile pour analyser, coûteux en mémoire sur un pool de plusieurs
+centaines de milliers de fichiers. À réserver à un dataset précis.

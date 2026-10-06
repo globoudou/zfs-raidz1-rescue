@@ -14,7 +14,7 @@ from .pool import PoolOpenError, open_pool
 from .zap import read_zap
 from .zpl import ZplReader, build_index
 from .dsl import DslReader
-from .extract import extraire_noeuds, resume as resume_extraction
+from .extract import cumuler, extraire_noeuds, resume as resume_extraction
 from .readonly import ReadOnlyError
 from .report import build_report, render_json, render_text
 from .topology import build_topology, scan_devices
@@ -753,12 +753,12 @@ def cmd_extract(args: argparse.Namespace) -> int:
         if avertissement:
             rapport["warnings"] = rapport.get("warnings", []) + [avertissement]
             print(f"\n  ATTENTION : {avertissement}\n")
-        total = []
+        cumul = None
         for nom, zpl, idx, echec in _datasets_zpl(pool, args.dataset, args.scan):
             if idx is None:
                 rapport["datasets"].append({"name": nom, "readable": False,
                                             "reason": echec})
-                print(f"{nom:<24} objset illisible ({echec})")
+                print(f"{nom:<24} objset illisible ({echec})", flush=True)
                 continue
             prefixe = nom.replace("/", "_")
             resultats = extraire_noeuds(
@@ -767,9 +767,10 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 combler=not args.no_fill,
                 sauter_incomplets=args.skip_incomplete,
                 ecrire_perdus=args.ecrire_perdus,
-                separer_partiels=not args.melanger)
-            total += resultats
+                separer_partiels=not args.melanger,
+                reprendre=args.reprendre)
             r = resume_extraction(resultats)
+            cumul = cumuler(cumul, resultats)
             rapport["datasets"].append(
                 {"name": nom, "readable": True, "summary": r,
                  "sa_layout_inferred": zpl.inferred_layouts,
@@ -779,8 +780,18 @@ def cmd_extract(args: argparse.Namespace) -> int:
                   + "  ".join(f"{k}={v}" for k, v in r["by_state"].items())
                   + f"   octets {r['bytes_recovered']}/"
                     f"{r['bytes_recovered'] + r['bytes_missing']}"
-                    f" ({100 * r['ratio_bytes']:.1f} %)")
-        rapport["total"] = resume_extraction(total)
+                    f" ({100 * r['ratio_bytes']:.1f} %)", flush=True)
+            # Les objets sont liberes des maintenant : sur un gros pool, les
+            # conserver jusqu'a la fin finit par remplir la memoire.
+            del resultats
+            # Rapport ecrit au fil de l'eau : une interruption ne fait plus
+            # perdre ce qui a deja ete extrait.
+            if args.json:
+                rapport["total"] = cumul or resume_extraction([])
+                with open(args.json, "w", encoding="utf-8") as fh:
+                    fh.write(json.dumps(rapport, indent=2,
+                                        ensure_ascii=False) + "\n")
+        rapport["total"] = cumul or resume_extraction([])
         print()
         print("TOTAL")
         t = rapport["total"]
@@ -955,6 +966,10 @@ def main(argv: list[str] | None = None) -> int:
                    help="ecrit aussi les fichiers dont AUCUN bloc n'est "
                         "lisible : ils seront entierement nuls (par defaut "
                         "ils ne sont pas crees)")
+    e.add_argument("--reprendre", action="store_true",
+                   help="ne reextrait pas les fichiers deja presents dans la "
+                        "destination avec la bonne taille : permet de "
+                        "relancer une extraction interrompue")
     e.add_argument("--melanger", action="store_true",
                    help="ecrit les fichiers partiels dans la meme arborescence "
                         "que les fichiers complets (par defaut ils vont dans "

@@ -582,3 +582,55 @@ class TestRepriseEtEconomieDeLectures(unittest.TestCase):
                 type(next(iter(p.reader.devices.values()))).pread = vrai
         finally:
             p.close()
+
+
+@unittest.skipUnless(len(IMAGES) == 4 and os.path.isdir(REFERENCE),
+                     "pool de test absent")
+class TestRepriseEtAnciennesExtractions(unittest.TestCase):
+    """
+    Une extraction faite par une version anterieure contient des fichiers
+    entierement nuls. --reprendre ne doit pas les prendre pour argent comptant.
+    """
+
+    def test_coquille_vide_non_reprise(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = open_pool(SURVIVANTS_ALIGNES)
+            try:
+                _z, idx, _e = index_dataset(p, "zrtest/docs")
+                fichiers = sorted(idx.files, key=lambda n: n.path)
+                # extraction « a l'ancienne » : tout est ecrit, meme les nuls
+                anciens = extraire_noeuds(p.dmu, fichiers, d, prefixe="docs",
+                                          ecrire_perdus=True,
+                                          separer_partiels=False)
+                nuls = [r for r in anciens if r.state == ETAT_PERDU]
+                self.assertTrue(nuls)
+
+                repris = extraire_noeuds(p.dmu, fichiers, d, prefixe="docs",
+                                         reprendre=True)
+                etats = {r.path: r.state for r in repris}
+                for r in nuls:
+                    self.assertNotEqual(
+                        etats[r.path], "DEJA_EXTRAIT",
+                        f"{r.path} est une coquille vide, elle ne doit pas "
+                        "etre reprise telle quelle")
+                    self.assertEqual(etats[r.path], ETAT_PERDU)
+                    self.assertFalse(os.path.exists(r.written_to),
+                                     "la coquille vide doit avoir disparu")
+            finally:
+                p.close()
+
+    def test_fichier_valide_toujours_repris(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = open_pool(SURVIVANTS_ALIGNES)
+            try:
+                _z, idx, _e = index_dataset(p, "zrtest/docs")
+                fichiers = sorted(idx.files, key=lambda n: n.path)
+                premiers = extraire_noeuds(p.dmu, fichiers, d, prefixe="docs")
+                complets = [r for r in premiers if r.state == ETAT_COMPLET]
+                repris = extraire_noeuds(p.dmu, fichiers, d, prefixe="docs",
+                                         reprendre=True)
+                etats = {r.path: r.state for r in repris}
+                for r in complets:
+                    self.assertEqual(etats[r.path], "DEJA_EXTRAIT")
+            finally:
+                p.close()

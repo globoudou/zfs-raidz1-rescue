@@ -184,19 +184,69 @@ CONFLITS_DE_CHEMIN = (errno.ENOTDIR, errno.EEXIST, errno.EISDIR,
                       errno.ENAMETOOLONG, errno.EINVAL)
 
 
+def _entierement_nul(chemin: str) -> bool:
+    """
+    Vrai si le fichier ne contient que des zeros. Le controle s'arrete au
+    premier octet non nul : sur un vrai fichier il ne coute qu'une lecture.
+    """
+    try:
+        with open(chemin, "rb") as fh:
+            while True:
+                bloc = fh.read(1 << 20)
+                if not bloc:
+                    return True
+                if bloc.count(0) != len(bloc):
+                    return False
+    except OSError:
+        return False
+
+
+def _emplacements(racine_dest: str, prefixe: str, rel: str,
+                  separer_partiels: bool) -> list[str]:
+    """Les endroits ou une extraction precedente a pu deposer ce fichier."""
+    chemins = [os.path.join(racine_dest, prefixe, rel)]
+    if separer_partiels:
+        chemins.append(os.path.join(racine_dest, "_partiels", prefixe, rel))
+    return [os.path.normpath(c) for c in chemins]
+
+
+def _nettoyer_coquilles(racine_dest: str, prefixe: str, rel: str,
+                        separer_partiels: bool, garder: str | None) -> int:
+    """
+    Supprime les fichiers entierement nuls laisses par une extraction
+    anterieure, pour que la destination ne conserve pas de coquille vide la
+    ou l'outil a conclu qu'il n'y avait rien a recuperer.
+    """
+    enleves = 0
+    for c in _emplacements(racine_dest, prefixe, rel, separer_partiels):
+        if garder is not None and os.path.normpath(garder) == c:
+            continue
+        if os.path.isfile(c) and os.path.getsize(c) and _entierement_nul(c):
+            _effacer(c)
+            enleves += 1
+    return enleves
+
+
 def _deja_extrait(racine_dest: str, prefixe: str, rel: str,
                   taille: int | None, separer_partiels: bool) -> str | None:
-    """Chemin du fichier deja extrait s'il existe avec la taille attendue."""
-    candidats = [os.path.join(racine_dest, prefixe, rel)]
-    if separer_partiels:
-        candidats.append(os.path.join(racine_dest, "_partiels", prefixe, rel))
-    for c in candidats:
-        c = os.path.normpath(c)
+    """
+    Chemin du fichier deja extrait s'il existe avec la taille attendue.
+
+    Un fichier entierement nul n'est jamais accepte : il provient d'une
+    extraction faite avant que les fichiers sans aucun bloc lisible cessent
+    d'etre ecrits. Le reprendre reviendrait a conserver une coquille vide.
+    """
+    for c in _emplacements(racine_dest, prefixe, rel, separer_partiels):
         try:
-            if taille is None or os.path.getsize(c) == taille:
-                return c
+            if taille is not None and os.path.getsize(c) != taille:
+                continue
+            if not os.path.isfile(c):
+                continue
         except OSError:
             continue
+        if taille and _entierement_nul(c):
+            return None            # coquille vide : a refaire
+        return c
     return None
 
 
@@ -314,6 +364,10 @@ def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
             r.errors.append(
                 "aucun bloc lisible : fichier non ecrit (il aurait ete "
                 "entierement nul) — --ecrire-perdus pour le creer quand meme")
+            if _nettoyer_coquilles(racine_dest, prefixe, rel,
+                                   separer_partiels, None):
+                r.errors.append("coquille vide d'une extraction precedente "
+                                "supprimee")
             out.append(r)
             continue
         if sauter_incomplets and etat not in (ETAT_COMPLET, ETAT_VIDE):
@@ -349,6 +403,10 @@ def extraire_noeuds(dmu: DmuReader, noeuds: Iterable[IndexedNode],
                 continue
             r.errors.append(f"chemin impossible ({n.path}) : ecrit a plat "
                             "dans _conflits")
+        if _nettoyer_coquilles(racine_dest, prefixe, rel, separer_partiels,
+                               place):
+            r.errors.append("coquille vide d'une extraction precedente "
+                            "supprimee")
         r.written_to = place
         out.append(r)
 

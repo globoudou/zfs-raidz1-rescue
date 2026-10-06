@@ -217,6 +217,32 @@ Un fichier déjà présent dans la destination avec la taille attendue n'est pas
 relu : il apparaît à l'état `DEJA_EXTRAIT`. Une coupure ne fait donc plus
 perdre le travail accompli.
 
+### Reprendre après une extraction faite par une version plus ancienne
+
+Une extraction antérieure peut contenir des fichiers **entièrement nuls**
+(ceux dont aucun bloc n'était lisible étaient alors écrits quand même).
+`--reprendre` ne les prend jamais pour argent comptant :
+
+- un fichier entièrement nul n'est **pas** considéré comme déjà extrait : il
+  est retraité, et s'il n'y a toujours rien à en tirer, la coquille vide est
+  **supprimée** ;
+- le contrôle s'arrête au premier octet non nul : sur un fichier valide il ne
+  coûte qu'une lecture locale.
+
+En revanche, un fichier **partiel** déposé par une version antérieure dans
+l'arborescence principale n'est pas déplacé par `--reprendre` : il contient de
+vraies données, rien ne le distingue d'un fichier complet sans relire le pool.
+Pour le reclasser, utilisez le rapport de l'extraction précédente :
+
+```bash
+python3 -m zfsrescue trier /mnt/rescue/07_extraction.json   # reclasse d'apres l'ancien rapport
+python3 -m zfsrescue extract ... --reprendre                # termine le reste
+```
+
+Si ce rapport n'existe plus, extrayez vers une destination neuve sans
+`--reprendre` : c'est le seul moyen de garantir que l'arborescence principale
+ne contient que des fichiers intégralement vérifiés.
+
 ### Mémoire bornée de bout en bout
 
 - le cache de blocs est plafonné (`ZFSRESCUE_CACHE`, 256 Mio par défaut) ;
